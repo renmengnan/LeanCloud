@@ -57,13 +57,18 @@ var Ticket = AV.Object.extend('Ticket');
 var Thread = AV.Object.extend('Thread');
 var adminPrefix = 'AVOS Cloud -- ';
 var type2showMap = {
-    'ios': 'iOS SDK',
-    'android': 'Android SDK',
-    'javascript': 'JavaScript SDK',
-    'push': '消息推送',
-    'cloud': '云代码',
-    'stats': '统计',
-    'dashboard': '开发者平台',
+    'ios': '咨询流程：产品类别、系统使用等',
+    'android': '投诉流程：物流问题、服务问题、线下团队问题等',
+    'javascript': '新品处理流程',
+    'push': '退货处理流程：质量问题、产品不符、送货延迟、下错订单、其他原因',
+    'cloud': '技术问题反馈：App问题，微信问题，PC问题，后台问题',
+    'stats': '市场合作'
+};
+var sourceType = {
+    'wxcrowd': '微信群',
+    'wechat': '微信平台',
+    'tel400': '400电话',
+    'cgwyapp': 'app',
     'other': '其他'
 };
 
@@ -163,6 +168,8 @@ function transformSearchTicket(t) {
         ticket_id: t.tid,
         title: t.title,
         type: type2showMap[t.type],
+        stype: sourceType[t.stype],
+        followUser: t.followUser,
         createdAt: moment(t.createdAt).format('YYYY-MM-DD HH:mm:ss'),
         createdAtUnix: moment(t.createdAt).valueOf()
     };
@@ -189,11 +196,17 @@ function transformTicket(t) {
     if (type == undefined) {
         type = '未知';
     }
+    var stype = sourceType[t.get('stype')];
+    if (stype == undefined) {
+        stype = '未知';
+    }
     return {
         id: t.id,
         ticket_id: getTicketId(t),
         title: t.get('title'),
         type: type,
+        stype: stype,
+        followUser: t.get('followUser'),
         content: t.get('content'),
         status: renderStatus(rawStatus),
         rawStatus: rawStatus,
@@ -290,6 +303,7 @@ app.get('/tickets', function (req, res) {
     var token = req.token;
     var cid = req.cid;
     var isAdmin = req.admin;
+    console.log(req.title+"////11111");
     if (isAdmin) {
         //enter admin page.
         res.redirect('/admin/tickets');
@@ -460,13 +474,13 @@ app.get('/admin/history', function (req, res) {
         skip = 0;
     }
     var searchcontent = req.query.searchcontent;
+    cosnole.log(searchcontent);
     var query = new AV.Query('Ticket');
     query.equalTo('status', done_status);
     if (type != null) {
         query.equalTo('type', type);
     }
     if (searchcontent != null) {
-
         AV.Cloud.httpRequest({
             url: 'https://cn.avoscloud.com/1/search/select?limit=200&clazz=Ticket&q=' + searchcontent,
             headers: {
@@ -935,7 +949,7 @@ function notifyTicketToChat(ticket, content, info) {
     notifySlack(hipChatText + genSlackLink(ticket), type);
 }
 
-function createTicket(res, token, client, attachment, title, type, content, secret, then) {
+function createTicket(res, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
     mticket.incTicketNReturnOrigin().then(function (n) {
         var ticket = new AV.Object('Ticket');
         if (attachment) {
@@ -950,6 +964,8 @@ function createTicket(res, token, client, attachment, title, type, content, secr
         ticket.set('cid', client.id);
         ticket.set('client_email', client.email);
         ticket.set('type', type);
+        ticket.set('followUser', followUser);
+        ticket.set('stype', sourceTypetype);
         ticket.set('client_token', token);
         ticket.set('status', todo_status);
         ticket.set('title', title);
@@ -975,7 +991,8 @@ app.post('/tickets', function (req, res) {
         return renderError(res, '请提供有效的电子邮箱地址，方便我们将反馈通知给您。');
     }
     saveFileThen(req, function (attachment) {
-        createTicket(res, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
+        console.log(req.body.followUser);
+        createTicket(res, req.body.followUser, req.body.sourceTypetype, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
             res.redirect('/tickets');
         });
     });
