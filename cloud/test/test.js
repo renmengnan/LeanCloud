@@ -34,7 +34,7 @@ describe('Route', function () {
       var params = {
         title: title,
         type: 'ios',
-        content: '测试',
+        content: '测试11111',
         app: -1,
         email: 'lzwjava@gmail.com'
       };

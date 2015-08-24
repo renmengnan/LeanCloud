@@ -61,6 +61,15 @@
       <input type="text" name="title" id="inputTitle" class="form-control" placeholder="标题" required>
     </div>
   </div>
+  <div class="form-group">
+    <label class="control-label" for="followUser">
+      待跟进人
+      <b class="has-required bstooltip" title="必填" data-placement="top">Required</b>
+    </label>
+    <div class="controls">
+      <input type="text" name="followUser" id="followUser" class="form-control" placeholder="待跟进人" required>
+    </div>
+  </div>
   <% if(client.id=='anonymousCid'){%>
   <div class="form-group">
     <label class="control-label" for="inputEmail">
@@ -79,14 +88,43 @@
     </label>
     <div class="controls">
     <select id="inputType" class="form-control" name="type" required>
-      <option value="ios" selected="selected">iOS SDK</option>
-      <option value="android">Android SDK</option>
-      <option value="javascript">JavaScript SDK</option>
-      <option value="push">消息推送</option>
-      <option value="cloud">云代码</option>
-      <option value="stats">统计</option>
-      <option value="dashboard">开发者平台</option>
-      <option value="other" >其他</option>
+      <option value="ios" selected="selected">咨询流程：产品类别、系统使用等</option>
+      <option value="android">投诉流程：物流问题、服务问题、线下团队问题等</option>
+      <option value="javascript">新品处理流程</option>
+      <option value="push">退货处理流程：质量问题、产品不符、送货延迟、下错订单、其他原因</option>
+      <option value="cloud">技术问题反馈：App问题，微信问题，PC问题，后台问题</option>
+      <option value="other">市场合作</option>
+    </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="sourceType">
+      问题来源
+      <b class="has-required bstooltip" title="必填" data-placement="top">Required</b>
+    </label>
+    <div class="controls">
+    <select id="sourceType" class="form-control" name="sourceType" required>
+      <option value="wxcrowd" selected="selected">微信群</option>
+      <option value="wechat">微信平台</option>
+      <option value="tel400">400电话</option>
+      <option value="cgwyapp">App</option>
+      <option value="other">其他</option>
+    </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="stateType">
+      工单状态
+      <b class="has-required bstooltip" title="必填" data-placement="top">Required</b>
+    </label>
+    <div class="controls">
+    <select id="sourceType" class="form-control" name="stateType" required>
+      <option value="wxcrowd" selected="selected">待分配（分配到人）</option>
+      <option value="wechat">待解决（待分配的人解决问题）</option>
+      <option value="tel400">待回复（已经解决，待回复咨询人）</option>
+      <option value="cgwyapp">已回复（已经回复咨询人）</option>
     </select>
     </div>
   </div>
