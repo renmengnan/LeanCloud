@@ -71,6 +71,7 @@ var sourceType = {
     'cgwyapp': 'app',
     'other': '其他'
 };
+// console.log(Ticket+"/////////93");
 
 function renderStatus(status) {
     switch (status) {
