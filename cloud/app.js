@@ -369,7 +369,7 @@ app.get('/history', function (req, res) {
             if (tickets.length == limit) {
                 next = parseInt(skip) + parseInt(limit);
             }
-            console.log(tickets);
+            // console.log(tickets);
             res.render('history', {
                 tickets: tickets, 
                 back: back, 
@@ -1011,7 +1011,7 @@ app.post('/tickets', function (req, res) {
     // }
     saveFileThen(req, function (attachment) {
         createTicket(res, req.body.stateType, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
-            console.log(ticket);
+            // console.log(ticket);
             res.redirect('/tickets');
         });
     });
@@ -1165,10 +1165,86 @@ app.get('/login', function (req, res) {
     if (login.isLogin(req)) {
         res.redirect('/tickets');
     } else {
+        // console.log(req.query);
         res.render('login.ejs');
     }
 });
-
+app.get('/newTicket:id', function (req, res) {
+    // console.log(req.params.id);
+    var username = req.params.id,
+        password = "111111";
+        username = username.slice(1);
+    AV.Cloud.httpRequest({
+        url: 'https://cn.avoscloud.com/1/users?where={"username":{"$regex":"'+ username +'"}}',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-AVOSCloud-Application-Id': config.applicationId,
+            'X-AVOSCloud-Application-Key': config.applicationKey,
+        },
+        success: function (httpResponse) {
+            var userTag = httpResponse.data.results.length;
+            if( userTag == 0 ){
+                var user = new AV.User();
+                user.set('username', username);
+                user.set('password', password);
+                user.signUp(null).then(function (user) {
+                    res.redirect('/tickets/new');
+                }, function (error) {
+                    renderInfo(res, util.inspect(error));
+                });
+            } else {
+                AV.User.logIn(username, password, {
+                    success: function (user) {
+                        res.redirect('/tickets/new');
+                    }
+                });
+            }
+            console.log(httpResponse.data.results.length);
+        },
+        error: function (httpResponse) {
+            // renderError(res, 'Search error.');
+            console.error('Request failed with response code ' + httpResponse);
+        }
+    });
+});
+app.get('/login:id', function (req, res) {
+    // console.log(req.params.id);
+    var username = req.params.id,
+        password = "111111";
+        username = username.slice(1);
+    AV.Cloud.httpRequest({
+        url: 'https://cn.avoscloud.com/1/users?where={"username":{"$regex":"'+ username +'"}}',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-AVOSCloud-Application-Id': config.applicationId,
+            'X-AVOSCloud-Application-Key': config.applicationKey,
+        },
+        success: function (httpResponse) {
+            var userTag = httpResponse.data.results.length;
+            if( userTag == 0 ){
+                var user = new AV.User();
+                user.set('username', username);
+                user.set('password', password);
+                user.signUp(null).then(function (user) {
+                    res.redirect('/tickets');
+                }, function (error) {
+                    renderInfo(res, util.inspect(error));
+                });
+            } else {
+                AV.User.logIn(username, password, {
+                    success: function (user) {
+                        res.redirect('/tickets');
+                    }
+                });
+            }
+            // console.log(httpResponse.data.results.length);
+        },
+        error: function (httpResponse) {
+            // renderError(res, 'Search error.');
+            console.error('Request failed with response code ' + httpResponse);
+        }
+    });
+});
 app.post('/register', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
