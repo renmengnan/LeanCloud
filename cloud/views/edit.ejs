@@ -128,10 +128,6 @@
       <span class="ticket-id">#<%= ticket.ticket_id %>-</span>
       <span class="ticket-type"><%= ticket.type %>-</span>
       <span class="ticket-date bstooltip" title="<%= ticket.createdAtLong %>">@ <%= ticket.createdAt %></span>
-      - <%= ticket.status %>
-      <% if(ticket.open != 1){ %>
-      <span class="icon-lock avc-icon avc-locked-on bstooltip" title="仅客服可见"></span>
-      <% } %>
     </p>
     <% if(ticket.visible){ %>
     <div class='ticket-stype'>问题来源：<%= ticket.stype %></div>

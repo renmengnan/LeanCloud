@@ -34,18 +34,16 @@
     </thead>
     <tbody>
     <% tickets.forEach (function (ticket){ %>
-        <% if( ticket.followUser== mClient.username ){ %>
         <tr>
           <td class="table-id" data-sort-value="<%=ticket.ticket_id%>">#<%= ticket.ticket_id%></td>
           <td class="table-title"><a href="/tickets/<%= ticket.id %>/threads" title="#<%= ticket.ticket_id
             %>"><%=
                 ticket.title %></a></td>
-          <td class="table-status"><%= ticket.status %></td>
+          <td class="table-statype"><%= ticket.statype %></td>
           <td class="table-type"><%= ticket.type %></td>
-          <td class="table-type"><%= ticket.followUser %></td>
+          <td class="table-followUser"><%= ticket.followUser %></td>
           <td class="table-date" data-sort-value="<%= ticket.createdAtUnix %>"><span class="bstooltip" title="<%= ticket.createdAtLong %>"><%= ticket.createdAt %></span></td>
         </tr>
-        <% } %> 
     <% }) %>
     </tbody>
   </table>

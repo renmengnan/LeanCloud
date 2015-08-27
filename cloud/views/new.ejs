@@ -88,12 +88,12 @@
     </label>
     <div class="controls">
     <select id="inputType" class="form-control" name="type" required>
-      <option value="ios" selected="selected">咨询流程：产品类别、系统使用等</option>
-      <option value="android">投诉流程：物流问题、服务问题、线下团队问题等</option>
-      <option value="javascript">新品处理流程</option>
-      <option value="push">退货处理流程：质量问题、产品不符、送货延迟、下错订单、其他原因</option>
-      <option value="cloud">技术问题反馈：App问题，微信问题，PC问题，后台问题</option>
-      <option value="other">市场合作</option>
+      <option value="consult" selected="selected">咨询流程：产品类别、系统使用等</option>
+      <option value="complain">投诉流程：物流问题、服务问题、线下团队问题等</option>
+      <option value="new">新品处理流程</option>
+      <option value="cancelOrders">退货处理流程：质量问题、产品不符、送货延迟、下错订单、其他原因</option>
+      <option value="skill">技术问题反馈：App问题，微信问题，PC问题，后台问题</option>
+      <option value="market">市场合作</option>
     </select>
     </div>
   </div>
@@ -120,11 +120,11 @@
       <b class="has-required bstooltip" title="必填" data-placement="top">Required</b>
     </label>
     <div class="controls">
-    <select id="sourceType" class="form-control" name="stateType" required>
-      <option value="wxcrowd" selected="selected">待分配（分配到人）</option>
-      <option value="wechat">待解决（待分配的人解决问题）</option>
-      <option value="tel400">待回复（已经解决，待回复咨询人）</option>
-      <option value="cgwyapp">已回复（已经回复咨询人）</option>
+    <select id="stateType" class="form-control" name="stateType" required>
+      <option value="pending" selected="selected">待分配（分配到人）</option>
+      <option value="solved">待解决（待分配的人解决问题）</option>
+      <option value="noReply">待回复（已经解决，待回复咨询人）</option>
+      <option value="reply">已回复（已经回复咨询人）</option>
     </select>
     </div>
   </div>

@@ -57,12 +57,12 @@ var Ticket = AV.Object.extend('Ticket');
 var Thread = AV.Object.extend('Thread');
 var adminPrefix = 'AVOS Cloud -- ';
 var type2showMap = {
-    'ios': '咨询流程：产品类别、系统使用等',
-    'android': '投诉流程：物流问题、服务问题、线下团队问题等',
-    'javascript': '新品处理流程',
-    'push': '退货处理流程：质量问题、产品不符、送货延迟、下错订单、其他原因',
-    'cloud': '技术问题反馈：App问题，微信问题，PC问题，后台问题',
-    'stats': '市场合作'
+    'consult': '咨询流程：产品类别、系统使用等',
+    'complain': '投诉流程：物流问题、服务问题、线下团队问题等',
+    'new': '新品处理流程',
+    'cancelOrders': '退货处理流程：质量问题、产品不符、送货延迟、下错订单、其他原因',
+    'skill': '技术问题反馈：App问题，微信问题，PC问题，后台问题',
+    'market': '市场合作'
 };
 var sourceType = {
     'wxcrowd': '微信群',
@@ -70,6 +70,12 @@ var sourceType = {
     'tel400': '400电话',
     'cgwyapp': 'app',
     'other': '其他'
+};
+var stateType = {
+    'pending': '待分配',
+    'solved': '待解决',
+    'noReply': '待回复',
+    'reply': '已回复'
 };
 // console.log(Ticket+"/////////93");
 
@@ -164,12 +170,14 @@ function transformTime(averagetime) {
 
 function transformSearchTicket(t) {
     return {
+        username: t.get('username'),
         id: t.objectId,
         tid: t.tid,
         ticket_id: t.tid,
         title: t.title,
         type: type2showMap[t.type],
         stype: sourceType[t.stype],
+        statype: stateType[t.statype],
         followUser: t.followUser,
         createdAt: moment(t.createdAt).format('YYYY-MM-DD HH:mm:ss'),
         createdAtUnix: moment(t.createdAt).valueOf()
@@ -201,12 +209,18 @@ function transformTicket(t) {
     if (stype == undefined) {
         stype = '未知';
     }
+    var statype = stateType[t.get('statype')];
+    if (statype == undefined) {
+        statype = '未知';
+    }
     return {
+        username: t.get('username'),
         id: t.id,
         ticket_id: getTicketId(t),
         title: t.get('title'),
         type: type,
         stype: stype,
+        statype: statype,
         followUser: t.get('followUser'),
         content: t.get('content'),
         status: renderStatus(rawStatus),
@@ -337,7 +351,7 @@ app.get('/history', function (req, res) {
         var limit = 100;
         var type = req.query.type;
         var query = new AV.Query("Ticket");
-        query.equalTo('status', done_status);
+        // query.equalTo('status', done_status); //工单状态，0：正在处理；2：完成；
         if (type != null) {
             query.equalTo('type', type);
         }
@@ -355,6 +369,7 @@ app.get('/history', function (req, res) {
             if (tickets.length == limit) {
                 next = parseInt(skip) + parseInt(limit);
             }
+            console.log(tickets);
             res.render('history', {
                 tickets: tickets, 
                 back: back, 
@@ -950,7 +965,7 @@ function notifyTicketToChat(ticket, content, info) {
     notifySlack(hipChatText + genSlackLink(ticket), type);
 }
 
-function createTicket(res, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
+function createTicket(res, statype, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
     mticket.incTicketNReturnOrigin().then(function (n) {
         var ticket = new AV.Object('Ticket');
         if (attachment) {
@@ -962,11 +977,14 @@ function createTicket(res, followUser, sourceTypetype, token, client, attachment
         } else {
             ticket.set('open', open_content);
         }
+        // console.log(client.username);
+        ticket.set('username', client.username);
         ticket.set('cid', client.id);
         ticket.set('client_email', client.email);
         ticket.set('type', type);
         ticket.set('followUser', followUser);
         ticket.set('stype', sourceTypetype);
+        ticket.set('statype', statype);
         ticket.set('client_token', token);
         ticket.set('status', todo_status);
         ticket.set('title', title);
@@ -987,13 +1005,13 @@ app.post('/tickets', function (req, res) {
     var token = req.token;
     var cid = req.cid;
     var client = req.client;
-    mlog.log('req title' + req.body.title);
-    if (!client.email || !validateEmail(client.email)) {
-        return renderError(res, '请提供有效的电子邮箱地址，方便我们将反馈通知给您。');
-    }
+    // mlog.log('req title111' + client.username);
+    // if (!client.email || !validateEmail(client.email)) {
+    //     return renderError(res, '请提供有效的电子邮箱地址，方便我们将反馈通知给您。');
+    // }
     saveFileThen(req, function (attachment) {
-        console.log(req.body.followUser);
-        createTicket(res, req.body.followUser, req.body.sourceTypetype, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
+        createTicket(res, req.body.stateType, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
+            console.log(ticket);
             res.redirect('/tickets');
         });
     });
