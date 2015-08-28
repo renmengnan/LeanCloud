@@ -15,7 +15,7 @@ exports.mailGunKey='';//please use your mailGunKey
 exports.slackUrl='https://hooks.slack.com/services/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';
 
 //配置自己申请的子域名
-exports.hostUrl='http://myticket.avosapps.com';
+exports.hostUrl='http://cgwy.avosapps.com';
 
 //邮件的发送者，平时管理员回复了你的工单的时候，你便会收到来自这个邮箱的email
 exports.emailHost='notification@avoscloud.com';

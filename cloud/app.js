@@ -57,11 +57,11 @@ var Ticket = AV.Object.extend('Ticket');
 var Thread = AV.Object.extend('Thread');
 var adminPrefix = 'AVOS Cloud -- ';
 var type2showMap = {
-    'consult': '咨询流程：产品类别、系统使用等',
-    'complain': '投诉流程：物流问题、服务问题、线下团队问题等',
+    'consult': '咨询流程',
+    'complain': '投诉流程',
     'new': '新品处理流程',
-    'cancelOrders': '退货处理流程：质量问题、产品不符、送货延迟、下错订单、其他原因',
-    'skill': '技术问题反馈：App问题，微信问题，PC问题，后台问题',
+    'cancelOrders': '退货处理流程',
+    'skill': '技术问题反馈',
     'market': '市场合作'
 };
 var sourceType = {
@@ -179,6 +179,9 @@ function transformSearchTicket(t) {
         stype: sourceType[t.stype],
         statype: stateType[t.statype],
         followUser: t.followUser,
+        consultUser: t.consultUser,
+        restaurantID: t.restaurantID,
+        orderId: t.orderId,
         createdAt: moment(t.createdAt).format('YYYY-MM-DD HH:mm:ss'),
         createdAtUnix: moment(t.createdAt).valueOf()
     };
@@ -213,6 +216,22 @@ function transformTicket(t) {
     if (statype == undefined) {
         statype = '未知';
     }
+    var followUser = t.get('followUser');
+    if (followUser == undefined) {
+        followUser = '未选取跟进人';
+    }
+    var consultUser = t.get('consultUser');
+    if (consultUser == undefined) {
+        consultUser = '未选取咨询人';
+    }
+    var restaurantID = t.get('restaurantID');
+    if (restaurantID == undefined) {
+        restaurantID = '未关联餐馆';
+    }
+    var orderId = t.get('orderId');
+    if (orderId == undefined) {
+        orderId = '未关联订单';
+    }
     return {
         username: t.get('username'),
         id: t.id,
@@ -221,7 +240,10 @@ function transformTicket(t) {
         type: type,
         stype: stype,
         statype: statype,
-        followUser: t.get('followUser'),
+        followUser: followUser,
+        consultUser: consultUser,
+        restaurantID: restaurantID,
+        orderId: orderId,
         content: t.get('content'),
         status: renderStatus(rawStatus),
         rawStatus: rawStatus,
@@ -965,7 +987,7 @@ function notifyTicketToChat(ticket, content, info) {
     notifySlack(hipChatText + genSlackLink(ticket), type);
 }
 
-function createTicket(res, statype, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
+function createTicket(res, statype, consultUser, restaurantID, orderId, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
     mticket.incTicketNReturnOrigin().then(function (n) {
         var ticket = new AV.Object('Ticket');
         if (attachment) {
@@ -983,6 +1005,9 @@ function createTicket(res, statype, followUser, sourceTypetype, token, client, a
         ticket.set('client_email', client.email);
         ticket.set('type', type);
         ticket.set('followUser', followUser);
+        ticket.set('consultUser', consultUser);
+        ticket.set('restaurantID', restaurantID);
+        ticket.set('orderId', orderId);
         ticket.set('stype', sourceTypetype);
         ticket.set('statype', statype);
         ticket.set('client_token', token);
@@ -1010,7 +1035,7 @@ app.post('/tickets', function (req, res) {
     //     return renderError(res, '请提供有效的电子邮箱地址，方便我们将反馈通知给您。');
     // }
     saveFileThen(req, function (attachment) {
-        createTicket(res, req.body.stateType, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
+        createTicket(res, req.body.stateType, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
             // console.log(ticket);
             res.redirect('/tickets');
         });
