@@ -401,7 +401,128 @@ app.get('/history', function (req, res) {
         }, renderErrorFn(res));
     }
 });
-
+app.post('/history/search', function (req, res) {
+    var cid = req.cid;
+    var isAdmin = req.admin;
+    // console.log(req);
+    var skip = req.query.skip;
+    if (skip == null) {
+        skip = 0;
+    }
+    var limit = 100;
+    var type = req.query.type;
+    var query = new AV.Query('Ticket');
+    if( req.body.type != '' ){
+        query.equalTo("type", req.body.type);
+    }
+    if( req.body.sourceType != '' ){
+        query.equalTo("sourceType", req.body.sourceType);
+    }
+    if( req.body.stateType != '' ){
+        query.equalTo("stateType", req.body.stateType);
+    }
+    if( req.body.restaurantID != '' ){
+        query.equalTo("restaurantID", req.body.restaurantID);
+    }
+    if( req.body.orderID != '' ){
+        query.equalTo("orderID", req.body.orderID);
+    }
+    if( req.body.followUser != '' ){
+        query.equalTo("followUser", req.body.followUser);
+    }
+    if( req.body.username != '' ){
+        query.equalTo("username", req.body.username);
+    }
+    query.limit(limit);
+    query.skip(skip);
+    query.descending('createdAt');
+    query.find().then(function (tickets) {
+        tickets = tickets || [];
+        tickets = _.map(tickets, transformTicket);
+        var back = -1;
+        var next = -1;
+        if (parseInt(skip) > 0) {
+            back = parseInt(skip) - parseInt(limit);
+        }
+        if (tickets.length == limit) {
+            next = parseInt(skip) + parseInt(limit);
+        }
+        // console.log(tickets);
+        res.render('history', {
+            tickets: tickets, 
+            back: back, 
+            next: next, 
+            type: type
+        });
+    }, renderErrorFn(res));
+});
+app.post('/tickets/search', function (req, res) {
+    var cid = req.cid;
+    var isAdmin = req.admin;
+    // console.log(req);
+    var skip = req.query.skip;
+    if (skip == null) {
+        skip = 0;
+    }
+    var limit = 100;
+    var type = req.query.type;
+    var query = new AV.Query('Ticket');
+    if( req.body.type != '' ){
+        query.equalTo("type", req.body.type);
+    }
+    if( req.body.sourceType != '' ){
+        query.equalTo("sourceType", req.body.sourceType);
+    }
+    if( req.body.stateType != '' ){
+        query.equalTo("stateType", req.body.stateType);
+    }
+    if( req.body.restaurantID != '' ){
+        query.equalTo("restaurantID", req.body.restaurantID);
+    }
+    if( req.body.orderID != '' ){
+        query.equalTo("orderID", req.body.orderID);
+    }
+    if( req.body.followUser != '' ){
+        query.equalTo("followUser", req.body.followUser);
+    }
+    if( req.body.username != '' ){
+        query.equalTo("username", req.body.username);
+    }
+    if( req.body.startTime != '' ){
+        var st = req.body.startTime;
+        var sDate= new Date(Date.parse(st.replace(/-/g, "/")));
+        // myDate = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+        // console.log(myDate)
+        query.greaterThan("createdAt", sDate);
+        if( req.body.endTime != '' ) {
+            var et = req.body.endTime;
+            var eDate= new Date(Date.parse(et.replace(/-/g, "/")));
+            query.lessThan("createdAt", eDate);
+        }
+    }
+    query.limit(limit);
+    query.skip(skip);
+    query.descending('createdAt');
+    query.find().then(function (tickets) {
+        tickets = tickets || [];
+        tickets = _.map(tickets, transformTicket);
+        var back = -1;
+        var next = -1;
+        if (parseInt(skip) > 0) {
+            back = parseInt(skip) - parseInt(limit);
+        }
+        if (tickets.length == limit) {
+            next = parseInt(skip) + parseInt(limit);
+        }
+        // console.log(tickets);
+        res.render('list', {
+            tickets: tickets, 
+            back: back, 
+            next: next, 
+            type: type
+        });
+    }, renderErrorFn(res));
+});
 app.get('/notifications', function (req, res) {
     var token = req.token;
     var cid = req.cid;
@@ -835,7 +956,42 @@ app.get('/tickets/:id/threads', function (req, res) {
         }, renderErrorFn(res));
     }, renderErrorFn(res));
 });
-
+app.get('/tickets/:id/newthreads', function (req, res) {
+    var ticketId = req.params.id;
+    var token = req.token;
+    var cid = req.cid;
+    var query = new AV.Query('Thread');
+    query.ascending('createdAt');
+    query.equalTo('ticket', AV.Object.createWithoutData('Ticket', ticketId));
+    query.find().then(function (threads) {
+        var ticket = AV.Object.createWithoutData('Ticket', ticketId);
+        ticket.fetch().then(function (ticket) {
+            if (isTicketEmpty(ticket) == false) {
+                ticket = transformTicket(ticket);
+                threads = _.map(threads, transformThread);
+                var isAdmin = req.admin;
+                var open = ticket.open;
+                ticket.visible = judgeVisibleForOne(open, isAdmin, cid, ticket.cid);
+                judgeVisible(threads, isAdmin, cid, ticket.cid);
+                var lastOpen = findMyLastOpen(isAdmin, ticket, threads);
+                genQQLink(isAdmin, ticket.cid, cid, threads).then(function (qqLink) {
+                    mlog.log('qqlink' + qqLink);
+                    res.render('newedit', { 
+                        ticket: ticket, 
+                        token: token, 
+                        threads: threads,
+                        admin: isAdmin, 
+                        cid: cid, 
+                        lastOpen: lastOpen, 
+                        qqLink: qqLink
+                    });
+                }, mutil.renderErrorFn(res));
+            } else {
+                renderError(res, '找不到工单，该工单可能已经被删除');
+            }
+        }, renderErrorFn(res));
+    }, renderErrorFn(res));
+});
 var closeMsg = '关闭了 AVOS Cloud 上的工单，如果还有问题请及时联系。';
 function sendClientEmail(ticket, html) {
     var ticketSeq = getTicketId(ticket);
@@ -872,9 +1028,9 @@ app.post('/tickets/:id/threads', function (req, res) {
         if (isTicketEmpty(ticket) == false) {
             //864 is administrator's client id
             var isAdmin=req.admin;
-            if (ticket.get('cid') != cid && !isAdmin) {
-                renderError(res, '非法的客户端，请不要回复他人的工单');
-            } else {
+            // if (ticket.get('cid') != cid && !isAdmin) {
+            //     renderError(res, '非法的客户端，请不要回复他人的工单');
+            // } else {
                 if (ticket.get('status') == done_status) {
                 } else {
                     var ticketSeq = getTicketId(ticket);
@@ -914,7 +1070,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                                 notifyTicketToChat(ticket, '', '管理员关闭了工单。');
                             }
                             sendClientEmail(ticket, html, ticketSeq);
-                            addNotify('http://ticket.avosapps.com/tickets/' + ticket.id + '/threads', cid);
+                            addNotify('http://cgwy.avosapps.com/tickets/' + ticket.id + '/threads', cid);
                         } else {
                             if (close == '1') {
                                 if (content == null || content == '') {
@@ -924,9 +1080,15 @@ app.post('/tickets/:id/threads', function (req, res) {
                                 ticket.save();
                             } else {
                                 //update client token and status
-                                ticket.set('client_token', token);
-                                ticket.set('status', todo_status);
-                                ticket.save();
+                                html = '<p>' + req.client.username +
+                                    '回复到：</p> <p><pre> ' + content + ' </pre></p>';
+                                if( client.username != ticket.attributes.username ){
+                                    ticket.set('status', processing_status);
+                                    ticket.save();
+                                } else {
+                                    ticket.save();
+                                }
+                                
                             }
                             var text = '<p>Client: client.username </p><p>Title:     <pre>' + ticket.get('title') + '</pre></p><p>Reply:    <pre>' + content + '</pre></p>';
                             text = text + generateAdminReplyLink(ticket);
@@ -944,13 +1106,43 @@ app.post('/tickets/:id/threads', function (req, res) {
                         }, renderErrorFn(res));
                     });
                 }
-            }
+            // }
         } else {
             renderError(res, '找不到工单');
         }
     }, renderErrorFn(res));
 });
-
+app.post('/tickets/:id/newthreads', function (req, res) {
+    var cid = req.cid;
+    var client = req.client;
+    var token = req.token;
+    var ticketId = req.params.id;
+    var ticket = AV.Object.createWithoutData('Ticket', ticketId);
+    // console.log(ticketId);
+    var query = new AV.Query('Ticket');
+        query.get(ticketId, {
+            success: function(post) {
+              // 成功，回调中可以取得这个 Post 对象的一个实例，然后就可以修改它了
+              post.set('title',req.body.title);
+              post.set('consultUser',req.body.consultUser);
+              post.set('restaurantID',req.body.restaurantID);
+              post.set('orderId',req.body.orderId);
+              post.set('followUser',req.body.followUser);
+              post.set('type',req.body.type);
+              post.set('sourceType',req.body.sourceType);
+              post.set('stateType',req.body.stateType);
+              post.set('content',req.body.content);
+              post.save().then(function(){
+                res.redirect('/tickets');
+              });
+              // console.log(post);
+            },
+            error: function(object, error) {
+              // 失败了.
+              console.log(object);
+            }
+        });
+});
 function notifySlack(text, type) {
     if (__production == false) {
         mlog.log('type=' + type);
@@ -1409,7 +1601,7 @@ app.get('/test', function (req, res) {
 
 //最后，必须有这行代码来使express响应http请求
 app.listen({"static": {maxAge: 604800000}});
-
+// console.log(todo_status+"//"+processing_status+"//"+done_status);
 exports.todo_status = todo_status;
 exports.processing_status = processing_status;
 exports.done_status = done_status;

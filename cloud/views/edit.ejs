@@ -126,10 +126,24 @@
   <div>
     <p>
       <span class="ticket-id">#<%= ticket.ticket_id %>-</span>
-      <span class="ticket-type"><%= ticket.type %>-</span>
-      <span class="ticket-date bstooltip" title="<%= ticket.createdAtLong %>">@ <%= ticket.createdAt %></span>
+      <span class="ticket-type">问题类型：<%= ticket.type %>-</span>
+      <span class="ticket-date bstooltip" title="<%= ticket.createdAtLong %>">@ 创建日期：<%= ticket.createdAtLong %></span>
+      <% if(ticket.followUser != ''){ %>
+      - 工单状态：<%= ticket.status %>
+      <% } else{ %>
+      - 工单状态：待分配，请填写待跟进人
+      <% } %>
     </p>
     <% if(ticket.visible){ %>
+    <div class='ticket-stype'>发件人：<%= ticket.username %></div>
+    <div class='ticket-stype'>咨询人：<%= ticket.consultUser %></div>
+    <div class='ticket-stype'>待跟进人：<%= ticket.followUser %></div>
+    <% if(ticket.restaurantID != ''){ %>
+        <div class='ticket-stype'>餐馆ID：<%= ticket.restaurantID %></div>
+    <% } %>
+    <% if(ticket.orderId != ''){ %>
+        <div class='ticket-stype'>订单ID：<%= ticket.orderId %></div>
+    <% } %>
     <div class='ticket-stype'>问题来源：<%= ticket.stype %></div>
     <pre><%= ticket.content %><%- ticket.attachment %></pre>
     <% } %>
@@ -143,7 +157,7 @@
 <div class="ticket-thread-wrap">
   <p class="ticket-thread-title">
     <span class="ticket-user"><b><%= thread.user %></b></span>
-    <span class="ticket-date bstooltip" title="<%= thread.createdAtLong %>">@ <%= thread.createdAt %></span>
+    <span class="ticket-date bstooltip" title="<%= thread.createdAtLong %>">@ <%= thread.createdAtLong %></span>
     <% if(thread.open != 1){ %>
       <span class="icon-lock avc-icon avc-locked-on bstooltip" title="仅客服可见"></span>
     <% } %>
@@ -163,24 +177,6 @@
     <form id="threadForm" class="thread-form" enctype="multipart/form-data"
           action="/tickets/<%= ticket.id %>/threads" method="post">
       <div class="form-group">
-        <div class="checkbox custom-control">
-          <label class="alert-warning">
-            <input id="inputOpen" type="checkbox" name="secret"
-              <% if(lastOpen == 0){ %>
-                   checked
-              <% } %>
-              >
-            <span class="control-indicator"></span>
-            <% if(admin){ %>
-            仅该用户可见
-            <% }else{ %>
-            仅管理员可见
-            <% } %>
-
-          </label>
-        </div>
-      </div>
-      <div class="form-group">
         <input type="hidden" id="inputClose" name="close" value="0"/>
         <label class="control-label" for="inputContent">
           回复
@@ -199,19 +195,15 @@
         <div class="controls">
           <button type="submit" class="btn btn-primary btn-submit">提交</button>
           <% if(cid != -99){ %>
+          <% if(ticket.username == mClient.username){ %>
           <button type="button" class="btn btn-danger btn-close" id="closeBtn">关闭工单</button>
+          <% } %>
           <% } %>
         </div>
       </div>
     </form>
     <% } %>
   </div>
-
-
-  <p class="callout callout-info">
-    如果我们的服务没有达到 <a target="_blank" href="http://open.avoscloud.com/tech-support-guide.html">技术支持标准</a>，您可以进行 <a
-      href="mailto:hjiang@avoscloud.com">投诉</a>
-  </p>
 </div>
 
 

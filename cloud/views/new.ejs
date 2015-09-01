@@ -73,7 +73,9 @@
       待跟进人
     </label>
     <div class="controls">
-      <input type="text" name="followUser" id="followUser" class="form-control" placeholder="待跟进人">
+      <select id="followUser" name="followUser" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
+          <option></option>
+      </select>
     </div>
   </div>
   <div class="form-group">
@@ -83,11 +85,11 @@
     </label>
     <div class="controls">
     <select id="inputType" class="form-control" name="type" required>
-      <option value="consult" selected="selected">咨询流程：产品类别、系统使用等</option>
-      <option value="complain">投诉流程：物流问题、服务问题、线下团队问题等</option>
+      <option value="consult" selected="selected">咨询流程</option>
+      <option value="complain">投诉流程</option>
       <option value="new">新品处理流程</option>
-      <option value="cancelOrders">退货处理流程：质量问题、产品不符、送货延迟、下错订单、其他原因</option>
-      <option value="skill">技术问题反馈：App问题，微信问题，PC问题，后台问题</option>
+      <option value="cancelOrders">退货处理流程</option>
+      <option value="skill">技术问题反馈</option>
       <option value="market">市场合作</option>
     </select>
     </div>
@@ -116,10 +118,10 @@
     </label>
     <div class="controls">
     <select id="stateType" class="form-control" name="stateType" required>
-      <option value="pending" selected="selected">待分配（分配到人）</option>
-      <option value="solved">待解决（待分配的人解决问题）</option>
-      <option value="noReply">待回复（已经解决，待回复咨询人）</option>
-      <option value="reply">已回复（已经回复咨询人）</option>
+      <option value="pending" selected="selected">待分配</option>
+      <option value="solved">待解决</option>
+      <option value="noReply">待回复</option>
+      <option value="reply">已回复</option>
     </select>
     </div>
   </div>
@@ -146,4 +148,30 @@
   </div>
 
 </form>
-
+<script type="text/javascript">
+  $.ajax({ 
+    url: "http://www.canguanwuyou.cn/admin/api/admin-user/global?role=CustomerService", 
+    type: "GET",
+    dataType: "json",
+    success: function(data){
+        //console.log(data[0].realname);
+        var str = $('#followUser').html();
+        for(var i=0; i<data.length;i++){
+            str += "<option>"+data[i].realname+"</option>";
+        }
+        $('#followUser').html(str);
+        var config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:1},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"}
+          }
+        $(".chosen-select-deselect").chosen({width: "100%"});
+        $(".chosen-select-deselect").chosen({height: "100px"});
+        for (var selector in config) {
+          $(selector).chosen(config[selector]);
+        }
+    }
+  });
+</script>

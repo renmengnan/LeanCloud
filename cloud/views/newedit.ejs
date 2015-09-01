@@ -1,0 +1,236 @@
+<script type="text/javascript">
+  var ctrlx=false;
+  var enterKey=13,xKey=88,sKey=83,escKey=27,semiKey=186,wKey=87;
+  var esc;
+  $(function () {
+
+    function checkContentOk(content) {
+      var secret = $("#inputOpen").is(":checked");
+      if (secret == false && existsAppIdOrKey(content)) {
+        alert('检测到含有 AppId 或 AppKey，请勾选「仅管理员可见」');
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    $("#threadForm").submit(function (event) {
+      var $form = $(this),
+        content = $form.find("textarea[id='inputContent']").val();
+      if (content == '' && $("#inputClose").val() != '1') {
+        alert("回复不能为空");
+        return false;
+      }
+      return checkContentOk(content);
+      //alert(content);
+      //return false;
+    });
+
+    $("#deleteForm").submit(function (event) {
+      return confirm('确认删除吗？');
+    });
+
+    function ctrlOrMeta(e){
+      return e.ctrlKey || e.metaKey;
+    }
+
+    $('#inputContent').keydown(function (e) {
+      if (ctrlOrMeta(e) && e.keyCode == enterKey) {
+        // Ctrl-Enter pressed
+        $("#threadForm").submit();
+        return false;
+      }else if(ctrlx && ctrlOrMeta(e) && e.keyCode==sKey){
+        $("#threadForm").submit();
+        return false;
+      }else if(ctrlOrMeta(e) && e.keyCode==xKey){
+        ctrlx=true;
+      }
+      /*if(e.keyCode==escKey){
+        console.log('esc key');
+        esc=true;
+      }
+      if(esc && e.keyCode==wKey){
+        console.log('semi key');
+        $("#threadForm").submit();
+        return false;
+      }*/
+    }).keyup(function(e){
+      if(e.keyCode!=xKey){
+        ctrlx=false;
+      }
+      /*if(e.keyCode!=escKey){
+        esc=false;
+      }
+      if(e.keyCode==wKey){
+        console.log('return false');
+        return false;
+      }*/
+    });
+
+    $("#closeBtn").click(function (event) {
+
+      function close() {
+        $("#inputClose").val("1");
+        $("#threadForm").submit();
+      }
+
+      <%if(!admin){%>
+      close();
+      <%}else{%>
+      if (confirm('确认关闭用户的工单吗？')) {
+        close();
+      }
+      <%}%>
+    });
+
+    <% if(admin) { %>
+    if (typeof(Storage) !== "undefined") {
+      $('#username').val(localStorage.getItem('admin_username') || '你是谁？');
+    }
+    <% } %>
+  });
+</script>
+
+<div>
+  
+    <p>
+      <span class="ticket-id">#<%= ticket.ticket_id %>-</span>
+      <span class="ticket-type"><%= ticket.type %>-</span>
+      <span class="ticket-date bstooltip" title="<%= ticket.createdAtLong %>">@ <%= ticket.createdAt %></span>
+    </p>
+
+    <form id="threadForm" class="thread-form" enctype="multipart/form-data"
+          action="/tickets/<%= ticket.id %>/newthreads" method="post">
+      <div class="form-group">
+        <label class="control-label" for="inputTitle">
+          标题
+          <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+        </label>
+        <div class="controls">
+          <input type="text" name="title" id="inputTitle" class="form-control" placeholder="标题" required value="<%= ticket.title %>">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="consultUser">
+          咨询人
+        </label>
+        <div class="controls">
+        <% if(ticket.consultUser != '未选取咨询人') { %>
+          <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" value="<%= ticket.consultUser %>">
+        <% } else{ %>
+          <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" >
+        <% } %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="restaurantID">
+          关联餐馆ID
+        </label>
+        <div class="controls">
+        <% if(ticket.restaurantID != '未关联餐馆') { %>
+          <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID" value='<%= ticket.restaurantID %>'>
+        <% } else{ %>
+          <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID">
+        <% } %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="orderId">
+          关联订单ID
+        </label>
+        <div class="controls">
+        <% if(ticket.orderId != '未关联订单') { %>
+          <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID" value='<%= ticket.orderId %>'>
+        <% } else{ %>
+          <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID">
+        <% } %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="followUser">
+          待跟进人
+        </label>
+        <div class="controls">
+        <% if(ticket.followUser != '未选取跟进人') { %>
+          <input type="text" name="followUser" id="followUser" class="form-control" placeholder="待跟进人" value='<%= ticket.followUser %>'>
+        <% } else{ %>
+          <input type="text" name="followUser" id="followUser" class="form-control" placeholder="待跟进人">
+        <% } %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="inputType">
+          问题类型
+          <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+        </label>
+        <div class="controls">
+        <select id="inputType" class="form-control" name="type" required>
+          <option value="consult" selected="selected">咨询流程</option>
+          <option value="complain">投诉流程</option>
+          <option value="new">新品处理流程</option>
+          <option value="cancelOrders">退货处理流程</option>
+          <option value="skill">技术问题反馈</option>
+          <option value="market">市场合作</option>
+        </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="sourceType">
+          问题来源
+          <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+        </label>
+        <div class="controls">
+        <select id="sourceType" class="form-control" name="sourceType" required>
+          <option value="wxcrowd" selected="selected">微信群</option>
+          <option value="wechat">微信平台</option>
+          <option value="tel400">400电话</option>
+          <option value="cgwyapp">App</option>
+          <option value="other">其他</option>
+        </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="stateType">
+          工单状态
+          <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+        </label>
+        <div class="controls">
+        <select id="stateType" class="form-control" name="stateType" required>
+          <option value="pending" selected="selected">待分配</option>
+          <option value="solved">待解决</option>
+          <option value="noReply">待回复</option>
+          <option value="reply">已回复</option>
+        </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="inputContent">
+          问题描述
+          <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+        </label>
+        <div class="controls">
+          <textarea rows="10" cols="20" name="content" id="inputContent" class="form-control" placeholder="问题描述" required><%= ticket.content %></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="inputAttachment">截图附件</label>
+        <div class="controls">
+          <input type='file' name='attachment' id='inputAttachment' accept="image/*"/>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-submit">提交</button>
+        <a href="tickets" class="btn btn-default">回到工单列表</a>
+      </div>
+
+    </form>
+</div>
+
+<hr>
+
+<a onclick="back();" class="btn btn-default btn-back">返回</a>
+

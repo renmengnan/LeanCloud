@@ -1,40 +1,73 @@
 <div class="clearfix">
   <div class="btn-group pull-left">
-    <a href="/tickets" class="btn btn-default">我的工单</a>
-    <a href="/history" class="btn btn-default active">我的任务</a>
+    <a href="tickets" class="btn btn-default">我的工单</a>
+    <a href="history" class="btn btn-default active">我的任务</a>
   </div>
-  <a class="btn btn-primary" href="/tickets/new" style="margin-left: 10px;">新建工单</a>
+  <a class="btn btn-primary" href="tickets/new" style="margin-left: 10px;">新建工单</a>
   <% include browser_notification %>
 </div>
-
+<div id="collapseTwo" class="panel-collapse clearfix">
+    <div class="panel-body">
+        <form id="searchForm" class="thread-form" enctype="multipart/form-data"
+          action="/history/search" method="post">
+            <div class="form-group">
+                <select id="inputType" class="form-control" name="type" >
+                  <option value="" selected="selected">请选择-流程</option>
+                  <option value="consult">咨询流程</option>
+                  <option value="complain">投诉流程</option>
+                  <option value="new">新品处理流程</option>
+                  <option value="cancelOrders">退货处理流程</option>
+                  <option value="skill">技术问题反馈</option>
+                  <option value="market">市场合作</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="sourceType" class="form-control" name="sourceType" >
+                  <option value="" selected="selected">请选择-来源</option>
+                  <option value="wxcrowd">微信群</option>
+                  <option value="wechat">微信平台</option>
+                  <option value="tel400">400电话</option>
+                  <option value="cgwyapp">App</option>
+                  <option value="other">其他</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="stateType" class="form-control" name="stateType" >
+                  <option value="" selected="selected">请选择-状态</option>
+                  <option value="pending">待分配</option>
+                  <option value="solved">待解决</option>
+                  <option value="noReply">待回复</option>
+                  <option value="reply">已回复</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" id="startTime" name="startTime" class="form-control" placeholder="起始时间" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="endTime" name="endTime" class="form-control" placeholder="结束时间" />
+            </div>
+            <div class="form-group">
+                <input type="text" name='restaurantID' class="form-control" placeholder="餐馆ID"/>
+            </div>
+            <div class="form-group">
+                <input type="text" name='orderId' class="form-control" placeholder="订单ID" >
+            </div>
+            <div class="form-group">
+                <select id="followUser" name="followUser" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
+                  <option value=""></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="发件人" >
+            </div>
+            <button type="submit" class="btn btn-primary btn-submit" >&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
+        </form>
+    </div>
+</div> 
 <hr>
 
 <div>
     <div>
-        <ul class="nav nav-tabs">
-            <li id="all_link">
-              <a href="/history">所有</a>
-            </li>
-            <li id="consult_link">
-                <a href="/history?type=consult">咨询流程</a>
-            </li>
-            <li id="complain_link">
-                <a href="/history?type=complain">投诉流程</a>
-            </li>
-            <li id="new_link">
-                <a href="/history?type=new">新品处理流程</a>
-            </li>
-            <li id="cancelOrders_link">
-                <a href="/history?type=cancelOrders">退货处理流程</a>
-            </li>
-            <li id="skill_link">
-                <a href="/history?type=skill">技术问题反馈</a>
-            </li>
-            <li id="market_link">
-                <a href="/history?type=market">市场合作</a>
-            </li>
-        </ul>
-
         <table class="table table-borderless table-sortable">
             <thead>
               <tr>
@@ -54,13 +87,13 @@
             <% tickets.forEach (function (ticket){  %>
             <% if( ticket.followUser== mClient.username ){ %>
             <tr>
-              <td class="table-id" data-sort-value="<%=ticket.ticket_id%>">#<%= ticket.ticket_id%></td>
-              <td class="table-title"><a href="/tickets/<%=ticket.id%>/threads" title="#<%= ticket.ticket_id %>"><%= ticket.title %></a></td>
+              <td class="table-type" data-sort-value="<%=ticket.ticket_id%>">#<%= ticket.ticket_id%></td>
+              <td class="table-type"><a href="tickets/<%=ticket.id%>/threads" title="#<%= ticket.ticket_id %>"><%= ticket.title %></a></td>
               <td class="table-type"><%= ticket.username %></td>
               <td class="table-type"><%= ticket.consultUser %></td>
               <td class="table-type"><%= ticket.restaurantID %></td>
               <td class="table-type"><%= ticket.orderId %></td>
-              <td class="table-type"><%= ticket.statype %></td>
+              <td class="table-type"><%= ticket.status %></td>
               <td class="table-type"><%= ticket.type %></td>
               <td class="table-type"><%= ticket.followUser %></td>
               <td class="table-date"><%= ticket.createdAtLong %></td>
@@ -74,22 +107,21 @@
     <ul class="pagination">
       <% if(back >= 0) { %>
       <% if(type != null) { %>
-      <li><a href="/history?type=<%= type %>&skip=<%= back %>">上一页</a></li>
+      <li><a href="history?type=<%= type %>&skip=<%= back %>">上一页</a></li>
       <% }else{ %>
-      <li><a href="/history?skip=<%= back %>">上一页</a></li>
+      <li><a href="history?skip=<%= back %>">上一页</a></li>
       <% } %>
       <% } %>
       <% if(next > 0) { %>
       <% if(type != null) { %>
-      <li><a href="/history?type=<%= type %>&skip=<%= next %>">下一页</a></li>
+      <li><a href="history?type=<%= type %>&skip=<%= next %>">下一页</a></li>
       <% }else{ %>
-      <li><a href="/history?skip=<%= next %>">下一页</a></li>
+      <li><a href="history?skip=<%= next %>">下一页</a></li>
       <% } %>
       <% } %>
     </ul>
   </div>
 </div>
-
 <script type="text/javascript">
     var url = document.URL;
     if (/.*type=consult.*/.exec(url)){
@@ -105,5 +137,48 @@
     }else if (/.*type=market.*/.exec(url)){
         $('#market_link').attr('class','active');
     }
+
+    $( "#startTime" ).datepicker({
+      defaultDate: "",
+      changeMonth: true,
+      numberOfMonths: 1,
+      onClose: function( selectedDate ) {
+        $( "#endTime" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    
+    $( "#endTime" ).datepicker({
+      defaultDate: "",
+      changeMonth: true,
+      numberOfMonths: 1,
+      onClose: function( selectedDate ) {
+        $( "#startTime" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+    $.ajax({ 
+      url: "http://www.canguanwuyou.cn/admin/api/admin-user/global?role=CustomerService", 
+      type: "GET",
+      dataType: "json",
+      success: function(data){
+          //console.log(data[0].realname);
+          var str = $('#followUser').html();
+          for(var i=0; i<data.length;i++){
+              str += "<option>"+data[i].realname+"</option>";
+          }
+          $('#followUser').html(str);
+          var config = {
+              '.chosen-select'           : {},
+              '.chosen-select-deselect'  : {allow_single_deselect:true},
+              '.chosen-select-no-single' : {disable_search_threshold:1},
+              '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+              '.chosen-select-width'     : {width:"95%"}
+            }
+          $(".chosen-select-deselect").chosen({width: "100%"});
+          $(".chosen-select-deselect").chosen({height: "100px"});
+          for (var selector in config) {
+            $(selector).chosen(config[selector]);
+          }
+      }
+    });
 </script>
 

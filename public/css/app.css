@@ -7,7 +7,8 @@
 .table-status,
 .table-type,
 .table-date {
-  width: 10%;
+  width: 9%;
+  text-align: center;
 }
 
 .table-id {
@@ -20,6 +21,7 @@
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
+  text-align: center;
 }
 
 .table-sortable thead th[data-sort]:hover,
@@ -235,3 +237,16 @@ pre img {
 #admin-username-input{
   width: 70%;
 }
+
+/*searchForm*/
+#searchForm .form-group{
+  display: inline-block;
+}
+
+
+
+
+
+
+
+
