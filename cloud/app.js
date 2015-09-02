@@ -1479,7 +1479,7 @@ app.get('/login:id', function (req, res) {
         },
         error: function (httpResponse) {
             // renderError(res, 'Search error.');
-            console.error('Request failed with response code ' + httpResponse);
+            console.error(httpResponse);
         }
     });
 });
