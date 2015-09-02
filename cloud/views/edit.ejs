@@ -175,7 +175,7 @@
   <div class="clearfix">
     <% if(ticket.rawStatus < 2){ %>
     <form id="threadForm" class="thread-form" enctype="multipart/form-data"
-          action="/tickets/<%= ticket.id %>/threads" method="post">
+          action="/ticket/tickets/<%= ticket.id %>/threads" method="post">
       <div class="form-group">
         <input type="hidden" id="inputClose" name="close" value="0"/>
         <label class="control-label" for="inputContent">
@@ -207,5 +207,5 @@
 </div>
 
 
-<a onclick="back();" class="btn btn-default btn-back">返回</a>
+<a href="/ticket/tickets" class="btn btn-default btn-back">返回</a>
 

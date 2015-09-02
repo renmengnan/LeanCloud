@@ -100,7 +100,7 @@
     </p>
 
     <form id="threadForm" class="thread-form" enctype="multipart/form-data"
-          action="/tickets/<%= ticket.id %>/newthreads" method="post">
+          action="/ticket/tickets/<%= ticket.id %>/newthreads" method="post">
       <div class="form-group">
         <label class="control-label" for="inputTitle">
           标题
@@ -121,6 +121,18 @@
           <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" >
         <% } %>
         </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="consultTel">
+          咨询人手机
+        </label>
+        <div class="controls">
+        <% if(ticket.consultTel != '未填写跟进人手机') { %>
+          <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="待跟进人手机" value="<%= ticket.consultTel %>">
+        </div>
+        <% } else{ %>
+          <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="待跟进人手机">
+        <% } %>
       </div>
       <div class="form-group">
         <label class="control-label" for="restaurantID">
@@ -152,11 +164,27 @@
         </label>
         <div class="controls">
         <% if(ticket.followUser != '未选取跟进人') { %>
-          <input type="text" name="followUser" id="followUser" class="form-control" placeholder="待跟进人" value='<%= ticket.followUser %>'>
+          <select id="followUser" name="followUser" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
+              <option selected="selected"><%= ticket.followUser %></option>
+          </select>
         <% } else{ %>
-          <input type="text" name="followUser" id="followUser" class="form-control" placeholder="待跟进人">
+          <select id="followUser" name="followUser" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
+              <option></option>
+          </select>
         <% } %>
         </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="followTel">
+          待跟进人手机
+        </label>
+        <div class="controls">
+        <% if(ticket.followTel != '未填写跟进人手机') { %>
+          <input type="text" name="followTel" id="followTel" class="form-control" placeholder="待跟进人手机" value="<%= ticket.followTel %>">
+        </div>
+        <% } else{ %>
+          <input type="text" name="followTel" id="followTel" class="form-control" placeholder="待跟进人手机">
+        <% } %>
       </div>
       <div class="form-group">
         <label class="control-label" for="inputType">
@@ -192,21 +220,6 @@
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="stateType">
-          工单状态
-          <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
-        </label>
-        <div class="controls">
-        <select id="stateType" class="form-control" name="stateType" required>
-          <option value="pending" selected="selected">待分配</option>
-          <option value="solved">待解决</option>
-          <option value="noReply">待回复</option>
-          <option value="reply">已回复</option>
-        </select>
-        </div>
-      </div>
-
-      <div class="form-group">
         <label class="control-label" for="inputContent">
           问题描述
           <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
@@ -234,3 +247,30 @@
 
 <a onclick="back();" class="btn btn-default btn-back">返回</a>
 
+<script type="text/javascript">
+  $.ajax({ 
+    url: "http://www.canguanwuyou.cn/admin/api/admin-user/global?role=CustomerService", 
+    type: "GET",
+    dataType: "json",
+    success: function(data){
+        //console.log(data[0].realname);
+        var str = $('#followUser').html();
+        for(var i=0; i<data.length;i++){
+            str += "<option>"+data[i].realname+"</option>";
+        }
+        $('#followUser').html(str);
+        var config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:1},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"}
+          }
+        $(".chosen-select-deselect").chosen({width: "100%"});
+        $(".chosen-select-deselect").chosen({height: "100px"});
+        for (var selector in config) {
+          $(selector).chosen(config[selector]);
+        }
+    }
+  });
+</script>

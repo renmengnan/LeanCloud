@@ -34,7 +34,7 @@
 
   });
 </script>
-<form id="ticketForm" enctype="multipart/form-data" action="/tickets?token=<%=token%>" method="post">
+<form id="ticketForm" enctype="multipart/form-data" action="/ticket/tickets?token=rrmn" method="post">
   <div class="form-group">
     <label class="control-label" for="inputTitle">
       标题
@@ -52,6 +52,16 @@
       <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人">
     </div>
   </div>
+
+  <div class="form-group">
+    <label class="control-label" for="consultTel">
+      咨询人手机
+    </label>
+    <div class="controls">
+      <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号">
+    </div>
+  </div>
+
   <div class="form-group">
     <label class="control-label" for="restaurantID">
       关联餐馆ID
@@ -78,6 +88,15 @@
       </select>
     </div>
   </div>
+  <div class="form-group">
+    <label class="control-label" for="followTel">
+      待跟进人手机
+    </label>
+    <div class="controls">
+      <input type="text" name="followTel" id="followTel" class="form-control" placeholder="待跟进人手机">
+    </div>
+  </div>
+
   <div class="form-group">
     <label class="control-label" for="inputType">
       问题类型
@@ -112,21 +131,6 @@
   </div>
 
   <div class="form-group">
-    <label class="control-label" for="stateType">
-      工单状态
-      <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
-    </label>
-    <div class="controls">
-    <select id="stateType" class="form-control" name="stateType" required>
-      <option value="pending" selected="selected">待分配</option>
-      <option value="solved">待解决</option>
-      <option value="noReply">待回复</option>
-      <option value="reply">已回复</option>
-    </select>
-    </div>
-  </div>
-
-  <div class="form-group">
     <label class="control-label" for="inputContent">
       问题描述
       <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
@@ -144,7 +148,7 @@
   
   <div class="form-group">
     <button type="submit" class="btn btn-primary">提交</button>
-    <a href="/tickets" class="btn btn-default">回到工单列表</a>
+    <a href="ticket/tickets" class="btn btn-default">回到工单列表</a>
   </div>
 
 </form>

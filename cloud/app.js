@@ -71,12 +71,6 @@ var sourceType = {
     'cgwyapp': 'app',
     'other': '其他'
 };
-var stateType = {
-    'pending': '待分配',
-    'solved': '待解决',
-    'noReply': '待回复',
-    'reply': '已回复'
-};
 // console.log(Ticket+"/////////93");
 
 function renderStatus(status) {
@@ -177,8 +171,9 @@ function transformSearchTicket(t) {
         title: t.title,
         type: type2showMap[t.type],
         stype: sourceType[t.stype],
-        statype: stateType[t.statype],
         followUser: t.followUser,
+        followTel: t.followTel,
+        consultTel: t.consultTel,
         consultUser: t.consultUser,
         restaurantID: t.restaurantID,
         orderId: t.orderId,
@@ -212,13 +207,17 @@ function transformTicket(t) {
     if (stype == undefined) {
         stype = '未知';
     }
-    var statype = stateType[t.get('statype')];
-    if (statype == undefined) {
-        statype = '未知';
+    var consultTel = t.get('consultTel');
+    if (consultTel == undefined) {
+        consultTel = '未填写咨询人手机';
     }
     var followUser = t.get('followUser');
     if (followUser == undefined) {
         followUser = '未选取跟进人';
+    }
+    var followTel = t.get('followTel');
+    if (followTel == undefined) {
+        followTel = '未填写跟进人手机';
     }
     var consultUser = t.get('consultUser');
     if (consultUser == undefined) {
@@ -239,7 +238,6 @@ function transformTicket(t) {
         title: t.get('title'),
         type: type,
         stype: stype,
-        statype: statype,
         followUser: followUser,
         consultUser: consultUser,
         restaurantID: restaurantID,
@@ -272,7 +270,7 @@ function transformThread(t) {
 }
 
 function genAdminTicketLink(ticket) {
-    return config.hostUrl + '/tickets/' + ticket.id + '/threads';
+    return config.hostUrl + '/ticket/tickets/' + ticket.id + '/threads';
 }
 
 function generateAdminReplyLink(ticket) {
@@ -343,7 +341,7 @@ app.get('/tickets', function (req, res) {
     console.log(req.title+"////11111");
     if (isAdmin) {
         //enter admin page.
-        res.redirect('/admin/tickets');
+        res.redirect('ticket/admin/tickets');
     } else {
         var query = new AV.Query('Ticket');
         query.ascending('status');
@@ -364,7 +362,7 @@ app.get('/history', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
     if (isAdmin) {
-        res.redirect('/admin/history');
+        res.redirect('ticket/admin/history');
     } else {
         var skip = req.query.skip;
         if (skip == null) {
@@ -404,7 +402,7 @@ app.get('/history', function (req, res) {
 app.post('/history/search', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
-    // console.log(req);
+    console.log(req);
     var skip = req.query.skip;
     if (skip == null) {
         skip = 0;
@@ -418,8 +416,15 @@ app.post('/history/search', function (req, res) {
     if( req.body.sourceType != '' ){
         query.equalTo("sourceType", req.body.sourceType);
     }
-    if( req.body.stateType != '' ){
-        query.equalTo("stateType", req.body.stateType);
+    if( req.body.stateType != '请选择-状态' ){
+        if( req.body.stateType == 0){
+            query.equalTo("status", 0);
+        } else if( req.body.stateType == 1 ){
+            query.equalTo("status", 1);
+        } else if( req.body.stateType == 2 ){
+            query.equalTo("status", 2);
+        }
+        
     }
     if( req.body.restaurantID != '' ){
         query.equalTo("restaurantID", req.body.restaurantID);
@@ -459,6 +464,7 @@ app.post('/history/search', function (req, res) {
 app.post('/tickets/search', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
+    var status = req.query.status;
     // console.log(req);
     var skip = req.query.skip;
     if (skip == null) {
@@ -467,20 +473,32 @@ app.post('/tickets/search', function (req, res) {
     var limit = 100;
     var type = req.query.type;
     var query = new AV.Query('Ticket');
+    // console.log(req.body);
     if( req.body.type != '' ){
         query.equalTo("type", req.body.type);
     }
     if( req.body.sourceType != '' ){
         query.equalTo("sourceType", req.body.sourceType);
     }
-    if( req.body.stateType != '' ){
-        query.equalTo("stateType", req.body.stateType);
+    if( req.body.stateType != '请选择-状态' ){
+        if( req.body.stateType == 0){
+            query.equalTo("status", 0);
+            query.notEqualTo("followUser", "");
+        } else if( req.body.stateType == 3 ){
+            query.equalTo("status", 0);
+            query.equalTo("followUser", "");
+        } else if( req.body.stateType == 1 ){
+            query.equalTo("status", 1);
+        } else if( req.body.stateType == 2 ){
+            query.equalTo("status", 2);
+        }
+        
     }
     if( req.body.restaurantID != '' ){
         query.equalTo("restaurantID", req.body.restaurantID);
     }
-    if( req.body.orderID != '' ){
-        query.equalTo("orderID", req.body.orderID);
+    if( req.body.orderId != '' ){
+        query.equalTo("orderId", req.body.orderId);
     }
     if( req.body.followUser != '' ){
         query.equalTo("followUser", req.body.followUser);
@@ -504,6 +522,7 @@ app.post('/tickets/search', function (req, res) {
     query.skip(skip);
     query.descending('createdAt');
     query.find().then(function (tickets) {
+        console.log(tickets);
         tickets = tickets || [];
         tickets = _.map(tickets, transformTicket);
         var back = -1;
@@ -1102,7 +1121,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                             thread.set('open', open_content);
                         }
                         thread.save().then(function () {
-                            res.redirect('/tickets/' + ticketId + '/threads');
+                            res.redirect('ticket/tickets/' + ticketId + '/threads');
                         }, renderErrorFn(res));
                     });
                 }
@@ -1130,10 +1149,11 @@ app.post('/tickets/:id/newthreads', function (req, res) {
               post.set('followUser',req.body.followUser);
               post.set('type',req.body.type);
               post.set('sourceType',req.body.sourceType);
-              post.set('stateType',req.body.stateType);
+              post.set('consultTel',req.body.consultTel);
+              post.set('followTel',req.body.followTel);
               post.set('content',req.body.content);
               post.save().then(function(){
-                res.redirect('/tickets');
+                res.redirect('ticket/tickets');
               });
               // console.log(post);
             },
@@ -1179,7 +1199,7 @@ function notifyTicketToChat(ticket, content, info) {
     notifySlack(hipChatText + genSlackLink(ticket), type);
 }
 
-function createTicket(res, statype, consultUser, restaurantID, orderId, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
+function createTicket(res, consultTel, followTel, consultUser, restaurantID, orderId, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
     mticket.incTicketNReturnOrigin().then(function (n) {
         var ticket = new AV.Object('Ticket');
         if (attachment) {
@@ -1201,7 +1221,8 @@ function createTicket(res, statype, consultUser, restaurantID, orderId, followUs
         ticket.set('restaurantID', restaurantID);
         ticket.set('orderId', orderId);
         ticket.set('stype', sourceTypetype);
-        ticket.set('statype', statype);
+        ticket.set('consultTel', consultTel);
+        ticket.set('followTel', followTel);
         ticket.set('client_token', token);
         ticket.set('status', todo_status);
         ticket.set('title', title);
@@ -1227,9 +1248,9 @@ app.post('/tickets', function (req, res) {
     //     return renderError(res, '请提供有效的电子邮箱地址，方便我们将反馈通知给您。');
     // }
     saveFileThen(req, function (attachment) {
-        createTicket(res, req.body.stateType, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
-            // console.log(ticket);
-            res.redirect('/tickets');
+        createTicket(res, req.body.consultTel, req.body.followTel, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
+            console.log(ticket);
+            res.redirect('ticket/tickets');
         });
     });
 });
@@ -1253,7 +1274,7 @@ function getAdminReplyN() {
 app.get('/search', function (req, res) {
     var content = req.query.content;
     if (content == null || content == '') {
-        res.redirect('/search?content=AVObject&page=1');
+        res.redirect('ticket/search?content=AVObject&page=1');
         return;
     }
     var page = req.query.page;
@@ -1337,7 +1358,7 @@ app.post('/admin/detail/:id', function (req, res) {
     var type = req.body.type;
 
     function redirect() {
-        res.redirect('/admin/detail/' + id);
+        res.redirect('ticket/admin/detail/' + id);
     }
 
     if (type) {
@@ -1380,7 +1401,7 @@ app.get('/contact', function (req, res) {
 
 app.get('/login', function (req, res) {
     if (login.isLogin(req)) {
-        res.redirect('/tickets');
+        res.redirect('ticket/tickets');
     } else {
         // console.log(req.query);
         res.render('login.ejs');
@@ -1405,14 +1426,14 @@ app.get('/newTicket:id', function (req, res) {
                 user.set('username', username);
                 user.set('password', password);
                 user.signUp(null).then(function (user) {
-                    res.redirect('/tickets/new');
+                    res.redirect('ticket/tickets/new');
                 }, function (error) {
                     renderInfo(res, util.inspect(error));
                 });
             } else {
                 AV.User.logIn(username, password, {
                     success: function (user) {
-                        res.redirect('/tickets/new');
+                        res.redirect('ticket/tickets/new');
                     }
                 });
             }
@@ -1443,14 +1464,14 @@ app.get('/login:id', function (req, res) {
                 user.set('username', username);
                 user.set('password', password);
                 user.signUp(null).then(function (user) {
-                    res.redirect('/tickets');
+                    res.redirect('ticket/tickets');
                 }, function (error) {
                     renderInfo(res, util.inspect(error));
                 });
             } else {
                 AV.User.logIn(username, password, {
                     success: function (user) {
-                        res.redirect('/tickets');
+                        res.redirect('ticket/tickets');
                     }
                 });
             }
@@ -1486,7 +1507,7 @@ app.post('/login', function (req, res) {
     var password = req.body.password;
     AV.User.logIn(username, password, {
         success: function (user) {
-            res.redirect('/tickets');
+            res.redirect('ticket/tickets');
         },
         error: function (user, error) {
             mutil.renderError(res, error.message);
@@ -1496,7 +1517,7 @@ app.post('/login', function (req, res) {
 
 app.get('/register', function (req, res) {
     if (login.isLogin(req)) {
-        res.redirect('/tickets');
+        res.redirect('ticket/tickets');
     } else {
         res.render('register.ejs');
     }
@@ -1542,7 +1563,7 @@ app.post('/clients/:id', function (req, res) {
     var is = isAdminOrMe(req.admin, id, cid);
     if (is) {
         muser.updateCurUser(req.body).then(function () {
-            res.redirect('/contact');
+            res.redirect('ticket/contact');
         }, mutil.renderErrorFn(res));
     } else {
         renderForbidden(res);
@@ -1569,11 +1590,11 @@ function testFn(fn, res) {
 
 app.get('/logout', function (req, res) {
     AV.User.logOut();
-    res.redirect('/tickets');
+    res.redirect('ticket/tickets');
 });
 
 app.get('/', function (req, res) {
-    res.redirect('/tickets');
+    res.redirect('ticket/tickets');
 });
 
 app.get('/google', function (req, res) {
@@ -1591,7 +1612,7 @@ app.get('/requestEmailVerify', function (req, res) {
 app.post('/admin',function(req,res){
     var username=req.body.username;
     admin.addOrDelAdmin(username).then(function(){
-        res.redirect('/contact');
+        res.redirect('ticket/contact');
     },mutil.renderErrorFn(res));
 });
 

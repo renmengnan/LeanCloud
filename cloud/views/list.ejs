@@ -12,8 +12,8 @@
 
 <div class="clearfix">
   <div class="btn-group pull-left">
-    <a href="tickets" class="btn btn-default active">我的工单</a>
-    <a href="history" class="btn btn-default">我的任务</a>
+    <a href="/ticket/tickets" class="btn btn-default active">我的工单</a>
+    <a href="/ticket/history" class="btn btn-default">我的任务</a>
   </div>
   <a class="btn btn-primary" href="tickets/new" style="margin-left: 10px;">新建工单</a>
   <% include browser_notification %>
@@ -22,7 +22,7 @@
 <div id="collapseTwo" class="panel-collapse clearfix">
     <div class="panel-body">
         <form id="searchForm" class="thread-form" enctype="multipart/form-data"
-          action="/tickets/search" method="post">
+          action="/ticket/tickets/search" method="post">
             <div class="form-group">
                 <select id="inputType" class="form-control" name="type" >
                   <option value="" selected="selected">请选择-流程</option>
@@ -46,11 +46,11 @@
             </div>
             <div class="form-group">
                 <select id="stateType" class="form-control" name="stateType" >
-                  <option value="" selected="selected">请选择-状态</option>
-                  <option value="pending">待分配</option>
-                  <option value="solved">待解决</option>
-                  <option value="noReply">待回复</option>
-                  <option value="reply">已回复</option>
+                  <option selected="selected">请选择-状态</option>
+                  <option value="0">等待处理</option>
+                  <option value="3">待分配</option>
+                  <option value="1">已回复</option>
+                  <option value="2">完成</option>
                 </select>
             </div>
             <div class="form-group">
