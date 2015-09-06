@@ -76,6 +76,7 @@
                 <th data-sort="string">关联餐馆ID</th>
                 <th data-sort="string">关联订单ID</th>
                 <th data-sort="string">状态</th>
+                <th data-sort="string">来源</th>
                 <th data-sort="string">类型</th>
                 <th data-sort="string">待跟进人</th>
                 <th data-sort="int" data-sort-default="desc" data-sort-onload>创建时间</th>
@@ -92,6 +93,7 @@
               <td class="table-type"><%= ticket.restaurantID %></td>
               <td class="table-type"><%= ticket.orderId %></td>
               <td class="table-type"><%= ticket.status %></td>
+              <td class="table-type"><%= ticket.stype %></td>
               <td class="table-type"><%= ticket.type %></td>
               <td class="table-type"><%= ticket.followUser %></td>
               <td class="table-date"><%= ticket.createdAtLong %></td>
