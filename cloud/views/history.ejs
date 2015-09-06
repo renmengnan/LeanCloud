@@ -51,7 +51,9 @@
                 <input type="text" name='orderId' class="form-control" placeholder="订单ID" >
             </div>
             <div class="form-group">
-                <input type="text" name="username" class="form-control" placeholder="发件人" >
+                <select id="username" name="username" data-placeholder="发件人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
+                  <option value=""></option>
+                </select>
             </div>
             <button type="submit" class="btn btn-primary btn-submit" >&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
         </form>
@@ -154,11 +156,11 @@
       dataType: "json",
       success: function(data){
           //console.log(data.adminUsers[0].realname);
-          var str = $('#followUser').html();
+          var str = $('#username').html();
           for(var i=0; i<data.adminUsers.length;i++){
               str += "<option>"+data.adminUsers[i].realname+"</option>";
           }
-          $('#followUser').html(str);
+          $('#username').html(str);
           var config = {
               '.chosen-select'           : {},
               '.chosen-select-deselect'  : {allow_single_deselect:true},
