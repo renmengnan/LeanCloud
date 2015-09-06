@@ -113,7 +113,7 @@
           <% if(ticket.status != '等待处理' ){ %>
           <td class="table-type">不可编辑</td>
           <% } else{ %>
-          <td class="table-type"><a href="tickets/<%=ticket.id%>/newthreads" title="#<%= ticket.ticket_id %>">编辑</a></td>
+          <td class="table-type"><a href="/ticket/tickets/<%=ticket.id%>/newthreads" title="#<%= ticket.ticket_id %>">编辑</a></td>
           <% } %>
         </tr>
       <% } %>
