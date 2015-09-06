@@ -192,8 +192,7 @@
           <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
         </label>
         <div class="controls">
-        <select id="inputType" class="form-control" name="type" required>
-          <option selected="selected"><%= ticket.type %></option>
+        <select id="inputType" data-selected="<%= ticket.type %>" class="form-control" name="type" required>
           <option value="consult">咨询流程</option>
           <option value="complain">投诉流程</option>
           <option value="new">新品处理流程</option>
@@ -256,6 +255,16 @@
       }
   });
   $('#sourceType').append("<option value='"+stype+"' selected='selected'>"+stypeStr+"</option>");
+
+  var type = '',
+      typeStr = $('#inputType').attr('data-selected');
+  $('#inputType option').each(function(i,v){
+      if($('#inputType option').eq(i).html() == typeStr){
+          type = $('#inputType option').eq(i).val();
+      }
+  });
+  $('#inputType').append("<option value='"+type+"' selected='selected'>"+typeStr+"</option>");
+  
   $.ajax({ 
       url: "http://www.canguanwuyou.cn/admin/api/admin-user?pageSize=10000", 
       type: "GET",
