@@ -401,7 +401,7 @@ app.get('/history', function (req, res) {
         }, renderErrorFn(res));
     }
 });
-app.post('history/search', function (req, res) {
+app.post('/history/search', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
     console.log(req);
@@ -463,7 +463,7 @@ app.post('history/search', function (req, res) {
         });
     }, renderErrorFn(res));
 });
-app.post('tickets/search', function (req, res) {
+app.post('/tickets/search', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
     var status = req.query.status;
