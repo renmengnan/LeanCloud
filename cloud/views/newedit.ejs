@@ -210,9 +210,8 @@
           <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
         </label>
         <div class="controls">
-        <select id="sourceType" class="form-control" name="sourceType" required>
-          <option selected="selected"><%= ticket %></option>
-          <option value="wxcrowd" selected="selected">微信群</option>
+        <select id="sourceType" data-selected="<%= ticket.stype %>" class="form-control" name="sourceType" required>
+          <option value="wxcrowd">微信群</option>
           <option value="wechat">微信平台</option>
           <option value="tel400">400电话</option>
           <option value="cgwyapp">App</option>
@@ -249,6 +248,14 @@
 
 
 <script type="text/javascript">
+  var stype = '',
+      stypeStr = $('#sourceType').attr('data-selected');
+  $('#sourceType option').each(function(i,v){
+      if($('#sourceType option').eq(i).html() == stypeStr){
+          stype = $('#sourceType option').eq(i).val();
+      }
+  });
+  $('#sourceType').append("<option value='"+stype+"' selected='selected'>"+stypeStr+"</option>");
   $.ajax({ 
       url: "http://www.canguanwuyou.cn/admin/api/admin-user?pageSize=10000", 
       type: "GET",
