@@ -51,11 +51,6 @@
                 <input type="text" name='orderId' class="form-control" placeholder="订单ID" >
             </div>
             <div class="form-group">
-                <select id="followUser" name="followUser" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
-                  <option value=""></option>
-                </select>
-            </div>
-            <div class="form-group">
                 <input type="text" name="username" class="form-control" placeholder="发件人" >
             </div>
             <button type="submit" class="btn btn-primary btn-submit" >&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
@@ -71,14 +66,13 @@
               <tr>
                 <th data-sort="int">工单ID</th>
                 <th data-sort="string">标题</th>
-                <th data-sort="string">发送人</th>
+                <th data-sort="string">发件人</th>
                 <th data-sort="string">咨询人</th>
                 <th data-sort="string">关联餐馆ID</th>
                 <th data-sort="string">关联订单ID</th>
                 <th data-sort="string">状态</th>
                 <th data-sort="string">来源</th>
                 <th data-sort="string">类型</th>
-                <th data-sort="string">待跟进人</th>
                 <th data-sort="int" data-sort-default="desc" data-sort-onload>创建时间</th>
               </tr>
             </thead>
@@ -95,7 +89,6 @@
               <td class="table-type"><%= ticket.status %></td>
               <td class="table-type"><%= ticket.stype %></td>
               <td class="table-type"><%= ticket.type %></td>
-              <td class="table-type"><%= ticket.followUser %></td>
               <td class="table-date"><%= ticket.createdAtLong %></td>
             </tr>
             <% } %>

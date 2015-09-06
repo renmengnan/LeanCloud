@@ -440,9 +440,6 @@ app.post('/history/search', function (req, res) {
     if( req.body.orderId != '' ){
         query.equalTo("orderId", req.body.orderId);
     }
-    if( req.body.followUser != '' ){
-        query.equalTo("followUser", req.body.followUser);
-    }
     if( req.body.username != '' ){
         query.equalTo("username", req.body.username);
     }
@@ -523,9 +520,6 @@ app.post('/tickets/search', function (req, res) {
     }
     if( req.body.followUser != '' ){
         query.equalTo("followUser", req.body.followUser);
-    }
-    if( req.body.username != '' ){
-        query.equalTo("username", req.body.username);
     }
     if( req.body.startTime != '' ){
         var st = req.body.startTime;
