@@ -416,7 +416,7 @@ app.post('/history/search', function (req, res) {
         query.equalTo("type", req.body.type);
     }
     if( req.body.sourceType != '' ){
-        query.equalTo("sourceType", req.body.sourceType);
+        query.equalTo("stype", req.body.sourceType);
     }
     if( req.body.stateType != '请选择-状态' ){
         if( req.body.stateType == 0){
