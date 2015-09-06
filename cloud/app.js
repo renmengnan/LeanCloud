@@ -404,7 +404,8 @@ app.get('/history', function (req, res) {
 app.post('/history/search', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
-    console.log(req);
+    var status = req.query.status;
+    // console.log(req);
     var skip = req.query.skip;
     if (skip == null) {
         skip = 0;
@@ -412,6 +413,7 @@ app.post('/history/search', function (req, res) {
     var limit = 100;
     var type = req.query.type;
     var query = new AV.Query('Ticket');
+    // console.log(req.body);
     if( req.body.type != '' ){
         query.equalTo("type", req.body.type);
     }
@@ -421,6 +423,10 @@ app.post('/history/search', function (req, res) {
     if( req.body.stateType != '请选择-状态' ){
         if( req.body.stateType == 0){
             query.equalTo("status", 0);
+            query.notEqualTo("followUser", "");
+        } else if( req.body.stateType == 3 ){
+            query.equalTo("status", 0);
+            query.equalTo("followUser", "");
         } else if( req.body.stateType == 1 ){
             query.equalTo("status", 1);
         } else if( req.body.stateType == 2 ){
@@ -431,8 +437,8 @@ app.post('/history/search', function (req, res) {
     if( req.body.restaurantID != '' ){
         query.equalTo("restaurantID", req.body.restaurantID);
     }
-    if( req.body.orderID != '' ){
-        query.equalTo("orderID", req.body.orderID);
+    if( req.body.orderId != '' ){
+        query.equalTo("orderId", req.body.orderId);
     }
     if( req.body.followUser != '' ){
         query.equalTo("followUser", req.body.followUser);
@@ -440,10 +446,23 @@ app.post('/history/search', function (req, res) {
     if( req.body.username != '' ){
         query.equalTo("username", req.body.username);
     }
+    if( req.body.startTime != '' ){
+        var st = req.body.startTime;
+        var sDate= new Date(Date.parse(st.replace(/-/g, "/")));
+        // myDate = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+        // console.log(myDate)
+        query.greaterThan("createdAt", sDate);
+        if( req.body.endTime != '' ) {
+            var et = req.body.endTime;
+            var eDate= new Date(Date.parse(et.replace(/-/g, "/")));
+            query.lessThan("createdAt", eDate);
+        }
+    }
     query.limit(limit);
     query.skip(skip);
     query.descending('createdAt');
     query.find().then(function (tickets) {
+        // console.log(tickets);
         tickets = tickets || [];
         tickets = _.map(tickets, transformTicket);
         var back = -1;
