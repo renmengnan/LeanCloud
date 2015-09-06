@@ -401,7 +401,7 @@ app.get('/history', function (req, res) {
         }, renderErrorFn(res));
     }
 });
-app.post('/history/search', function (req, res) {
+app.post('history/search', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
     console.log(req);
@@ -463,7 +463,7 @@ app.post('/history/search', function (req, res) {
         });
     }, renderErrorFn(res));
 });
-app.post('/tickets/search', function (req, res) {
+app.post('tickets/search', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
     var status = req.query.status;
@@ -524,7 +524,7 @@ app.post('/tickets/search', function (req, res) {
     query.skip(skip);
     query.descending('createdAt');
     query.find().then(function (tickets) {
-        console.log(tickets);
+        // console.log(tickets);
         tickets = tickets || [];
         tickets = _.map(tickets, transformTicket);
         var back = -1;
@@ -1251,7 +1251,7 @@ app.post('/tickets', function (req, res) {
     // }
     saveFileThen(req, function (attachment) {
         createTicket(res, req.body.consultTel, req.body.followTel, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
-            console.log(ticket);
+            // console.log(ticket);
             res.redirect('ticket/tickets');
         });
     });
