@@ -1163,7 +1163,7 @@ app.post('/tickets/:id/newthreads', function (req, res) {
               post.set('orderId',req.body.orderId);
               post.set('followUser',req.body.followUser);
               post.set('type',req.body.type);
-              post.set('stype',req.body.sourceType);
+              post.set('sourceType',req.body.sourceType);
               post.set('consultTel',req.body.consultTel);
               post.set('followTel',req.body.followTel);
               post.set('content',req.body.content);
