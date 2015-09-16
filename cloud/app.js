@@ -1458,9 +1458,7 @@ app.get('/newTicket:id', function (req, res) {
                 user.set('password', password);
                 user.signUp(null).then(function (user) {
                     if(data.info){
-                        res.redirect('ticket/tickets/new',{
-                            ticket: data.info
-                        });
+                        res.redirect('ticket/tickets/new');
                     } else {
                         res.redirect('ticket/tickets/new');
                     }
@@ -1471,9 +1469,7 @@ app.get('/newTicket:id', function (req, res) {
                 AV.User.logIn(username, password, {
                     success: function (user) {
                         if(data.info){
-                            res.redirect('ticket/tickets/new',{
-                                ticket: data.info
-                            });
+                            res.redirect('ticket/tickets/new');
                         } else {
                             res.redirect('ticket/tickets/new');
                         }
