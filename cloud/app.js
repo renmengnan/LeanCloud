@@ -1438,7 +1438,9 @@ app.get('/login', function (req, res) {
 });
 app.get('/newTicket:id', function (req, res) {
     // console.log(req.params.id);
-    var username = req.params.id,
+    var data = req.params.id.slice(1);
+        data = JSON.parse(data);
+    var username = data.username,
         password = "111111";
         username = username.slice(1);
     AV.Cloud.httpRequest({
@@ -1455,14 +1457,26 @@ app.get('/newTicket:id', function (req, res) {
                 user.set('username', username);
                 user.set('password', password);
                 user.signUp(null).then(function (user) {
-                    res.redirect('ticket/tickets/new');
+                    if(data.info){
+                        res.redirect('ticket/tickets/new',{
+                            ticket: data.info
+                        });
+                    } else {
+                        res.redirect('ticket/tickets/new');
+                    }
                 }, function (error) {
                     renderInfo(res, util.inspect(error));
                 });
             } else {
                 AV.User.logIn(username, password, {
                     success: function (user) {
-                        res.redirect('ticket/tickets/new');
+                        if(data.info){
+                            res.redirect('ticket/tickets/new',{
+                                ticket: data.info
+                            });
+                        } else {
+                            res.redirect('ticket/tickets/new');
+                        }
                     }
                 });
             }
