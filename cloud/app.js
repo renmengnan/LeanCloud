@@ -1436,9 +1436,9 @@ app.get('/login', function (req, res) {
         res.render('login.ejs');
     }
 });
-app.get('/newTicket:id', function (req, res) {
-    // console.log(req.params.id);
-    var data = req.params.id.slice(1);
+app.get('/newTicket', function (req, res) {
+    // console.log(typeof req.query.data);
+    var data = req.query.data;
         data = JSON.parse(data);
     console.log(data);
     var username = data.username,
