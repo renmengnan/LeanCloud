@@ -1440,6 +1440,7 @@ app.get('/newTicket:id', function (req, res) {
     // console.log(req.params.id);
     var data = req.params.id.slice(1);
         data = JSON.parse(data);
+    console.log(data);
     var username = data.username,
         password = "111111";
         username = username.slice(1);
