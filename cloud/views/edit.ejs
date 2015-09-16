@@ -91,7 +91,7 @@
   });
 </script>
 
-<div>
+<div id="info">
   <div class="clearfix">
 
     <div class="pull-left" style="width: 75%">
@@ -134,49 +134,600 @@
       - 工单状态：待分配，请填写待跟进人
       <% } %>
     </p>
-    <% if(ticket.visible){ %>
-    <div class='ticket-stype'>发件人：<%= ticket.username %></div>
-    <div class='ticket-stype'>咨询人：<%= ticket.consultUser %></div>
-    <div class='ticket-stype'>待跟进人：<%= ticket.followUser %></div>
-    <% if(ticket.restaurantID != ''){ %>
-        <div class='ticket-stype'>餐馆ID：<%= ticket.restaurantID %></div>
-    <% } %>
-    <% if(ticket.orderId != ''){ %>
-        <div class='ticket-stype'>订单ID：<%= ticket.orderId %></div>
-    <% } %>
-    <div class='ticket-stype'>问题来源：<%= ticket.stype %></div>
-    <pre><%= ticket.content %><%- ticket.attachment %></pre>
-    <% } %>
+    <br>
+    <p class="formTit">基础信息</p>
+    <div class="form-group">
+      <label class="control-label" for="consultUser">
+        咨询人
+      </label>
+      <div class="controls">
+        <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" readOnly value="<%= ticket.consultUser %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label" for="consultTel">
+        咨询人手机
+      </label>
+      <div class="controls">
+        <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号" readOnly value="<%= ticket.consultTel %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label" for="restaurantID">
+        关联餐馆ID
+      </label>
+      <div class="controls">
+        <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID" readOnly value="<%= ticket.restaurantID %>">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="orderId">
+        关联订单ID
+      </label>
+      <div class="controls">
+        <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID" readOnly value="<%= ticket.orderId %>">
+      </div>
+    </div>
+    <div class="form-group" style='width: 200px;height: 100px;'>
+      <label class="control-label" for="followUser">
+        待跟进人
+      </label>
+      <div class="controls">
+        <select id="followUser" name="followUser" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
+            <option></option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="followTel">
+        待跟进人手机
+      </label>
+      <div class="controls">
+        <input type="text" name="followTel" id="followTel" class="form-control" placeholder="待跟进人手机" readOnly value="<%= ticket.followTel %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label" for="sourceType">
+        问题来源
+      </label>
+      <div class="controls">
+      <select id="sourceType" class="form-control" name="sourceType" readOnly>
+        <option selected="selected"><%= ticket.stype %></option>
+      </select>
+      </div>
+    </div>
+    <p style="clear:both; font-weight: bold;">流程详情</p>
+    <div class="form-group">
+      <label class="control-label" for="inputType">
+        问题类型
+      </label>
+      <div class="controls">
+        <select id="inputType" class="form-control" name="type" readOnly>
+          <option selected="selected"><%= ticket.type %></option>
+        </select>
+      </div>
+    </div>
   </div>
 </div>
 
 <hr>
 
-<% threads.forEach (function(thread){ %>
-
-<div class="ticket-thread-wrap">
-  <p class="ticket-thread-title">
-    <span class="ticket-user"><b><%= thread.user %></b></span>
-    <span class="ticket-date bstooltip" title="<%= thread.createdAtLong %>">@ <%= thread.createdAtLong %></span>
-    <% if(thread.open != 1){ %>
-      <span class="icon-lock avc-icon avc-locked-on bstooltip" title="仅客服可见"></span>
-    <% } %>
-  </p>
-
-  <% if(thread.visible){ %>
-  <div class="ticket-thread-content">
-    <pre><%= thread.content %><%- thread.attachment %></pre>
-  </div>
-  <% } %>
-</div>
-<% }); %>
-
 <div>
-  <div class="clearfix">
-    <% if(ticket.rawStatus < 2){ %>
+  <div class="clearfix" style="clear:both;">
     <form id="threadForm" class="thread-form" enctype="multipart/form-data"
           action="/ticket/tickets/<%= ticket.id %>/threads" method="post">
-      <div class="form-group">
+          <div id='info'>
+            <% if(ticket.type == "咨询流程"){ %>
+                <div class="form-group">
+                  <label class="control-label" for="consultResult">
+                    投诉处理过程
+                  </label>
+                  <div class="controls">
+                    <select id="consultResult" class="form-control" name="consultResult" readonly>
+                      <option selected="selected"><%= ticket.req.consultResult %></option>
+                      <option>处理中</option>
+                      <option>已反馈其他部门待回复</option>
+                      <option>已反馈给咨询人</option>
+                      <option>已完成</option>
+                      <option>已审核</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='width: 100%'>
+                  <label class="control-label" for="consultRemarks">
+                    咨询流程备注
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="consultRemarks" id="consultRemarks" class="form-control" placeholder="咨询流程备注" readOnly><%= ticket.req.consultRemarks %></textarea>
+                  </div>
+                </div>
+            <% } else if( ticket.type == "新品处理流程" ){ %>
+                <div class="form-group">
+                  <label class="control-label" for="newType">
+                    新品流程状态
+                  </label>
+                  <div class="controls">
+                  <select id="newType" class="form-control" name="newType" readOnly>
+                    <option  selected="selected"><%= ticket.req.newType %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newStype">
+                    新品流程分类
+                  </label>
+                  <div class="controls">
+                  <select id="newStype" class="form-control" name="newStype" readOnly>
+                    <option  selected="selected"><%= ticket.req.newStype %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newMarket">
+                    所属市场
+                    <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+                  </label>
+                  <div class="controls">
+                  <select id="newMarket" class="form-control" name="newMarket" readOnly>
+                    <option selected="selected"><%= ticket.req.newMarket %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newReName">
+                    新品参考名称
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newReName" id="newReName" class="form-control" placeholder="新品参考名称" readOnly value='<%= ticket.req.newReName %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newRePrice">
+                    参考价格
+                  </label>
+                  <div class="controls">
+                    <input type="number" name="newRePrice" id="newRePrice" class="form-control" placeholder="参考价格" readOnly value='<%= ticket.req.newRePrice %>'>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='width: 100%;'>
+                  <label class="control-label" for="newProcess">
+                    新品流程备注
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="newProcess" id="newProcess" class="form-control" placeholder="新品流程备注" readOnly><%= ticket.req.newProcess %></textarea>
+                  </div>
+                </div>
+            <% } else if( ticket.type == "退换货处理流程" ){ %>
+                <div class="form-group">
+                  <label class="control-label" for="cancelAddress">
+                    商户地址
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="cancelAddress" id="cancelAddress" class="form-control" placeholder="商户地址" readOnly value="<%= ticket.req.cancelAddress %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelSalesperson">
+                    销售员
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="cancelSalesperson" id="cancelSalesperson" class="form-control" placeholder="销售员" readOnly value="<%= ticket.req.cancelSalesperson %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelProduct">
+                    订单产品
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="cancelProduct" id="cancelProduct" class="form-control" placeholder="订单产品" readOnly value="<%= ticket.req.cancelProduct %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelQuantity">
+                    订购数量
+                  </label>
+                  <div class="controls">
+                    <input type="number" name="cancelQuantity" id="cancelQuantity" class="form-control" placeholder="订购数量" readOnly value="<%= ticket.req.cancelQuantity %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelUnitPrice">
+                    订单单价
+                  </label>
+                  <div class="controls">
+                    <input type="number" name="cancelUnitPrice" id="cancelUnitPrice" class="form-control" placeholder="订单单价" readOnly value="<%= ticket.req.cancelUnitPrice %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelNum">
+                    退换数量
+                  </label>
+                  <div class="controls">
+                    <input type="number" name="cancelNum" id="cancelNum" class="form-control" placeholder="退换数量" readOnly value="<%= ticket.req.cancelNum %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelAmount">
+                    退款金额
+                  </label>
+                  <div class="controls">
+                    <input type="number" name="cancelAmount" id="cancelAmount" class="form-control" placeholder="退款金额" readOnly value="<%= ticket.req.cancelAmount %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelReason">
+                    退换原因
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="cancelReason" id="cancelReason" class="form-control" placeholder="退换原因" readOnly value="<%= ticket.req.cancelReason %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelCar">
+                    送货车辆
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="cancelCar" id="cancelCar" class="form-control" placeholder="送货车辆" readOnly value="<%= ticket.req.cancelCar %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="DeliveryDate">
+                    送货日期
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="DeliveryDate" id="DeliveryDate" class="form-control" placeholder="送货日期" readOnly value="<%= ticket.req.DeliveryDate %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelSuggestion">
+                    处理意见
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="cancelSuggestion" id="cancelSuggestion" class="form-control" placeholder="处理意见" readOnly value="<%= ticket.req.cancelSuggestion %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="planDeliveryDate">
+                    计划退货时间
+                  </label>
+                  <div class="controls">
+                    <input type="date" name="planDeliveryDate" id="planDeliveryDate" class="form-control" placeholder="计划退货时间" readOnly value="<%= ticket.req.planDeliveryDate %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="ActualDeliveryDate">
+                    实际退货时间
+                  </label>
+                  <div class="controls">
+                    <input type="date" name="ActualDeliveryDate" id="ActualDeliveryDate" class="form-control" placeholder="实际退货时间" readOnly value="<%= ticket.req.ActualDeliveryDate %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelType">
+                    退货状态
+                  </label>
+                  <div class="controls">
+                  <select id="cancelType" class="form-control" name="cancelType" readOnly>
+                    <option  selected="selected"><%= ticket.req.cancelType %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="visitRecord">
+                    回访记录
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="visitRecord" id="visitRecord" class="form-control" placeholder="回访记录" readOnly value="<%= ticket.req.visitRecord %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelRemarks">
+                    退换货备注
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="cancelRemarks" id="cancelRemarks" class="form-control" placeholder="退换货备注" readOnly value="<%= ticket.req.cancelRemarks %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cancelHandleType">
+                    已退货产品处理
+                    <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+                  </label>
+                  <div class="controls">
+                  <select id="cancelHandleType" class="form-control" name="cancelHandleType" readOnly>
+                    <option  selected="selected"><%= ticket.req.cancelHandleType %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="supplier">
+                    已退货供应商处理
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="supplier" id="supplier" class="form-control" placeholder="已退货供应商处理" readOnly value="<%= ticket.req.supplier %>">
+                  </div>
+                </div>
+            <% } else if( ticket.type == "投诉流程" ){ %>
+                <div class="form-group">
+                  <label class="control-label" for="complains">
+                    投诉事项
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="complains" id="complains" class="form-control" placeholder="投诉事项" readOnly value="<%= ticket.req.complains %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="complainExpected">
+                    期望的处理方法
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="complainExpected" id="complainExpected" class="form-control" placeholder="期望的处理方法" readOnly value="<%= ticket.req.complainExpected %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="complainType">
+                    投诉类别
+                    <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+                  </label>
+                  <div class="controls">
+                  <select id="complainType" class="form-control" name="complainType" readOnly>
+                    <option  selected="selected"><%= ticket.req.complainType %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="complainDepartmentType">
+                    投诉部门
+                    <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+                  </label>
+                  <div class="controls">
+                  <select id="complainDepartmentType" class="form-control" name="complainDepartmentType" readOnly>
+                    <option  selected="selected"><%= ticket.req.complainDepartmentType %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="complainDescription">
+                    处理描述
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="complainDescription" id="complainDescription" class="form-control" placeholder="处理描述" readOnly value="<%= ticket.req.complainDescription %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="complainProcess">
+                    投诉处理过程
+                    <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+                  </label>
+                  <div class="controls">
+                  <select id="complainProcess" class="form-control" name="complainProcess" readOnly>
+                    <option  selected="selected"><%= ticket.req.complainProcess %></option>
+                  </select>
+                  </div>
+                </div>
+            <% } else if( ticket.type == "订单查重流程" ){ %>
+                <div class="form-group">
+                  <label class="control-label" for="repeatNum">
+                    重复订单编号
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="repeatNum" id="repeatNum" class="form-control" placeholder="重复订单编号" readOnly value="<%= ticket.req.repeatNum %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="checkDescription">
+                    处理描述
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="checkDescription" id="checkDescription" class="form-control" placeholder="处理描述" readOnly value="<%= ticket.req.checkDescription %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="checkProcess">
+                    处理过程
+                  </label>
+                  <div class="controls">
+                  <select id="checkProcess" class="form-control" name="checkProcess" readOnly>
+                    <option selected="selected"><%= ticket.req.checkProcess %></option>
+                  </select>
+                  </div>
+                </div>
+            <% } else if( ticket.type == "未分车订单处理流程" ){ %>
+                <div class="form-group">
+                  <label class="control-label" for="noCarReason">
+                    未分车原因
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="noCarReason" id="noCarReason" class="form-control" placeholder="未分车原因" readOnly value="<%= ticket.req.noCarReason %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="noCarDescription">
+                    处理描述
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="noCarDescription" id="noCarDescription" class="form-control" placeholder="处理描述" readOnly value="<%= ticket.req.noCarDescription %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="noCarType">
+                    未分单处理过程描述
+                    <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+                  </label>
+                  <div class="controls">
+                  <select id="noCarType" class="form-control" name="noCarType" required>
+                    <option selected="selected"><%= ticket.req.noCarType %></option>
+                  </select>
+                  </div>
+                </div>
+            <% } else if( ticket.type == "订单评价回访流程" ){ %>
+                <div class="form-group">
+                  <label class="control-label" for="visitSingleTime">
+                    下单时间
+                  </label>
+                  <div class="controls">
+                    <input type="date" name="visitSingleTime" id="visitSingleTime" class="form-control" placeholder="下单时间" readOnly value="<%= ticket.req.visitSingleTime %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="visitCname">
+                    客服名称
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="visitCname" id="visitCname" class="form-control" placeholder="客服名称" readOnly value="<%= ticket.req.visitCname %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="visitDriverName">
+                    司机名称
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="visitDriverName" id="visitDriverName" class="form-control" placeholder="司机名称" readOnly value="<%= ticket.req.visitDriverName %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="visitQuality">
+                    商品质量
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="visitQuality" id="visitQuality" class="form-control" placeholder="商品质量" readOnly value="<%= ticket.req.visitQuality %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="visitSpeed">
+                    送货速度
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="visitSpeed" id="visitSpeed" class="form-control" placeholder="送货速度" readOnly value="<%= ticket.req.visitSpeed %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="visitEvaluation">
+                    配送评价
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="visitEvaluation" id="visitEvaluation" class="form-control" placeholder="配送评价" readOnly value="<%= ticket.req.visitEvaluation %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="visitOtherInfo">
+                    其他信息
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="visitOtherInfo" id="visitOtherInfo" class="form-control" placeholder="其他信息" readOnly value="<%= ticket.req.visitOtherInfo %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="visitDescription">
+                    订单评价处理描述
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="visitDescription" id="visitDescription" class="form-control" placeholder="订单评价处理描述" readOnly value="<%= ticket.req.visitDescription %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="visitProcess">
+                    订单评价处理过程
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="visitProcess" id="visitProcess" class="form-control" placeholder="订单评价处理过程" readOnly value="<%= ticket.req.visitProcess %>">
+                  </div>
+                </div>
+            <% } else if( ticket.type == "首单回访流程" ){ %>
+                <div class="form-group">
+                  <label class="control-label" for="fvType">
+                    下订单方式
+                  </label>
+                  <div class="controls">
+                  <select id="fvType" class="form-control" name="fvType" readOnly>
+                    <option selected="selected"><%= ticket.req.fvType %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="purchaseType">
+                    原来采购方式
+                    <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+                  </label>
+                  <div class="controls">
+                  <select id="purchaseType" class="form-control" name="purchaseType" readOnly>
+                    <option selected="selected"><%= ticket.req.purchaseType %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="fvInfo">
+                    信息通知
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="fvInfo" id="fvInfo" class="form-control" placeholder="信息通知" readOnly value="<%= ticket.req.fvInfo %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="fvRemarks">
+                    回访备注
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="fvRemarks" id="fvRemarks" class="form-control" placeholder="回访备注" readOnly value="<%= ticket.req.fvRemarks %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="fvEvaluation">
+                    对产品质量评价
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="fvEvaluation" id="fvEvaluation" class="form-control" placeholder="对产品质量评价" readOnly value="<%= ticket.req.fvEvaluation %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="staffEvaluation">
+                    对地推员工评价
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="staffEvaluation" id="staffEvaluation" class="form-control" placeholder="对地推员工评价" readOnly value="<%= ticket.req.staffEvaluation %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="driverEvaluation">
+                    对送货司机的评价
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="driverEvaluation" id="driverEvaluation" class="form-control" placeholder="对送货司机的评价" readOnly value="<%= ticket.req.driverEvaluation %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="fvComments">
+                    其他意见和建议
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="fvComments" id="fvComments" class="form-control" placeholder="其他意见和建议" readOnly value="<%= ticket.req.fvComments %>">
+                  </div>
+                </div>
+            <% } %>
+        </div>
+      <% threads.forEach (function(thread){ %>
+
+      <div class="ticket-thread-wrap">
+        <p class="ticket-thread-title">
+          <span class="ticket-user"><b><%= thread.user %></b></span>
+          <span class="ticket-date bstooltip" title="<%= thread.createdAtLong %>">@ <%= thread.createdAtLong %></span>
+          <% if(thread.open != 1){ %>
+            <span class="icon-lock avc-icon avc-locked-on bstooltip" title="仅客服可见"></span>
+          <% } %>
+        </p>
+
+        <% if(thread.visible){ %>
+        <div class="ticket-thread-content">
+          <pre><%= thread.content %><%- thread.attachment %></pre>
+        </div>
+        <% } %>
+      </div>
+      <% }); %>
+      <% if(ticket.rawStatus < 2){ %>
+      <div class="form-group" style="clear:both;">
         <input type="hidden" id="inputClose" name="close" value="0"/>
         <label class="control-label" for="inputContent">
           回复
@@ -195,14 +746,14 @@
         <div class="controls">
           <button type="submit" class="btn btn-primary btn-submit">提交</button>
           <% if(cid != -99){ %>
-          <% if(ticket.username == mClient.username){ %>
+          <% if(ticket.username == mClient.username || mClient.isAdmin ){ %>
           <button type="button" class="btn btn-danger btn-close" id="closeBtn">关闭工单</button>
           <% } %>
           <% } %>
         </div>
       </div>
+      <% } %>
     </form>
-    <% } %>
   </div>
 </div>
 

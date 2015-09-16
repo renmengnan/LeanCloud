@@ -2,7 +2,10 @@
 .table-title {
   width: 60%;
 }
-
+ul,ul li,ol,ol li {
+  list-style: none;
+  margin: 0;
+}
 /* Limit date col width for tables */
 .table-status,
 .table-type,
@@ -243,10 +246,33 @@ pre img {
   display: inline-block;
 }
 
-
-
-
-
+#ticketForm .form-group, #info .form-group {
+  width: 200px;
+  float: left;
+  margin-right: 2%;
+}
+.textArea {
+  width: 90%;
+}
+.clearleft { 
+  clear: left;
+}
+#tabBox {
+  clear: both;
+}
+#tabBox li {
+  display: none;
+}
+#tabBox li.selected {
+  display: block;
+}
+.formTit {
+  font-weight: bold;
+  clear: both;
+}
+.ticket-thread-wrap {
+  clear: both;
+}
 
 
 

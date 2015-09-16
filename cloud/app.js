@@ -57,12 +57,14 @@ var Ticket = AV.Object.extend('Ticket');
 var Thread = AV.Object.extend('Thread');
 var adminPrefix = 'AVOS Cloud -- ';
 var type2showMap = {
-    'consult': '咨询流程',
-    'complain': '投诉流程',
+    "consult": "咨询流程",
     'new': '新品处理流程',
     'cancelOrders': '退货处理流程',
-    'skill': '技术问题反馈',
-    'market': '市场合作'
+    'complain': '投诉流程',
+    'check': '订单查重流程',
+    'noCar': '未分车订单处理流程',
+    'visit': '订单评价回访流程',
+    'firstVisit': '首单回访流程'
 };
 var sourceType = {
     'wxcrowd': '微信群',
@@ -171,6 +173,7 @@ function transformSearchTicket(t) {
         title: t.title,
         type: type2showMap[t.type],
         stype: sourceType[t.stype],
+        req: t.req,
         followUser: t.followUser,
         followTel: t.followTel,
         consultTel: t.consultTel,
@@ -238,6 +241,7 @@ function transformTicket(t) {
         title: t.get('title'),
         type: type,
         stype: stype,
+        req: t.get('req'),
         followUser: followUser,
         followTel: followTel,
         consultUser: consultUser,
@@ -340,7 +344,7 @@ app.get('/tickets', function (req, res) {
     var token = req.token;
     var cid = req.cid;
     var isAdmin = req.admin;
-    console.log(req.title+"////11111");
+    // console.log(req);
     if (isAdmin) {
         //enter admin page.
         res.redirect('ticket/admin/tickets');
@@ -974,6 +978,7 @@ app.get('/tickets/:id/threads', function (req, res) {
                 var lastOpen = findMyLastOpen(isAdmin, ticket, threads);
                 genQQLink(isAdmin, ticket.cid, cid, threads).then(function (qqLink) {
                     mlog.log('qqlink' + qqLink);
+                    // console.log(ticket);
                     res.render('edit', { 
                         ticket: ticket, 
                         token: token, 
@@ -1077,6 +1082,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                         var username = client.username;
                         var close = req.body.close;
                         var secret = req.body.secret;
+                        var reqs = req.body;
                         mlog.log('secret=' + secret);
                         isAdmin = req.admin;
                         if (isAdmin) {
@@ -1084,6 +1090,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                         }
                         thread.set('user', username);
                         thread.set('cid', cid);
+                        thread.set('req', reqs);
                         var content = req.body.content;
                         if (isAdmin) {
                             var html;
@@ -1098,6 +1105,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                                 html = '<p>' + req.client.username +
                                     '回复到：</p> <p><pre> ' + content + ' </pre></p>';
                                 ticket.set('status', processing_status);
+                                ticket.set("req",reqs);
                                 ticket.save();
                             }
                             if (ticket.get('status') == done_status) {
@@ -1111,15 +1119,20 @@ app.post('/tickets/:id/threads', function (req, res) {
                                     content = closeMsg;
                                 }
                                 ticket.set('status', done_status);
+                                ticket.set("req",reqs);
                                 ticket.save();
                             } else {
                                 //update client token and status
+                                // console.log(reqs);
+                                // console.log(reqs.consultResult);
                                 html = '<p>' + req.client.username +
                                     '回复到：</p> <p><pre> ' + content + ' </pre></p>';
                                 if( client.username != ticket.attributes.username ){
                                     ticket.set('status', processing_status);
+                                    ticket.set("req",reqs);
                                     ticket.save();
                                 } else {
+                                    ticket.set("req",reqs);
                                     ticket.save();
                                 }
                                 
@@ -1214,7 +1227,7 @@ function notifyTicketToChat(ticket, content, info) {
     notifySlack(hipChatText + genSlackLink(ticket), type);
 }
 
-function createTicket(res, consultTel, followTel, consultUser, restaurantID, orderId, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
+function createTicket(res, req, consultTel, followTel, consultUser, restaurantID, orderId, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
     mticket.incTicketNReturnOrigin().then(function (n) {
         var ticket = new AV.Object('Ticket');
         if (attachment) {
@@ -1228,6 +1241,7 @@ function createTicket(res, consultTel, followTel, consultUser, restaurantID, ord
         }
         // console.log(client.username);
         ticket.set('username', client.username);
+        ticket.set('req', req);
         ticket.set('cid', client.id);
         ticket.set('client_email', client.email);
         ticket.set('type', type);
@@ -1263,7 +1277,7 @@ app.post('/tickets', function (req, res) {
     //     return renderError(res, '请提供有效的电子邮箱地址，方便我们将反馈通知给您。');
     // }
     saveFileThen(req, function (attachment) {
-        createTicket(res, req.body.consultTel, req.body.followTel, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
+        createTicket(res, req.body, req.body.consultTel, req.body.followTel, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
             // console.log(ticket);
             res.redirect('ticket/tickets');
         });

@@ -68,7 +68,8 @@ function transfromUser(curUser) {
     qq:curUser.get('qq'),
     email:curUser.get('email'),
     token:curUser.get('sessionToken'),
-    emailVerified:curUser.get('emailVerified')
+    emailVerified:curUser.get('emailVerified'),
+    isAdmin: curUser.get('isAdmin')
   };
 }
 
