@@ -141,7 +141,7 @@
         咨询人
       </label>
       <div class="controls">
-        <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" readOnly value="<%= ticket.consultUser %>">
+        <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人"  value="<%= ticket.consultUser %>">
       </div>
     </div>
 
@@ -150,7 +150,7 @@
         咨询人手机
       </label>
       <div class="controls">
-        <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号" readOnly value="<%= ticket.consultTel %>">
+        <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号"  value="<%= ticket.consultTel %>">
       </div>
     </div>
 
@@ -159,7 +159,7 @@
         关联餐馆ID
       </label>
       <div class="controls">
-        <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID" readOnly value="<%= ticket.restaurantID %>">
+        <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID"  value="<%= ticket.restaurantID %>">
       </div>
     </div>
     <div class="form-group">
@@ -167,7 +167,7 @@
         关联订单ID
       </label>
       <div class="controls">
-        <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID" readOnly value="<%= ticket.orderId %>">
+        <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID"  value="<%= ticket.orderId %>">
       </div>
     </div>
     <div class="form-group" style='width: 200px;height: 100px;'>
@@ -185,7 +185,7 @@
         待跟进人手机
       </label>
       <div class="controls">
-        <input type="text" name="followTel" id="followTel" class="form-control" placeholder="待跟进人手机" readOnly value="<%= ticket.followTel %>">
+        <input type="text" name="followTel" id="followTel" class="form-control" placeholder="待跟进人手机"  value="<%= ticket.followTel %>">
       </div>
     </div>
 
@@ -194,7 +194,7 @@
         问题来源
       </label>
       <div class="controls">
-      <select id="sourceType" class="form-control" name="sourceType" readOnly>
+      <select id="sourceType" class="form-control" name="sourceType" >
         <option selected="selected"><%= ticket.stype %></option>
       </select>
       </div>
@@ -205,7 +205,7 @@
         问题类型
       </label>
       <div class="controls">
-        <select id="inputType" class="form-control" name="type" readOnly>
+        <select id="inputType" class="form-control" name="type" >
           <option selected="selected"><%= ticket.type %></option>
         </select>
       </div>
@@ -226,7 +226,7 @@
                     投诉处理过程
                   </label>
                   <div class="controls">
-                    <select id="consultResult" class="form-control" name="consultResult" readonly>
+                    <select id="consultResult" class="form-control" name="consultResult" >
                       <option selected="selected"><%= ticket.req.consultResult %></option>
                       <option>处理中</option>
                       <option>已反馈其他部门待回复</option>
@@ -241,7 +241,7 @@
                     咨询流程备注
                   </label>
                   <div class="controls">
-                    <textarea rows="10" cols="20" name="consultRemarks" id="consultRemarks" class="form-control" placeholder="咨询流程备注" readOnly><%= ticket.req.consultRemarks %></textarea>
+                    <textarea rows="10" cols="20" name="consultRemarks" id="consultRemarks" class="form-control" placeholder="咨询流程备注" ><%= ticket.req.consultRemarks %></textarea>
                   </div>
                 </div>
             <% } else if( ticket.type == "新品处理流程" ){ %>
@@ -250,7 +250,7 @@
                     新品流程状态
                   </label>
                   <div class="controls">
-                  <select id="newType" class="form-control" name="newType" readOnly>
+                  <select id="newType" class="form-control" name="newType" >
                     <option  selected="selected"><%= ticket.req.newType %></option>
                   </select>
                   </div>
@@ -260,7 +260,7 @@
                     新品流程分类
                   </label>
                   <div class="controls">
-                  <select id="newStype" class="form-control" name="newStype" readOnly>
+                  <select id="newStype" class="form-control" name="newStype" >
                     <option  selected="selected"><%= ticket.req.newStype %></option>
                   </select>
                   </div>
@@ -271,7 +271,7 @@
                     <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
                   </label>
                   <div class="controls">
-                  <select id="newMarket" class="form-control" name="newMarket" readOnly>
+                  <select id="newMarket" class="form-control" name="newMarket" >
                     <option selected="selected"><%= ticket.req.newMarket %></option>
                   </select>
                   </div>
@@ -281,7 +281,7 @@
                     新品参考名称
                   </label>
                   <div class="controls">
-                    <input type="text" name="newReName" id="newReName" class="form-control" placeholder="新品参考名称" readOnly value='<%= ticket.req.newReName %>'>
+                    <input type="text" name="newReName" id="newReName" class="form-control" placeholder="新品参考名称"  value='<%= ticket.req.newReName %>'>
                   </div>
                 </div>
                 <div class="form-group">
@@ -289,7 +289,7 @@
                     参考价格
                   </label>
                   <div class="controls">
-                    <input type="number" name="newRePrice" id="newRePrice" class="form-control" placeholder="参考价格" readOnly value='<%= ticket.req.newRePrice %>'>
+                    <input type="number" name="newRePrice" id="newRePrice" class="form-control" placeholder="参考价格"  value='<%= ticket.req.newRePrice %>'>
                   </div>
                 </div>
                 <div class="form-group textArea" style='width: 100%;'>
@@ -297,7 +297,7 @@
                     新品流程备注
                   </label>
                   <div class="controls">
-                    <textarea rows="10" cols="20" name="newProcess" id="newProcess" class="form-control" placeholder="新品流程备注" readOnly><%= ticket.req.newProcess %></textarea>
+                    <textarea rows="10" cols="20" name="newProcess" id="newProcess" class="form-control" placeholder="新品流程备注" ><%= ticket.req.newProcess %></textarea>
                   </div>
                 </div>
             <% } else if( ticket.type == "退换货处理流程" ){ %>
@@ -306,7 +306,7 @@
                     商户地址
                   </label>
                   <div class="controls">
-                    <input type="text" name="cancelAddress" id="cancelAddress" class="form-control" placeholder="商户地址" readOnly value="<%= ticket.req.cancelAddress %>">
+                    <input type="text" name="cancelAddress" id="cancelAddress" class="form-control" placeholder="商户地址"  value="<%= ticket.req.cancelAddress %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -314,7 +314,7 @@
                     销售员
                   </label>
                   <div class="controls">
-                    <input type="text" name="cancelSalesperson" id="cancelSalesperson" class="form-control" placeholder="销售员" readOnly value="<%= ticket.req.cancelSalesperson %>">
+                    <input type="text" name="cancelSalesperson" id="cancelSalesperson" class="form-control" placeholder="销售员"  value="<%= ticket.req.cancelSalesperson %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -322,7 +322,7 @@
                     订单产品
                   </label>
                   <div class="controls">
-                    <input type="text" name="cancelProduct" id="cancelProduct" class="form-control" placeholder="订单产品" readOnly value="<%= ticket.req.cancelProduct %>">
+                    <input type="text" name="cancelProduct" id="cancelProduct" class="form-control" placeholder="订单产品"  value="<%= ticket.req.cancelProduct %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -330,7 +330,7 @@
                     订购数量
                   </label>
                   <div class="controls">
-                    <input type="number" name="cancelQuantity" id="cancelQuantity" class="form-control" placeholder="订购数量" readOnly value="<%= ticket.req.cancelQuantity %>">
+                    <input type="number" name="cancelQuantity" id="cancelQuantity" class="form-control" placeholder="订购数量"  value="<%= ticket.req.cancelQuantity %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -338,7 +338,7 @@
                     订单单价
                   </label>
                   <div class="controls">
-                    <input type="number" name="cancelUnitPrice" id="cancelUnitPrice" class="form-control" placeholder="订单单价" readOnly value="<%= ticket.req.cancelUnitPrice %>">
+                    <input type="number" name="cancelUnitPrice" id="cancelUnitPrice" class="form-control" placeholder="订单单价"  value="<%= ticket.req.cancelUnitPrice %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -346,7 +346,7 @@
                     退换数量
                   </label>
                   <div class="controls">
-                    <input type="number" name="cancelNum" id="cancelNum" class="form-control" placeholder="退换数量" readOnly value="<%= ticket.req.cancelNum %>">
+                    <input type="number" name="cancelNum" id="cancelNum" class="form-control" placeholder="退换数量"  value="<%= ticket.req.cancelNum %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -354,7 +354,7 @@
                     退款金额
                   </label>
                   <div class="controls">
-                    <input type="number" name="cancelAmount" id="cancelAmount" class="form-control" placeholder="退款金额" readOnly value="<%= ticket.req.cancelAmount %>">
+                    <input type="number" name="cancelAmount" id="cancelAmount" class="form-control" placeholder="退款金额"  value="<%= ticket.req.cancelAmount %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -362,7 +362,7 @@
                     退换原因
                   </label>
                   <div class="controls">
-                    <input type="text" name="cancelReason" id="cancelReason" class="form-control" placeholder="退换原因" readOnly value="<%= ticket.req.cancelReason %>">
+                    <input type="text" name="cancelReason" id="cancelReason" class="form-control" placeholder="退换原因"  value="<%= ticket.req.cancelReason %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -370,7 +370,7 @@
                     送货车辆
                   </label>
                   <div class="controls">
-                    <input type="text" name="cancelCar" id="cancelCar" class="form-control" placeholder="送货车辆" readOnly value="<%= ticket.req.cancelCar %>">
+                    <input type="text" name="cancelCar" id="cancelCar" class="form-control" placeholder="送货车辆"  value="<%= ticket.req.cancelCar %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -378,7 +378,7 @@
                     送货日期
                   </label>
                   <div class="controls">
-                    <input type="text" name="DeliveryDate" id="DeliveryDate" class="form-control" placeholder="送货日期" readOnly value="<%= ticket.req.DeliveryDate %>">
+                    <input type="text" name="DeliveryDate" id="DeliveryDate" class="form-control" placeholder="送货日期"  value="<%= ticket.req.DeliveryDate %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -386,7 +386,7 @@
                     处理意见
                   </label>
                   <div class="controls">
-                    <input type="text" name="cancelSuggestion" id="cancelSuggestion" class="form-control" placeholder="处理意见" readOnly value="<%= ticket.req.cancelSuggestion %>">
+                    <input type="text" name="cancelSuggestion" id="cancelSuggestion" class="form-control" placeholder="处理意见"  value="<%= ticket.req.cancelSuggestion %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -394,7 +394,7 @@
                     计划退货时间
                   </label>
                   <div class="controls">
-                    <input type="date" name="planDeliveryDate" id="planDeliveryDate" class="form-control" placeholder="计划退货时间" readOnly value="<%= ticket.req.planDeliveryDate %>">
+                    <input type="date" name="planDeliveryDate" id="planDeliveryDate" class="form-control" placeholder="计划退货时间"  value="<%= ticket.req.planDeliveryDate %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -402,7 +402,7 @@
                     实际退货时间
                   </label>
                   <div class="controls">
-                    <input type="date" name="ActualDeliveryDate" id="ActualDeliveryDate" class="form-control" placeholder="实际退货时间" readOnly value="<%= ticket.req.ActualDeliveryDate %>">
+                    <input type="date" name="ActualDeliveryDate" id="ActualDeliveryDate" class="form-control" placeholder="实际退货时间"  value="<%= ticket.req.ActualDeliveryDate %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -410,7 +410,7 @@
                     退货状态
                   </label>
                   <div class="controls">
-                  <select id="cancelType" class="form-control" name="cancelType" readOnly>
+                  <select id="cancelType" class="form-control" name="cancelType" >
                     <option  selected="selected"><%= ticket.req.cancelType %></option>
                   </select>
                   </div>
@@ -420,7 +420,7 @@
                     回访记录
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitRecord" id="visitRecord" class="form-control" placeholder="回访记录" readOnly value="<%= ticket.req.visitRecord %>">
+                    <input type="text" name="visitRecord" id="visitRecord" class="form-control" placeholder="回访记录"  value="<%= ticket.req.visitRecord %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -428,7 +428,7 @@
                     退换货备注
                   </label>
                   <div class="controls">
-                    <input type="text" name="cancelRemarks" id="cancelRemarks" class="form-control" placeholder="退换货备注" readOnly value="<%= ticket.req.cancelRemarks %>">
+                    <input type="text" name="cancelRemarks" id="cancelRemarks" class="form-control" placeholder="退换货备注"  value="<%= ticket.req.cancelRemarks %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -437,7 +437,7 @@
                     <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
                   </label>
                   <div class="controls">
-                  <select id="cancelHandleType" class="form-control" name="cancelHandleType" readOnly>
+                  <select id="cancelHandleType" class="form-control" name="cancelHandleType" >
                     <option  selected="selected"><%= ticket.req.cancelHandleType %></option>
                   </select>
                   </div>
@@ -447,7 +447,7 @@
                     已退货供应商处理
                   </label>
                   <div class="controls">
-                    <input type="text" name="supplier" id="supplier" class="form-control" placeholder="已退货供应商处理" readOnly value="<%= ticket.req.supplier %>">
+                    <input type="text" name="supplier" id="supplier" class="form-control" placeholder="已退货供应商处理"  value="<%= ticket.req.supplier %>">
                   </div>
                 </div>
             <% } else if( ticket.type == "投诉流程" ){ %>
@@ -456,7 +456,7 @@
                     投诉事项
                   </label>
                   <div class="controls">
-                    <input type="text" name="complains" id="complains" class="form-control" placeholder="投诉事项" readOnly value="<%= ticket.req.complains %>">
+                    <input type="text" name="complains" id="complains" class="form-control" placeholder="投诉事项"  value="<%= ticket.req.complains %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -464,7 +464,7 @@
                     期望的处理方法
                   </label>
                   <div class="controls">
-                    <input type="text" name="complainExpected" id="complainExpected" class="form-control" placeholder="期望的处理方法" readOnly value="<%= ticket.req.complainExpected %>">
+                    <input type="text" name="complainExpected" id="complainExpected" class="form-control" placeholder="期望的处理方法"  value="<%= ticket.req.complainExpected %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -473,7 +473,7 @@
                     <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
                   </label>
                   <div class="controls">
-                  <select id="complainType" class="form-control" name="complainType" readOnly>
+                  <select id="complainType" class="form-control" name="complainType" >
                     <option  selected="selected"><%= ticket.req.complainType %></option>
                   </select>
                   </div>
@@ -484,7 +484,7 @@
                     <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
                   </label>
                   <div class="controls">
-                  <select id="complainDepartmentType" class="form-control" name="complainDepartmentType" readOnly>
+                  <select id="complainDepartmentType" class="form-control" name="complainDepartmentType" >
                     <option  selected="selected"><%= ticket.req.complainDepartmentType %></option>
                   </select>
                   </div>
@@ -494,7 +494,7 @@
                     处理描述
                   </label>
                   <div class="controls">
-                    <input type="text" name="complainDescription" id="complainDescription" class="form-control" placeholder="处理描述" readOnly value="<%= ticket.req.complainDescription %>">
+                    <input type="text" name="complainDescription" id="complainDescription" class="form-control" placeholder="处理描述"  value="<%= ticket.req.complainDescription %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -503,7 +503,7 @@
                     <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
                   </label>
                   <div class="controls">
-                  <select id="complainProcess" class="form-control" name="complainProcess" readOnly>
+                  <select id="complainProcess" class="form-control" name="complainProcess" >
                     <option  selected="selected"><%= ticket.req.complainProcess %></option>
                   </select>
                   </div>
@@ -514,7 +514,7 @@
                     重复订单编号
                   </label>
                   <div class="controls">
-                    <input type="text" name="repeatNum" id="repeatNum" class="form-control" placeholder="重复订单编号" readOnly value="<%= ticket.req.repeatNum %>">
+                    <input type="text" name="repeatNum" id="repeatNum" class="form-control" placeholder="重复订单编号"  value="<%= ticket.req.repeatNum %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -522,7 +522,7 @@
                     处理描述
                   </label>
                   <div class="controls">
-                    <input type="text" name="checkDescription" id="checkDescription" class="form-control" placeholder="处理描述" readOnly value="<%= ticket.req.checkDescription %>">
+                    <input type="text" name="checkDescription" id="checkDescription" class="form-control" placeholder="处理描述"  value="<%= ticket.req.checkDescription %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -530,7 +530,7 @@
                     处理过程
                   </label>
                   <div class="controls">
-                  <select id="checkProcess" class="form-control" name="checkProcess" readOnly>
+                  <select id="checkProcess" class="form-control" name="checkProcess" >
                     <option selected="selected"><%= ticket.req.checkProcess %></option>
                   </select>
                   </div>
@@ -541,7 +541,7 @@
                     未分车原因
                   </label>
                   <div class="controls">
-                    <input type="text" name="noCarReason" id="noCarReason" class="form-control" placeholder="未分车原因" readOnly value="<%= ticket.req.noCarReason %>">
+                    <input type="text" name="noCarReason" id="noCarReason" class="form-control" placeholder="未分车原因"  value="<%= ticket.req.noCarReason %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -549,7 +549,7 @@
                     处理描述
                   </label>
                   <div class="controls">
-                    <input type="text" name="noCarDescription" id="noCarDescription" class="form-control" placeholder="处理描述" readOnly value="<%= ticket.req.noCarDescription %>">
+                    <input type="text" name="noCarDescription" id="noCarDescription" class="form-control" placeholder="处理描述"  value="<%= ticket.req.noCarDescription %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -569,7 +569,7 @@
                     下单时间
                   </label>
                   <div class="controls">
-                    <input type="date" name="visitSingleTime" id="visitSingleTime" class="form-control" placeholder="下单时间" readOnly value="<%= ticket.req.visitSingleTime %>">
+                    <input type="date" name="visitSingleTime" id="visitSingleTime" class="form-control" placeholder="下单时间"  value="<%= ticket.req.visitSingleTime %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -577,7 +577,7 @@
                     客服名称
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitCname" id="visitCname" class="form-control" placeholder="客服名称" readOnly value="<%= ticket.req.visitCname %>">
+                    <input type="text" name="visitCname" id="visitCname" class="form-control" placeholder="客服名称"  value="<%= ticket.req.visitCname %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -585,7 +585,7 @@
                     司机名称
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitDriverName" id="visitDriverName" class="form-control" placeholder="司机名称" readOnly value="<%= ticket.req.visitDriverName %>">
+                    <input type="text" name="visitDriverName" id="visitDriverName" class="form-control" placeholder="司机名称"  value="<%= ticket.req.visitDriverName %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -593,7 +593,7 @@
                     商品质量
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitQuality" id="visitQuality" class="form-control" placeholder="商品质量" readOnly value="<%= ticket.req.visitQuality %>">
+                    <input type="text" name="visitQuality" id="visitQuality" class="form-control" placeholder="商品质量"  value="<%= ticket.req.visitQuality %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -601,7 +601,7 @@
                     送货速度
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitSpeed" id="visitSpeed" class="form-control" placeholder="送货速度" readOnly value="<%= ticket.req.visitSpeed %>">
+                    <input type="text" name="visitSpeed" id="visitSpeed" class="form-control" placeholder="送货速度"  value="<%= ticket.req.visitSpeed %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -609,7 +609,7 @@
                     配送评价
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitEvaluation" id="visitEvaluation" class="form-control" placeholder="配送评价" readOnly value="<%= ticket.req.visitEvaluation %>">
+                    <input type="text" name="visitEvaluation" id="visitEvaluation" class="form-control" placeholder="配送评价"  value="<%= ticket.req.visitEvaluation %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -617,7 +617,7 @@
                     其他信息
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitOtherInfo" id="visitOtherInfo" class="form-control" placeholder="其他信息" readOnly value="<%= ticket.req.visitOtherInfo %>">
+                    <input type="text" name="visitOtherInfo" id="visitOtherInfo" class="form-control" placeholder="其他信息"  value="<%= ticket.req.visitOtherInfo %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -625,7 +625,7 @@
                     订单评价处理描述
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitDescription" id="visitDescription" class="form-control" placeholder="订单评价处理描述" readOnly value="<%= ticket.req.visitDescription %>">
+                    <input type="text" name="visitDescription" id="visitDescription" class="form-control" placeholder="订单评价处理描述"  value="<%= ticket.req.visitDescription %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -633,7 +633,7 @@
                     订单评价处理过程
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitProcess" id="visitProcess" class="form-control" placeholder="订单评价处理过程" readOnly value="<%= ticket.req.visitProcess %>">
+                    <input type="text" name="visitProcess" id="visitProcess" class="form-control" placeholder="订单评价处理过程"  value="<%= ticket.req.visitProcess %>">
                   </div>
                 </div>
             <% } else if( ticket.type == "首单回访流程" ){ %>
@@ -642,7 +642,7 @@
                     下订单方式
                   </label>
                   <div class="controls">
-                  <select id="fvType" class="form-control" name="fvType" readOnly>
+                  <select id="fvType" class="form-control" name="fvType" >
                     <option selected="selected"><%= ticket.req.fvType %></option>
                   </select>
                   </div>
@@ -653,7 +653,7 @@
                     <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
                   </label>
                   <div class="controls">
-                  <select id="purchaseType" class="form-control" name="purchaseType" readOnly>
+                  <select id="purchaseType" class="form-control" name="purchaseType" >
                     <option selected="selected"><%= ticket.req.purchaseType %></option>
                   </select>
                   </div>
@@ -663,7 +663,7 @@
                     信息通知
                   </label>
                   <div class="controls">
-                    <input type="text" name="fvInfo" id="fvInfo" class="form-control" placeholder="信息通知" readOnly value="<%= ticket.req.fvInfo %>">
+                    <input type="text" name="fvInfo" id="fvInfo" class="form-control" placeholder="信息通知"  value="<%= ticket.req.fvInfo %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -671,7 +671,7 @@
                     回访备注
                   </label>
                   <div class="controls">
-                    <input type="text" name="fvRemarks" id="fvRemarks" class="form-control" placeholder="回访备注" readOnly value="<%= ticket.req.fvRemarks %>">
+                    <input type="text" name="fvRemarks" id="fvRemarks" class="form-control" placeholder="回访备注"  value="<%= ticket.req.fvRemarks %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -679,7 +679,7 @@
                     对产品质量评价
                   </label>
                   <div class="controls">
-                    <input type="text" name="fvEvaluation" id="fvEvaluation" class="form-control" placeholder="对产品质量评价" readOnly value="<%= ticket.req.fvEvaluation %>">
+                    <input type="text" name="fvEvaluation" id="fvEvaluation" class="form-control" placeholder="对产品质量评价"  value="<%= ticket.req.fvEvaluation %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -687,7 +687,7 @@
                     对地推员工评价
                   </label>
                   <div class="controls">
-                    <input type="text" name="staffEvaluation" id="staffEvaluation" class="form-control" placeholder="对地推员工评价" readOnly value="<%= ticket.req.staffEvaluation %>">
+                    <input type="text" name="staffEvaluation" id="staffEvaluation" class="form-control" placeholder="对地推员工评价"  value="<%= ticket.req.staffEvaluation %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -695,7 +695,7 @@
                     对送货司机的评价
                   </label>
                   <div class="controls">
-                    <input type="text" name="driverEvaluation" id="driverEvaluation" class="form-control" placeholder="对送货司机的评价" readOnly value="<%= ticket.req.driverEvaluation %>">
+                    <input type="text" name="driverEvaluation" id="driverEvaluation" class="form-control" placeholder="对送货司机的评价"  value="<%= ticket.req.driverEvaluation %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -703,7 +703,7 @@
                     其他意见和建议
                   </label>
                   <div class="controls">
-                    <input type="text" name="fvComments" id="fvComments" class="form-control" placeholder="其他意见和建议" readOnly value="<%= ticket.req.fvComments %>">
+                    <input type="text" name="fvComments" id="fvComments" class="form-control" placeholder="其他意见和建议"  value="<%= ticket.req.fvComments %>">
                   </div>
                 </div>
             <% } %>

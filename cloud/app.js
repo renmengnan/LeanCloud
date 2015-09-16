@@ -1436,6 +1436,10 @@ app.get('/login', function (req, res) {
         res.render('login.ejs');
     }
 });
+app.get('/NewTicket:id', function (req, res) {
+    var order = req.params.id.slice(1);
+    console.log(JSON.parse(order));
+})
 app.get('/newTicket:id', function (req, res) {
     // console.log(req.params.id);
     var username = req.params.id,
