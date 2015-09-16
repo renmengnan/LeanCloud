@@ -1442,49 +1442,41 @@ app.get('/newTicket', function (req, res) {
         data = JSON.parse(data);
     console.log(data);
     res.redirect('ticket/tickets/new');
-    // var username = data.username,
-    //     password = "111111";
-    //     username = username.slice(1);
-    // AV.Cloud.httpRequest({
-    //     url: 'https://cn.avoscloud.com/1/users?where={"username":{"$regex":"'+ username +'"}}',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'X-AVOSCloud-Application-Id': config.applicationId,
-    //         'X-AVOSCloud-Application-Key': config.applicationKey,
-    //     },
-    //     success: function (httpResponse) {
-    //         var userTag = httpResponse.data.results.length;
-    //         if( userTag == 0 ){
-    //             var user = new AV.User();
-    //             user.set('username', username);
-    //             user.set('password', password);
-    //             user.signUp(null).then(function (user) {
-    //                 if(data.info){
-    //                     res.redirect('ticket/tickets/new');
-    //                 } else {
-    //                     res.redirect('ticket/tickets/new');
-    //                 }
-    //             }, function (error) {
-    //                 renderInfo(res, util.inspect(error));
-    //             });
-    //         } else {
-    //             AV.User.logIn(username, password, {
-    //                 success: function (user) {
-    //                     if(data.info){
-    //                         res.redirect('ticket/tickets/new');
-    //                     } else {
-    //                         res.redirect('ticket/tickets/new');
-    //                     }
-    //                 }
-    //             });
-    //         }
-    //         console.log(httpResponse.data.results.length);
-    //     },
-    //     error: function (httpResponse) {
-    //         // renderError(res, 'Search error.');
-    //         console.error('Request failed with response code ' + httpResponse);
-    //     }
-    // });
+    var username = data.username,
+        password = "111111";
+        username = username.slice(1);
+    AV.Cloud.httpRequest({
+        url: 'https://cn.avoscloud.com/1/users?where={"username":{"$regex":"'+ username +'"}}',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-AVOSCloud-Application-Id': config.applicationId,
+            'X-AVOSCloud-Application-Key': config.applicationKey,
+        },
+        success: function (httpResponse) {
+            var userTag = httpResponse.data.results.length;
+            if( userTag == 0 ){
+                var user = new AV.User();
+                user.set('username', username);
+                user.set('password', password);
+                user.signUp(null).then(function (user) {
+                    res.redirect('ticket/tickets/new');
+                }, function (error) {
+                    renderInfo(res, util.inspect(error));
+                });
+            } else {
+                AV.User.logIn(username, password, {
+                    success: function (user) {
+                        res.redirect('ticket/tickets/new');
+                    }
+                });
+            }
+            console.log(httpResponse.data.results.length);
+        },
+        error: function (httpResponse) {
+            // renderError(res, 'Search error.');
+            console.error('Request failed with response code ' + httpResponse);
+        }
+    });
 });
 app.get('/login:id', function (req, res) {
     // console.log(req.params.id);
