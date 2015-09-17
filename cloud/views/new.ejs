@@ -218,8 +218,8 @@
               <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
             </label>
             <div class="controls">
-            <select id="newMarket" class="form-control" name="newMarket" >
-              
+            <select id="newMarket" name="newMarket" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
+              <option value=""></option>
             </select>
             </div>
           </div>
@@ -728,14 +728,32 @@
       $('#tabBox li').removeClass('selected');
       $('#'+id).addClass('selected');
   })
-  /*function getQueryString(name) { 
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
-    var r = window.location.search.substr(1).match(reg); 
-    if (r != null) return unescape(r[2]); return null; 
-  } 
-  var str = getQueryString("data");
-  str = decodeURIComponent(str);
-  console.log(str);
+  
+  $.ajax({ 
+      url: "http://www.canguanwuyou.cn/admin/api/warehouse", 
+      type: "GET",
+      dataType: "json",
+      success: function(data){
+          console.log(data);
+          /*var str = $('#newMarket').html();
+          for(var i=0; i<data.adminUsers.length;i++){
+              str += "<option>"+data.adminUsers[i].realname+"</option>";
+          }
+          $('#newMarket').html(str);
+          var config = {
+              '.chosen-select'           : {},
+              '.chosen-select-deselect'  : {allow_single_deselect:true},
+              '.chosen-select-no-single' : {disable_search_threshold:1},
+              '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+              '.chosen-select-width'     : {width:"95%"}
+            }
+          $(".chosen-select-deselect").chosen({width: "100%"});
+          $(".chosen-select-deselect").chosen({height: "100px"});
+          for (var selector in config) {
+            $(selector).chosen(config[selector]);
+          }*/
+      }
+    });
   $.ajax({ 
       url: "http://www.canguanwuyou.cn/admin/api/admin-user?pageSize=10000", 
       type: "GET",
@@ -760,5 +778,5 @@
             $(selector).chosen(config[selector]);
           }
       }
-    });*/
+    });
 </script>

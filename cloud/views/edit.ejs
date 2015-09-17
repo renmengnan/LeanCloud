@@ -222,6 +222,16 @@
           <div id='info'>
             <% if(ticket.type == "咨询流程"){ %>
                 <div class="form-group">
+                  <label class="control-label" for="consultType">
+                    咨询类别
+                  </label>
+                  <div class="controls">
+                  <select id="consultType" class="form-control" name="consultType" >
+                    <option selected="selected"><%= ticket.req.consultResult %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="control-label" for="consultResult">
                     投诉处理过程
                   </label>
@@ -246,22 +256,22 @@
                 </div>
             <% } else if( ticket.type == "新品处理流程" ){ %>
                 <div class="form-group">
-                  <label class="control-label" for="newType">
-                    新品流程状态
-                  </label>
-                  <div class="controls">
-                  <select id="newType" class="form-control" name="newType" >
-                    <option  selected="selected"><%= ticket.req.newType %></option>
-                  </select>
-                  </div>
-                </div>
-                <div class="form-group">
                   <label class="control-label" for="newStype">
                     新品流程分类
                   </label>
                   <div class="controls">
                   <select id="newStype" class="form-control" name="newStype" >
                     <option  selected="selected"><%= ticket.req.newStype %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newType">
+                    新品流程状态
+                  </label>
+                  <div class="controls">
+                  <select id="newType" class="form-control" name="newType" >
+                    <option  selected="selected"><%= ticket.req.newType %></option>
                   </select>
                   </div>
                 </div>
@@ -362,7 +372,9 @@
                     退换原因
                   </label>
                   <div class="controls">
-                    <input type="text" name="cancelReason" id="cancelReason" class="form-control" placeholder="退换原因"  value="<%= ticket.req.cancelReason %>">
+                  <select id="cancelReason" class="form-control" name="cancelReason" >
+                    <option selected="selected"><%= ticket.req.cancelReason %></option>
+                  </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -633,7 +645,9 @@
                     订单评价处理过程
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitProcess" id="visitProcess" class="form-control" placeholder="订单评价处理过程"  value="<%= ticket.req.visitProcess %>">
+                  <select id="visitProcess" class="form-control" name="visitProcess" >
+                    <option selected="selected"><%= ticket.req.visitProcess %></option>
+                  </select>
                   </div>
                 </div>
             <% } else if( ticket.type == "首单回访流程" ){ %>
