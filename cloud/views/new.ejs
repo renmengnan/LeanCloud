@@ -734,13 +734,12 @@
       type: "GET",
       dataType: "json",
       success: function(data){
-          console.log(data);
-          console.log(data.length);
-          console.log(data[0].displayName);
           var str = $('#newMarket').html();
           for(var i=0; i<data.length;i++){
               str += "<option>"+data[i].displayName+"</option>";
+              console.log(data[i].displayName)
           }
+          console.log(str)
           $('#newMarket').html(str);
           var config = {
               '.chosen-select'           : {},
