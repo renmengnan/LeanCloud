@@ -266,6 +266,9 @@ pre img {
 #tabBox li.selected {
   display: block;
 }
+#tabBox .chosen-results li {
+  display: block;
+}
 .formTit {
   font-weight: bold;
   clear: both;

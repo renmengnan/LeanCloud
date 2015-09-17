@@ -1471,11 +1471,19 @@ app.get('/newTicket', function (req, res) {
                     // res.redirect('ticket/tickets/new');
                     var token = req.token;
                     var client = req.client;
-                    res.render('new',{
-                        token: token,
-                        client: client,
-                        data: data.info
-                    })
+                    if( data.info){
+                        res.render('new',{
+                            token: token,
+                            client: client,
+                            data: data.info
+                        })
+                    } else {
+                        res.render('new',{
+                            token: token,
+                            client: client
+                        })
+                    }
+                    
                 }, function (error) {
                     renderInfo(res, util.inspect(error));
                 });
@@ -1487,11 +1495,18 @@ app.get('/newTicket', function (req, res) {
                         // res.redirect('ticket/tickets/new');
                         var token = req.token;
                         var client = req.client;
-                        res.render('new',{
-                            token: token,
-                            client: client,
-                            data: data.info
-                        })
+                        if( data.info){
+                            res.render('new',{
+                                token: token,
+                                client: client,
+                                data: data.info
+                            })
+                        } else {
+                            res.render('new',{
+                                token: token,
+                                client: client
+                            })
+                        }
                     }
                 });
             }
