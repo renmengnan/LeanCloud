@@ -583,11 +583,10 @@ app.get('/notifications', function (req, res) {
 app.get('/tickets/new', function (req, res) {
     var token = req.token;
     var client = req.client;
-    console.log(req.query);
+    // console.log(req.query);
     res.render('new', {
         token: token, 
-        client: client,
-        data: token
+        client: client
     });
 });
 
@@ -1446,6 +1445,13 @@ app.get('/newTicket', function (req, res) {
     // console.log(data);
     var username = data.username,
         password = "111111";
+    // var token = req.token;
+    // var client = req.client;
+    // res.render('new',{
+    //     token: token,
+    //     client: client,
+    //     data: data.info
+    // })
     AV.Cloud.httpRequest({
         url: 'https://cn.avoscloud.com/1/users?where={"username":{"$regex":"'+ username +'"}}',
         headers: {
@@ -1462,7 +1468,14 @@ app.get('/newTicket', function (req, res) {
                 user.signUp(null).then(function (user) {
                     // var data = data.info;
                     // data = JSON.stringify(data);
-                    res.redirect('ticket/tickets/new');
+                    // res.redirect('ticket/tickets/new');
+                    var token = req.token;
+                    var client = req.client;
+                    res.render('new',{
+                        token: token,
+                        client: client,
+                        data: data.info
+                    })
                 }, function (error) {
                     renderInfo(res, util.inspect(error));
                 });
@@ -1471,7 +1484,14 @@ app.get('/newTicket', function (req, res) {
                     success: function (user) {
                         // var data = data.info;
                         // data = JSON.stringify(data);
-                        res.redirect('ticket/tickets/new');
+                        // res.redirect('ticket/tickets/new');
+                        var token = req.token;
+                        var client = req.client;
+                        res.render('new',{
+                            token: token,
+                            client: client,
+                            data: data.info
+                        })
                     }
                 });
             }

@@ -68,7 +68,7 @@
       关联餐馆ID
     </label>
     <div class="controls">
-      <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID">
+      <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID" value='<%= data.restaurant.id %>'>
     </div>
   </div>
   <div class="form-group">
@@ -76,7 +76,7 @@
       关联订单ID
     </label>
     <div class="controls">
-      <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID">
+      <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID" value="<%= data.id %>">
     </div>
   </div>
   <div class="form-group">
@@ -256,7 +256,7 @@
               商户地址
             </label>
             <div class="controls">
-              <input type="text" name="cancelAddress" id="cancelAddress" class="form-control" placeholder="商户地址" readOnly>
+              <input type="text" name="cancelAddress" id="cancelAddress" class="form-control" placeholder="商户地址" readOnly value="<%= data.restaurant.address.address %>">
             </div>
           </div>
           <div class="form-group">
@@ -264,7 +264,7 @@
               销售员
             </label>
             <div class="controls">
-              <input type="text" name="cancelSalesperson" id="cancelSalesperson" class="form-control" placeholder="销售员" readOnly>
+              <input type="text" name="cancelSalesperson" id="cancelSalesperson" class="form-control" placeholder="销售员" readOnly value="<%= data.customer.adminUser.realname %>">
             </div>
           </div>
           <div class="form-group">
@@ -272,7 +272,7 @@
               订单产品
             </label>
             <div class="controls">
-              <input type="text" name="cancelProduct" id="cancelProduct" class="form-control" placeholder="订单产品" readOnly>
+              <input type="text" name="cancelProduct" id="cancelProduct" class="form-control" placeholder="订单产品">
             </div>
           </div>
           <div class="form-group">
@@ -280,7 +280,7 @@
               订购数量
             </label>
             <div class="controls">
-              <input type="number" name="cancelQuantity" id="cancelQuantity" class="form-control" placeholder="订购数量" readOnly>
+              <input type="number" name="cancelQuantity" id="cancelQuantity" class="form-control" placeholder="订购数量" >
             </div>
           </div>
           <div class="form-group">
@@ -288,7 +288,7 @@
               订单单价
             </label>
             <div class="controls">
-              <input type="number" name="cancelUnitPrice" id="cancelUnitPrice" class="form-control" placeholder="订单单价" readOnly>
+              <input type="number" name="cancelUnitPrice" id="cancelUnitPrice" class="form-control" placeholder="订单单价" >
             </div>
           </div>
           <div class="form-group">
@@ -324,7 +324,7 @@
               送货车辆
             </label>
             <div class="controls">
-              <input type="text" name="cancelCar" id="cancelCar" class="form-control" placeholder="送货车辆" readOnly>
+              <input type="text" name="cancelCar" id="cancelCar" class="form-control" placeholder="送货车辆">
             </div>
           </div>
           <div class="form-group">
@@ -332,7 +332,7 @@
               送货日期
             </label>
             <div class="controls">
-              <input type="text" name="DeliveryDate" id="DeliveryDate" class="form-control" placeholder="送货日期" readOnly>
+              <input type="text" name="DeliveryDate" id="DeliveryDate" class="form-control" placeholder="送货日期">
             </div>
           </div>
           <div class="form-group">
