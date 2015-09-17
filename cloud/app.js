@@ -586,7 +586,8 @@ app.get('/tickets/new', function (req, res) {
     // console.log(req.query);
     res.render('new', {
         token: token, 
-        client: client
+        client: client,
+        data: null
     });
 });
 
@@ -1480,7 +1481,8 @@ app.get('/newTicket', function (req, res) {
                     } else {
                         res.render('new',{
                             token: token,
-                            client: client
+                            client: client,
+                            data: null
                         })
                     }
                     
@@ -1504,7 +1506,8 @@ app.get('/newTicket', function (req, res) {
                         } else {
                             res.render('new',{
                                 token: token,
-                                client: client
+                                client: client,
+                                data: null
                             })
                         }
                     }

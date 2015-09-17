@@ -68,7 +68,11 @@
       关联餐馆ID
     </label>
     <div class="controls">
+      <% if(data!=null){ %>
       <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID" value='<%= data.restaurant.id %>'>
+      <% } else { %>
+      <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID">
+      <% } %>
     </div>
   </div>
   <div class="form-group">
@@ -76,7 +80,11 @@
       关联订单ID
     </label>
     <div class="controls">
+      <% if(data!=null){ %>
       <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID" value="<%= data.id %>">
+      <% } else { %>
+      <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID">
+      <% } %>
     </div>
   </div>
   <div class="form-group">
@@ -256,7 +264,11 @@
               商户地址
             </label>
             <div class="controls">
+              <% if(data!=null){ %>
               <input type="text" name="cancelAddress" id="cancelAddress" class="form-control" placeholder="商户地址" readOnly value="<%= data.restaurant.address.address %>">
+              <% } else { %>
+              <input type="text" name="cancelAddress" id="cancelAddress" class="form-control" placeholder="商户地址">
+              <% } %>
             </div>
           </div>
           <div class="form-group">
@@ -264,7 +276,11 @@
               销售员
             </label>
             <div class="controls">
+              <% if(data!=null){ %>
               <input type="text" name="cancelSalesperson" id="cancelSalesperson" class="form-control" placeholder="销售员" readOnly value="<%= data.customer.adminUser.realname %>">
+              <% } else { %>
+              <input type="text" name="cancelSalesperson" id="cancelSalesperson" class="form-control" placeholder="销售员">
+              <% } %>
             </div>
           </div>
           <div class="form-group">
