@@ -753,22 +753,8 @@
           var str = $('#newMarket').html();
           for(var i=0; i<data.length;i++){
               str += "<option>"+data[i].displayName+"</option>";
-              console.log(data[i].displayName)
           }
-          console.log(str)
           $('#newMarket').html(str);
-          var config = {
-              '.chosen-select'           : {},
-              '.chosen-select-deselect'  : {allow_single_deselect:true},
-              '.chosen-select-no-single' : {disable_search_threshold:1},
-              '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-              '.chosen-select-width'     : {width:"95%"}
-            }
-          $(".chosen-select-deselect").chosen({width: "100%"});
-          $(".chosen-select-deselect").chosen({height: "100px"});
-          for (var selector in config) {
-            $(selector).chosen(config[selector]);
-          }
       }
     });
   $.ajax({ 
