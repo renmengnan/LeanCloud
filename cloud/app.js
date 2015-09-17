@@ -1460,18 +1460,18 @@ app.get('/newTicket', function (req, res) {
                 user.set('username', username);
                 user.set('password', password);
                 user.signUp(null).then(function (user) {
-                    var data = data.info;
-                    data = JSON.stringify(data);
-                    res.redirect('ticket/tickets/new?data='+data);
+                    // var data = data.info;
+                    // data = JSON.stringify(data);
+                    res.redirect('ticket/tickets/new');
                 }, function (error) {
                     renderInfo(res, util.inspect(error));
                 });
             } else {
                 AV.User.logIn(username, password, {
                     success: function (user) {
-                        var data = data.info;
-                        data = JSON.stringify(data);
-                        res.redirect('ticket/tickets/new?data='+data);
+                        // var data = data.info;
+                        // data = JSON.stringify(data);
+                        res.redirect('ticket/tickets/new');
                     }
                 });
             }
