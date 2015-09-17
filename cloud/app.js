@@ -1462,7 +1462,7 @@ app.get('/newTicket', function (req, res) {
                 user.signUp(null).then(function (user) {
                     var data = data.info;
                     data = JSON.stringify(data);
-                    res.redirect('tickets/new?data='+data);
+                    res.redirect('ticket/tickets/new?data='+data);
                 }, function (error) {
                     renderInfo(res, util.inspect(error));
                 });
@@ -1471,7 +1471,7 @@ app.get('/newTicket', function (req, res) {
                     success: function (user) {
                         var data = data.info;
                         data = JSON.stringify(data);
-                        res.redirect('tickets/new?data='+data);
+                        res.redirect('ticket/tickets/new?data='+data);
                     }
                 });
             }
