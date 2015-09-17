@@ -734,10 +734,10 @@
       type: "GET",
       dataType: "json",
       success: function(data){
-          console.log(data);
-          /*var str = $('#newMarket').html();
-          for(var i=0; i<data.adminUsers.length;i++){
-              str += "<option>"+data.adminUsers[i].realname+"</option>";
+          console.log(data.displayName);
+          var str = $('#newMarket').html();
+          for(var i=0; i<data.length;i++){
+              str += "<option>"+data[i].displayName+"</option>";
           }
           $('#newMarket').html(str);
           var config = {
@@ -751,7 +751,7 @@
           $(".chosen-select-deselect").chosen({height: "100px"});
           for (var selector in config) {
             $(selector).chosen(config[selector]);
-          }*/
+          }
       }
     });
   $.ajax({ 
