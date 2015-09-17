@@ -356,6 +356,7 @@ app.get('/tickets', function (req, res) {
         query.find().then(function (tickets) {
             tickets = tickets || [];
             tickets = _.map(tickets, transformTicket);
+            console.log(tickets);
             res.render('list', {
                 tickets: tickets,
                 token: token
@@ -582,9 +583,11 @@ app.get('/notifications', function (req, res) {
 app.get('/tickets/new', function (req, res) {
     var token = req.token;
     var client = req.client;
+    console.log(req.query);
     res.render('new', {
         token: token, 
-        client: client
+        client: client,
+        data: token
     });
 });
 
@@ -1440,11 +1443,9 @@ app.get('/newTicket', function (req, res) {
     // console.log(typeof req.query.data);
     var data = req.query.data;
         data = JSON.parse(data);
-    console.log(data);
-    res.redirect('ticket/tickets/new');
+    // console.log(data);
     var username = data.username,
         password = "111111";
-        username = username.slice(1);
     AV.Cloud.httpRequest({
         url: 'https://cn.avoscloud.com/1/users?where={"username":{"$regex":"'+ username +'"}}',
         headers: {
@@ -1459,14 +1460,18 @@ app.get('/newTicket', function (req, res) {
                 user.set('username', username);
                 user.set('password', password);
                 user.signUp(null).then(function (user) {
-                    res.redirect('ticket/tickets/new');
+                    var data = data.info;
+                    data = JSON.stringify(data);
+                    res.redirect('tickets/new?data='+data);
                 }, function (error) {
                     renderInfo(res, util.inspect(error));
                 });
             } else {
                 AV.User.logIn(username, password, {
                     success: function (user) {
-                        res.redirect('ticket/tickets/new');
+                        var data = data.info;
+                        data = JSON.stringify(data);
+                        res.redirect('tickets/new?data='+data);
                     }
                 });
             }
@@ -1474,7 +1479,7 @@ app.get('/newTicket', function (req, res) {
         },
         error: function (httpResponse) {
             // renderError(res, 'Search error.');
-            console.error('Request failed with response code ' + httpResponse);
+            console.error(httpResponse);
         }
     });
 });

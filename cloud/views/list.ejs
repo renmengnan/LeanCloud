@@ -89,7 +89,6 @@
       <th data-sort="string">类型</th>
       <th data-sort="string">待跟进人</th>
       <th data-sort="int" data-sort-default="desc" data-sort-onload>创建时间</th>
-      <th data-sort="string">编辑</th>
     </tr>
     </thead>
     <tbody>
@@ -110,11 +109,6 @@
           <td class="table-type"><%= ticket.type %></td>
           <td class="table-type"><%= ticket.followUser %></td>
           <td class="table-date"><%= ticket.createdAtLong %></td>
-          <% if(ticket.status != '等待处理' ){ %>
-          <td class="table-type">不可编辑</td>
-          <% } else{ %>
-          <td class="table-type"><a href="/ticket/tickets/<%=ticket.id%>/newthreads" title="#<%= ticket.ticket_id %>">编辑</a></td>
-          <% } %>
         </tr>
       <% } %>
     <% }) %>

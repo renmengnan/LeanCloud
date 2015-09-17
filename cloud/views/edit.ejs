@@ -707,7 +707,11 @@
                   </div>
                 </div>
             <% } %>
+            <div class="ticket-thread-content">
+              <pre><%- ticket.attachment %></pre>
+            </div>
         </div>
+
       <% threads.forEach (function(thread){ %>
 
       <div class="ticket-thread-wrap">

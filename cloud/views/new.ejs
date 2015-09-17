@@ -138,6 +138,24 @@
       <ul>
         <li class="selected" id="consult">
             <div class="form-group">
+              <label class="control-label" for="consultType">
+                咨询类别
+              </label>
+              <div class="controls">
+              <select id="consultType" class="form-control" name="consultType" >
+                <option selected="selected">软件使用</option>
+                <option>物流催货</option>
+                <option>市场合作</option>
+                <option>商户审核</option>
+                <option>修改密码</option>
+                <option>退换货咨询</option>
+                <option>平台活动</option>
+                <option>奖品兑换</option>
+                <option>其他</option>
+              </select>
+              </div>
+            </div>
+            <div class="form-group">
               <label class="control-label" for="consultResult">
                 咨询处理结果
                 <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
@@ -165,12 +183,24 @@
         <li id='new'>
           <p class="formTit">新品处理流程详情</p>
           <div class="form-group">
-            <label class="control-label" for="newType">
-              新品流程状态
-              <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
+            <label class="control-label" for="newStype">
+              新品流程分类
             </label>
             <div class="controls">
-            <select id="newType" class="form-control" name="newType" required>
+            <select id="newStype" class="form-control" name="newStype" >
+              <option  selected="selected">找新品</option>
+              <option >调价格</option>
+              <option >调规格</option>
+              <option >其他</option>
+            </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="newType">
+              新品流程状态
+            </label>
+            <div class="controls">
+            <select id="newType" class="form-control" name="newType" >
               <option  selected="selected">已记录</option>
               <option >已反馈给市场</option>
               <option >市场反馈无货</option>
@@ -179,20 +209,6 @@
               <option >市场反馈其他</option>
               <option >已通知反馈人及客户</option>
               <option >已完成</option>
-            </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label" for="newStype">
-              新品流程分类
-              <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
-            </label>
-            <div class="controls">
-            <select id="newStype" class="form-control" name="newStype" required>
-              <option  selected="selected">找新品</option>
-              <option >调价格</option>
-              <option >调规格</option>
-              <option >其他</option>
             </select>
             </div>
           </div>
@@ -296,7 +312,11 @@
               退换原因
             </label>
             <div class="controls">
-              <input type="text" name="cancelReason" id="cancelReason" class="form-control" placeholder="退换原因">
+            <select id="cancelReason" class="form-control" name="cancelReason" >
+              <option selected="selected">商户订错货</option>
+              <option>物流送错货</option>
+              <option>质量问题</option>
+            </select>
             </div>
           </div>
           <div class="form-group">
@@ -599,7 +619,12 @@
               订单评价处理过程
             </label>
             <div class="controls">
-              <input type="text" name="visitProcess" id="visitProcess" class="form-control" placeholder="订单评价处理过程">
+            <select id="visitProcess" class="form-control" name="visitProcess" >
+              <option selected="selected">未接通</option>
+              <option>停机、错号等无法接通</option>
+              <option>客户满意已回访并记录</option>
+              <option>客户不满意已回访并反馈</option>
+            </select>
             </div>
           </div>
         </li>
@@ -703,7 +728,15 @@
       $('#tabBox li').removeClass('selected');
       $('#'+id).addClass('selected');
   })
-  /*$.ajax({ 
+  /*function getQueryString(name) { 
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+    var r = window.location.search.substr(1).match(reg); 
+    if (r != null) return unescape(r[2]); return null; 
+  } 
+  var str = getQueryString("data");
+  str = decodeURIComponent(str);
+  console.log(str);
+  $.ajax({ 
       url: "http://www.canguanwuyou.cn/admin/api/admin-user?pageSize=10000", 
       type: "GET",
       dataType: "json",
