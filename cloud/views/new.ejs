@@ -736,7 +736,7 @@
       success: function(data){
           console.log(data);
           console.log(data.length);
-          console.log(data[0]);
+          console.log(data[0].displayName);
           var str = $('#newMarket').html();
           for(var i=0; i<data.length;i++){
               str += "<option>"+data[i].displayName+"</option>";
