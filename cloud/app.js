@@ -1443,7 +1443,7 @@ app.get('/newTicket', function (req, res) {
     // console.log(typeof req.query.data);
     var data = req.query.data;
         data = JSON.parse(data);
-    console.log(data);
+    // console.log(data);
     var username = data.username,
         password = "111111";
     AV.Cloud.httpRequest({
