@@ -1085,7 +1085,7 @@ app.post('/tickets/:id/threads', function (req, res) {
     var ticketId = req.params.id;
     var ticket = AV.Object.createWithoutData('Ticket', ticketId);
     ticket.fetch().then(function (ticket) {
-        if (isTicketEmpty(ticket) == false) {
+        // if (isTicketEmpty(ticket) == false) {
             //864 is administrator's client id
             var isAdmin=req.admin;
             // if (ticket.get('cid') != cid && !isAdmin) {
@@ -1175,9 +1175,9 @@ app.post('/tickets/:id/threads', function (req, res) {
                     });
                 }
             // }
-        } else {
-            renderError(res, '找不到工单');
-        }
+        // } else {
+        //     renderError(res, '找不到工单');
+        // }
     }, renderErrorFn(res));
 });
 app.post('/tickets/:id/newthreads', function (req, res) {
