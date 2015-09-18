@@ -1112,6 +1112,18 @@ app.post('/tickets/:id/threads', function (req, res) {
                         thread.set('user', username);
                         thread.set('cid', cid);
                         thread.set('req', reqs);
+                        thread.set('title',req.body.title);
+                        thread.set('consultUser',req.body.consultUser);
+                        thread.set('restaurantID',req.body.restaurantID);
+                        thread.set('restaurantName',req.body.restaurantName);
+                        thread.set('restaurantReceiver',req.body.restaurantReceiver);
+                        thread.set('restaurantTel',req.body.restaurantTel);
+                        thread.set('orderId',req.body.orderId);
+                        thread.set('followUser',req.body.followUser);
+                        thread.set('type',req.body.type);
+                        thread.set('stype',req.body.sourceType);
+                        thread.set('consultTel',req.body.consultTel);
+                        thread.set('followTel',req.body.followTel);
                         var content = req.body.content;
                         if (isAdmin) {
                             var html;
@@ -1193,6 +1205,18 @@ app.post('/tickets/:id/threads', function (req, res) {
                                     ticket.save();
                                 } else {
                                     ticket.set("req",reqs);
+                                    ticket.set('title',req.body.title);
+                                    ticket.set('consultUser',req.body.consultUser);
+                                    ticket.set('restaurantID',req.body.restaurantID);
+                                    ticket.set('restaurantName',req.body.restaurantName);
+                                    ticket.set('restaurantReceiver',req.body.restaurantReceiver);
+                                    ticket.set('restaurantTel',req.body.restaurantTel);
+                                    ticket.set('orderId',req.body.orderId);
+                                    ticket.set('followUser',req.body.followUser);
+                                    ticket.set('type',req.body.type);
+                                    ticket.set('stype',req.body.sourceType);
+                                    ticket.set('consultTel',req.body.consultTel);
+                                    ticket.set('followTel',req.body.followTel);
                                     ticket.save();
                                 }
                                 
