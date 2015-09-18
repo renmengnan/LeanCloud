@@ -136,103 +136,7 @@
     </p>
     <br>
     <p class="formTit">基础信息</p>
-    <div class="form-group">
-      <label class="control-label" for="consultUser">
-        咨询人
-      </label>
-      <div class="controls">
-        <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人"  value="<%= ticket.consultUser %>">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="control-label" for="consultTel">
-        咨询人手机
-      </label>
-      <div class="controls">
-        <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号"  value="<%= ticket.consultTel %>">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="restaurantName">
-        餐馆名称
-      </label>
-      <div class="controls">
-        <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称" value='<%= ticket.restaurantName %>'>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="restaurantReceiver">
-        餐馆联系人
-      </label>
-      <div class="controls">
-        <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人" value='<%= ticket.restaurantReceiver %>'>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="restaurantTel">
-        餐馆联系人电话
-      </label>
-      <div class="controls">
-        <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话" value='<%= ticket.restaurantTel %>'>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="restaurantID">
-        关联餐馆ID
-      </label>
-      <div class="controls">
-        <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID"  value="<%= ticket.restaurantID %>">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="orderId">
-        关联订单ID
-      </label>
-      <div class="controls">
-        <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID"  value="<%= ticket.orderId %>">
-      </div>
-    </div>
-    <div class="form-group" style='width: 200px;height: 100px;'>
-      <label class="control-label" for="followUser">
-        待跟进人
-      </label>
-      <div class="controls">
-        <select id="followUser" name="followUser" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
-            <option><%= ticket.followUser %></option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="followTel">
-        待跟进人手机
-      </label>
-      <div class="controls">
-        <input type="text" name="followTel" id="followTel" class="form-control" placeholder="待跟进人手机"  value="<%= ticket.followTel %>">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="control-label" for="sourceType">
-        问题来源
-      </label>
-      <div class="controls">
-      <select id="sourceType" class="form-control" name="sourceType" >
-        <option selected="selected"><%= ticket.stype %></option>
-      </select>
-      </div>
-    </div>
-    <p style="clear:both; font-weight: bold;">流程详情</p>
-    <div class="form-group">
-      <label class="control-label" for="inputType">
-        问题类型
-      </label>
-      <div class="controls">
-        <select id="inputType" class="form-control" name="type" >
-          <option selected="selected"><%= ticket.type %></option>
-        </select>
-      </div>
-    </div>
+    
   </div>
 </div>
 
@@ -242,6 +146,105 @@
   <div class="clearfix" style="clear:both;">
     <form id="threadForm" class="thread-form" enctype="multipart/form-data"
           action="/ticket/tickets/<%= ticket.id %>/threads" method="post">
+          <div id="info">
+            <div class="form-group">
+              <label class="control-label" for="consultUser">
+                咨询人
+              </label>
+              <div class="controls">
+                <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人"  value="<%= ticket.consultUser %>">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="consultTel">
+                咨询人手机
+              </label>
+              <div class="controls">
+                <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号"  value="<%= ticket.consultTel %>">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="restaurantName">
+                餐馆名称
+              </label>
+              <div class="controls">
+                <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称" value='<%= ticket.restaurantName %>'>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="restaurantReceiver">
+                餐馆联系人
+              </label>
+              <div class="controls">
+                <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人" value='<%= ticket.restaurantReceiver %>'>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="restaurantTel">
+                餐馆联系人电话
+              </label>
+              <div class="controls">
+                <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话" value='<%= ticket.restaurantTel %>'>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="restaurantID">
+                关联餐馆ID
+              </label>
+              <div class="controls">
+                <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID"  value="<%= ticket.restaurantID %>">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="orderId">
+                关联订单ID
+              </label>
+              <div class="controls">
+                <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID"  value="<%= ticket.orderId %>">
+              </div>
+            </div>
+            <div class="form-group" style='width: 200px;height: 100px;'>
+              <label class="control-label" for="followUser">
+                待跟进人
+              </label>
+              <div class="controls">
+                <select id="followUser" name="followUser" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
+                    <option><%= ticket.followUser %></option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="followTel">
+                待跟进人手机
+              </label>
+              <div class="controls">
+                <input type="text" name="followTel" id="followTel" class="form-control" placeholder="待跟进人手机"  value="<%= ticket.followTel %>">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="sourceType">
+                问题来源
+              </label>
+              <div class="controls">
+              <select id="sourceType" class="form-control" name="sourceType" >
+                <option selected="selected"><%= ticket.stype %></option>
+              </select>
+              </div>
+            </div>
+            <p style="clear:both; font-weight: bold;">流程详情</p>
+            <div class="form-group">
+              <label class="control-label" for="inputType">
+                问题类型
+              </label>
+              <div class="controls">
+                <select id="inputType" class="form-control" name="type" >
+                  <option selected="selected"><%= ticket.type %></option>
+                </select>
+              </div>
+            </div>
+          </div>
           <div id='info'>
             <% if(ticket.type == "咨询流程"){ %>
                 <div class="form-group">
