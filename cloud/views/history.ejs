@@ -92,7 +92,7 @@
                 <td class="table-type"><%= ticket.consultUser %></td>
                 <td class="table-type"><%= ticket.restaurantID %></td>
                 <td class="table-type"><%= ticket.orderId %></td>
-                <% if(ticket.followUser != '' && ticket.status !="正在处理" ){ %>
+                <% if(ticket.followUser != '' && ticket.status !="待分配" ){ %>
                 <td class="table-type"><%= ticket.status %></td>
                 <% } else{ %>
                 <td class="table-type">待分配</td>
