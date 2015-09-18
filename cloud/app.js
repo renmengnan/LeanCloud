@@ -999,17 +999,16 @@ app.get('/tickets/:id/threads', function (req, res) {
                 var lastOpen = findMyLastOpen(isAdmin, ticket, threads);
                 genQQLink(isAdmin, ticket.cid, cid, threads).then(function (qqLink) {
                     mlog.log('qqlink' + qqLink);
-                    // console.log(ticket);
-                    // res.render('edit', { 
-                    //     ticket: ticket, 
-                    //     token: token, 
-                    //     threads: threads,
-                    //     admin: isAdmin, 
-                    //     cid: cid, 
-                    //     lastOpen: lastOpen, 
-                    //     qqLink: qqLink
-                    // });
-                    res.redirect('ticket/tickets');
+                    console.log(ticket);
+                    res.render('edit', { 
+                        ticket: ticket, 
+                        token: token, 
+                        threads: threads,
+                        admin: isAdmin, 
+                        cid: cid, 
+                        lastOpen: lastOpen, 
+                        qqLink: qqLink
+                    });
                 }, mutil.renderErrorFn(res));
             } else {
                 renderError(res, '找不到工单，该工单可能已经被删除');
@@ -1171,7 +1170,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                             thread.set('open', open_content);
                         }
                         thread.save().then(function () {
-                            res.redirect('ticket/tickets/' + ticketId + '/threads');
+                            res.redirect('ticket/tickets');
                         }, renderErrorFn(res));
                     });
                 }
@@ -1249,7 +1248,7 @@ function notifyTicketToChat(ticket, content, info) {
     notifySlack(hipChatText + genSlackLink(ticket), type);
 }
 
-function createTicket(res, req, restaurantReceiver, restaurantTel, restaurantTel, restaurantName, consultTel, followTel, consultUser, restaurantID, orderId, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
+function createTicket(res, req, restaurantTel, restaurantReceiver, restaurantName, consultTel, followTel, consultUser, restaurantID, orderId, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
     mticket.incTicketNReturnOrigin().then(function (n) {
         var ticket = new AV.Object('Ticket');
         if (attachment) {
@@ -1270,9 +1269,9 @@ function createTicket(res, req, restaurantReceiver, restaurantTel, restaurantTel
         ticket.set('followUser', followUser);
         ticket.set('consultUser', consultUser);
         ticket.set('restaurantID', restaurantID);
+        ticket.set('restaurantName', restaurantName);
         ticket.set('restaurantReceiver', restaurantReceiver);
         ticket.set('restaurantTel', restaurantTel);
-        ticket.set('restaurantName', restaurantName);
         ticket.set('orderId', orderId);
         ticket.set('stype', sourceTypetype);
         ticket.set('consultTel', consultTel);
@@ -1302,7 +1301,7 @@ app.post('/tickets', function (req, res) {
     //     return renderError(res, '请提供有效的电子邮箱地址，方便我们将反馈通知给您。');
     // }
     saveFileThen(req, function (attachment) {
-        createTicket(res, req.body, req.body.restaurantReceiver, req.body.restaurantTel, req.body.restaurantName, req.body.consultTel, req.body.followTel, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
+        createTicket(res, req.body, req.body.restaurantTel, req.body.restaurantReceiver, req.body.restaurantName, req.body.consultTel, req.body.followTel, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
             // console.log(ticket);
             res.redirect('ticket/tickets');
         });
