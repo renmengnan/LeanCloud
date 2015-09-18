@@ -989,7 +989,7 @@ app.get('/tickets/:id/threads', function (req, res) {
     query.find().then(function (threads) {
         var ticket = AV.Object.createWithoutData('Ticket', ticketId);
         ticket.fetch().then(function (ticket) {
-            if (isTicketEmpty(ticket) == false) {
+            // if (isTicketEmpty(ticket) == false) {
                 ticket = transformTicket(ticket);
                 threads = _.map(threads, transformThread);
                 var isAdmin = req.admin;
@@ -1010,9 +1010,9 @@ app.get('/tickets/:id/threads', function (req, res) {
                         qqLink: qqLink
                     });
                 }, mutil.renderErrorFn(res));
-            } else {
-                renderError(res, '找不到工单，该工单可能已经被删除');
-            }
+            // } else {
+                // renderError(res, '找不到工单，该工单可能已经被删除');
+            // }
         }, renderErrorFn(res));
     }, renderErrorFn(res));
 });
@@ -1026,7 +1026,7 @@ app.get('/tickets/:id/newthreads', function (req, res) {
     query.find().then(function (threads) {
         var ticket = AV.Object.createWithoutData('Ticket', ticketId);
         ticket.fetch().then(function (ticket) {
-            if (isTicketEmpty(ticket) == false) {
+            // if (isTicketEmpty(ticket) == false) {
                 ticket = transformTicket(ticket);
                 threads = _.map(threads, transformThread);
                 var isAdmin = req.admin;
@@ -1046,9 +1046,9 @@ app.get('/tickets/:id/newthreads', function (req, res) {
                         qqLink: qqLink
                     });
                 }, mutil.renderErrorFn(res));
-            } else {
-                renderError(res, '找不到工单，该工单可能已经被删除');
-            }
+            // } else {
+                // renderError(res, '找不到工单，该工单可能已经被删除');
+            // }
         }, renderErrorFn(res));
     }, renderErrorFn(res));
 });

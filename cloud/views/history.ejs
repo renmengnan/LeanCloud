@@ -101,7 +101,7 @@
                 <% if( ticket.username != mClient.username ){ %>
                 <tr>
                   <td class="table-type" data-sort-value="<%=ticket.ticket_id%>">#<%= ticket.ticket_id%></td>
-                  <td class="table-type"><a href="/ticket/tickets/<%=ticket.id%>/threads" title="#<%= ticket.ticket_id %>"><%= ticket.title %></a></td>
+                  <td class="table-type"><a href="/ticket/tickets/<%=ticket.id%>/threads" title="#<%= ticket.ticket_id %>"><%= ticket.type %></a></td>
                   <td class="table-type"><%= ticket.username %></td>
                   <td class="table-type"><%= ticket.followUser %></td>
                   <td class="table-type"><%= ticket.consultUser %></td>
