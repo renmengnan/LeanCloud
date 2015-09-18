@@ -25,12 +25,14 @@
             <div class="form-group">
                 <select id="inputType" class="form-control" name="type" >
                   <option value="" selected="selected">请选择-流程</option>
-                  <option value="consult">咨询流程</option>
-                  <option value="complain">投诉流程</option>
+                  <option value="consult" selected="selected">咨询流程</option>
                   <option value="new">新品处理流程</option>
-                  <option value="cancelOrders">退货处理流程</option>
-                  <option value="skill">技术问题反馈</option>
-                  <option value="market">市场合作</option>
+                  <option value="cancelAddressOrders">退换货处理流程</option>
+                  <option value="complain">投诉流程</option>
+                  <option value="check">订单查重流程</option>
+                  <option value="noCar">未分车订单处理流程</option>
+                  <option value="visit">订单评价回访流程</option>
+                  <option value="firstVisit">首单回访流程</option>
                 </select>
             </div>
             <div class="form-group">
@@ -80,14 +82,14 @@
     <thead>
     <tr>
       <th data-sort="int">工单ID</th>
-      <th data-sort="string">标题</th>
+      <th data-sort="string">类型</th>
       <th data-sort="string">咨询人</th>
       <th data-sort="string">关联餐馆ID</th>
       <th data-sort="string">关联订单ID</th>
       <th data-sort="string">状态</th>
       <th data-sort="string">来源</th>
-      <th data-sort="string">类型</th>
       <th data-sort="string">待跟进人</th>
+      <th data-sort="string">待跟进人手机</th>
       <th data-sort="int" data-sort-default="desc" data-sort-onload>创建时间</th>
     </tr>
     </thead>
@@ -96,7 +98,7 @@
       <% if(ticket.username == mClient.username){ %>
         <tr>
           <td class="table-type" data-sort-value="<%=ticket.ticket_id%>">#<%= ticket.ticket_id%></td>
-          <td class="table-type"><a href="/ticket/tickets/<%=ticket.id%>/threads" title="#<%= ticket.ticket_id %>"><%= ticket.title %></a></td>
+          <td class="table-type"><a href="/ticket/tickets/<%=ticket.id%>/threads" title="#<%= ticket.ticket_id %>"><%= ticket.type %></a></td>
           <td class="table-type"><%= ticket.consultUser %></td>
           <td class="table-type"><%= ticket.restaurantID %></td>
           <td class="table-type"><%= ticket.orderId %></td>
@@ -106,8 +108,8 @@
           <td class="table-type">待分配</td>
           <% } %>
           <td class="table-type"><%= ticket.stype %></td>
-          <td class="table-type"><%= ticket.type %></td>
           <td class="table-type"><%= ticket.followUser %></td>
+          <td class="table-type"><%= ticket.followTel %></td>
           <td class="table-date"><%= ticket.createdAtLong %></td>
         </tr>
       <% } %>

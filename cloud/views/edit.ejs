@@ -95,7 +95,7 @@
   <div class="clearfix">
 
     <div class="pull-left" style="width: 75%">
-      <h2 style="display: inline"><%= ticket.title %>
+      <h2 style="display: inline"><%= ticket.type %>
       </h2>
     </div>
 
@@ -153,7 +153,31 @@
         <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号"  value="<%= ticket.consultTel %>">
       </div>
     </div>
-
+    <div class="form-group">
+      <label class="control-label" for="restaurantName">
+        餐馆名称
+      </label>
+      <div class="controls">
+        <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称" value='<%= data.restaurant.name %>'>
+        <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="restaurantReceiver">
+        餐馆联系人
+      </label>
+      <div class="controls">
+        <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人" value='<%= data.restaurant.receiver %>'>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="restaurantTel">
+        餐馆联系人电话
+      </label>
+      <div class="controls">
+        <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话" value='<%= data.restaurant.telephone %>'>
+      </div>
+    </div>
     <div class="form-group">
       <label class="control-label" for="restaurantID">
         关联餐馆ID
@@ -176,7 +200,7 @@
       </label>
       <div class="controls">
         <select id="followUser" name="followUser" data-placeholder="待跟进人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
-            <option></option>
+            <option><%= ticket.followUser %></option>
         </select>
       </div>
     </div>
@@ -272,6 +296,16 @@
                   <div class="controls">
                   <select id="newType" class="form-control" name="newType" >
                     <option  selected="selected"><%= ticket.req.newType %></option>
+                    <option>已记录</option>
+                    <option>已反馈给市场</option>
+                    <option>市场反馈无货</option>
+                    <option>市场反馈上线</option>
+                    <option>市场反馈不调整</option>
+                    <option>市场反馈其他</option>
+                    <option>已通知反馈人及客户</option>
+                    <% if( !mClient.isAdmin ){ %>
+                    <option>已完成</option>
+                    <% } %>
                   </select>
                   </div>
                 </div>
@@ -368,16 +402,6 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label" for="cancelReason">
-                    退换原因
-                  </label>
-                  <div class="controls">
-                  <select id="cancelReason" class="form-control" name="cancelReason" >
-                    <option selected="selected"><%= ticket.req.cancelReason %></option>
-                  </select>
-                  </div>
-                </div>
-                <div class="form-group">
                   <label class="control-label" for="cancelCar">
                     送货车辆
                   </label>
@@ -393,12 +417,27 @@
                     <input type="text" name="DeliveryDate" id="DeliveryDate" class="form-control" placeholder="送货日期"  value="<%= ticket.req.DeliveryDate %>">
                   </div>
                 </div>
+                <div class="form-group" style="clear:both;">
+                  <label class="control-label" for="cancelReason">
+                    退换原因
+                  </label>
+                  <div class="controls">
+                  <select id="cancelReason" class="form-control" name="cancelReason" >
+                    <option selected="selected"><%= ticket.req.cancelReason %></option>
+                  </select>
+                  </div>
+                </div>
                 <div class="form-group">
                   <label class="control-label" for="cancelSuggestion">
                     处理意见
                   </label>
                   <div class="controls">
-                    <input type="text" name="cancelSuggestion" id="cancelSuggestion" class="form-control" placeholder="处理意见"  value="<%= ticket.req.cancelSuggestion %>">
+                  <select id="cancelSuggestion" class="form-control" name="cancelSuggestion" >
+                    <option selected="selected"><%= ticket.req.cancelSuggestion %></option>
+                    <option>同意退货</option>
+                    <option >不可以退货</option>
+                    <option >补差价不退货</option>
+                  </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -406,7 +445,7 @@
                     计划退货时间
                   </label>
                   <div class="controls">
-                    <input type="date" name="planDeliveryDate" id="planDeliveryDate" class="form-control" placeholder="计划退货时间"  value="<%= ticket.req.planDeliveryDate %>">
+                    <input type="date" name="planDeliveryDate" id="planDeliveryDate" class="form-control" placeholder="计划退货时间"  value="<%= ticket.req.planDeliveryDate %>" readOnly>
                   </div>
                 </div>
                 <div class="form-group">
@@ -424,23 +463,13 @@
                   <div class="controls">
                   <select id="cancelType" class="form-control" name="cancelType" >
                     <option  selected="selected"><%= ticket.req.cancelType %></option>
+                    <option  selected="selected">已记录</option>
+                    <option >已反馈给物流</option>
+                    <option >物流已确定退货时间</option>
+                    <option >物流已退货</option>
+                    <option >已回访</option>
+                    <option >已完成</option>
                   </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label" for="visitRecord">
-                    回访记录
-                  </label>
-                  <div class="controls">
-                    <input type="text" name="visitRecord" id="visitRecord" class="form-control" placeholder="回访记录"  value="<%= ticket.req.visitRecord %>">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label" for="cancelRemarks">
-                    退换货备注
-                  </label>
-                  <div class="controls">
-                    <input type="text" name="cancelRemarks" id="cancelRemarks" class="form-control" placeholder="退换货备注"  value="<%= ticket.req.cancelRemarks %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -462,6 +491,22 @@
                     <input type="text" name="supplier" id="supplier" class="form-control" placeholder="已退货供应商处理"  value="<%= ticket.req.supplier %>">
                   </div>
                 </div>
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="visitRecord">
+                    回访记录
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="visitRecord" id="visitRecord" class="form-control" placeholder="回访记录"><%= ticket.req.visitRecord %></textarea>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="cancelRemarks">
+                    退换货备注
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="cancelRemarks" id="cancelRemarks" class="form-control" placeholder="退换货备注"><%= ticket.req.cancelRemarks %></textarea>
+                  </div>
+                </div>
             <% } else if( ticket.type == "投诉流程" ){ %>
                 <div class="form-group">
                   <label class="control-label" for="complains">
@@ -469,14 +514,6 @@
                   </label>
                   <div class="controls">
                     <input type="text" name="complains" id="complains" class="form-control" placeholder="投诉事项"  value="<%= ticket.req.complains %>">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label" for="complainExpected">
-                    期望的处理方法
-                  </label>
-                  <div class="controls">
-                    <input type="text" name="complainExpected" id="complainExpected" class="form-control" placeholder="期望的处理方法"  value="<%= ticket.req.complainExpected %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -502,14 +539,6 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label" for="complainDescription">
-                    处理描述
-                  </label>
-                  <div class="controls">
-                    <input type="text" name="complainDescription" id="complainDescription" class="form-control" placeholder="处理描述"  value="<%= ticket.req.complainDescription %>">
-                  </div>
-                </div>
-                <div class="form-group">
                   <label class="control-label" for="complainProcess">
                     投诉处理过程
                     <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
@@ -518,6 +547,22 @@
                   <select id="complainProcess" class="form-control" name="complainProcess" >
                     <option  selected="selected"><%= ticket.req.complainProcess %></option>
                   </select>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="complainExpected">
+                    期望的处理方法
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="complainExpected" id="complainExpected" class="form-control" placeholder="期望的处理方法"><%= ticket.req.complainExpected %></textarea>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="complainDescription">
+                    处理描述
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="complainDescription" id="complainDescription" class="form-control" placeholder="处理描述"><%= ticket.req.complainDescription %></textarea>
                   </div>
                 </div>
             <% } else if( ticket.type == "订单查重流程" ){ %>
@@ -530,14 +575,6 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label" for="checkDescription">
-                    处理描述
-                  </label>
-                  <div class="controls">
-                    <input type="text" name="checkDescription" id="checkDescription" class="form-control" placeholder="处理描述"  value="<%= ticket.req.checkDescription %>">
-                  </div>
-                </div>
-                <div class="form-group">
                   <label class="control-label" for="checkProcess">
                     处理过程
                   </label>
@@ -545,6 +582,14 @@
                   <select id="checkProcess" class="form-control" name="checkProcess" >
                     <option selected="selected"><%= ticket.req.checkProcess %></option>
                   </select>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="checkProcess">
+                    处理描述
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="checkProcess" id="checkProcess" class="form-control" placeholder="处理描述"><%= ticket.req.checkDescription %></textarea>
                   </div>
                 </div>
             <% } else if( ticket.type == "未分车订单处理流程" ){ %>
@@ -617,22 +662,6 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label" for="visitEvaluation">
-                    配送评价
-                  </label>
-                  <div class="controls">
-                    <input type="text" name="visitEvaluation" id="visitEvaluation" class="form-control" placeholder="配送评价"  value="<%= ticket.req.visitEvaluation %>">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label" for="visitOtherInfo">
-                    其他信息
-                  </label>
-                  <div class="controls">
-                    <input type="text" name="visitOtherInfo" id="visitOtherInfo" class="form-control" placeholder="其他信息"  value="<%= ticket.req.visitOtherInfo %>">
-                  </div>
-                </div>
-                <div class="form-group">
                   <label class="control-label" for="visitDescription">
                     订单评价处理描述
                   </label>
@@ -648,6 +677,22 @@
                   <select id="visitProcess" class="form-control" name="visitProcess" >
                     <option selected="selected"><%= ticket.req.visitProcess %></option>
                   </select>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="visitEvaluation">
+                    配送评价
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="visitEvaluation" id="visitEvaluation" class="form-control" placeholder="配送评价"><%= ticket.req.visitEvaluation %></textarea>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="visitOtherInfo">
+                    其他信息
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="visitOtherInfo" id="visitOtherInfo" class="form-control" placeholder="其他信息"><%= ticket.req.visitOtherInfo %></textarea>
                   </div>
                 </div>
             <% } else if( ticket.type == "首单回访流程" ){ %>
@@ -677,15 +722,12 @@
                     信息通知
                   </label>
                   <div class="controls">
-                    <input type="text" name="fvInfo" id="fvInfo" class="form-control" placeholder="信息通知"  value="<%= ticket.req.fvInfo %>">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label" for="fvRemarks">
-                    回访备注
-                  </label>
-                  <div class="controls">
-                    <input type="text" name="fvRemarks" id="fvRemarks" class="form-control" placeholder="回访备注"  value="<%= ticket.req.fvRemarks %>">
+                    <select id="fvInfo" class="form-control" name="fvInfo" >
+                      <option selected="selected"><%= ticket.req.fvInfo %></option>
+                      <option>已完成</option>
+                      <option>部分完成</option>
+                      <option>未完成</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -693,7 +735,14 @@
                     对产品质量评价
                   </label>
                   <div class="controls">
-                    <input type="text" name="fvEvaluation" id="fvEvaluation" class="form-control" placeholder="对产品质量评价"  value="<%= ticket.req.fvEvaluation %>">
+                    <select id="fvEvaluation" class="form-control" name="fvEvaluation" >
+                      <option selected="selected"><%= ticket.req.fvEvaluation %></option>
+                      <option>5</option>
+                      <option>4</option>
+                      <option>3</option>
+                      <option>2</option>
+                      <option>1</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -701,7 +750,14 @@
                     对地推员工评价
                   </label>
                   <div class="controls">
-                    <input type="text" name="staffEvaluation" id="staffEvaluation" class="form-control" placeholder="对地推员工评价"  value="<%= ticket.req.staffEvaluation %>">
+                    <select id="staffEvaluation" class="form-control" name="staffEvaluation" >
+                      <option selected="selected"><%= ticket.req.staffEvaluation %></option>
+                      <option>5</option>
+                      <option>4</option>
+                      <option>3</option>
+                      <option>2</option>
+                      <option>1</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -709,21 +765,38 @@
                     对送货司机的评价
                   </label>
                   <div class="controls">
-                    <input type="text" name="driverEvaluation" id="driverEvaluation" class="form-control" placeholder="对送货司机的评价"  value="<%= ticket.req.driverEvaluation %>">
+                    <select id="driverEvaluation" class="form-control" name="driverEvaluation" >
+                      <option selected="selected"><%= ticket.req.driverEvaluation %></option>
+                      <option>5</option>
+                      <option>4</option>
+                      <option>3</option>
+                      <option>2</option>
+                      <option>1</option>
+                    </select>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
                   <label class="control-label" for="fvComments">
                     其他意见和建议
                   </label>
                   <div class="controls">
-                    <input type="text" name="fvComments" id="fvComments" class="form-control" placeholder="其他意见和建议"  value="<%= ticket.req.fvComments %>">
+                    <textarea rows="10" cols="20" name="fvComments" id="fvComments" class="form-control" placeholder="其他意见和建议"><%= ticket.req.fvComments %></textarea>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="fvRemarks">
+                    回访备注
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="fvRemarks" id="fvRemarks" class="form-control" placeholder="回访备注"><%= ticket.req.fvRemarks %></textarea>
                   </div>
                 </div>
             <% } %>
+            <% if( ticket.attachment != undefined ){ %>
             <div class="ticket-thread-content">
               <pre><%- ticket.attachment %></pre>
             </div>
+            <% } %>
         </div>
 
       <% threads.forEach (function(thread){ %>
@@ -777,4 +850,30 @@
 
 
 <a href="/ticket/tickets" class="btn btn-default btn-back">返回</a>
-
+<script type="text/javascript">
+  $.ajax({ 
+      url: "http://www.canguanwuyou.cn/admin/api/admin-user?pageSize=10000", 
+      type: "GET",
+      dataType: "json",
+      success: function(data){
+          //console.log(data.adminUsers[0].realname);
+          var str = $('#followUser').html();
+          for(var i=0; i<data.adminUsers.length;i++){
+              str += "<option>"+data.adminUsers[i].realname+"</option>";
+          }
+          $('#followUser').html(str);
+          var config = {
+              '.chosen-select'           : {},
+              '.chosen-select-deselect'  : {allow_single_deselect:true},
+              '.chosen-select-no-single' : {disable_search_threshold:1},
+              '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+              '.chosen-select-width'     : {width:"95%"}
+            }
+          $(".chosen-select-deselect").chosen({width: "100%"});
+          $(".chosen-select-deselect").chosen({height: "100px"});
+          for (var selector in config) {
+            $(selector).chosen(config[selector]);
+          }
+      }
+    });
+</script>

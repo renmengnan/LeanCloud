@@ -179,6 +179,9 @@ function transformSearchTicket(t) {
         consultTel: t.consultTel,
         consultUser: t.consultUser,
         restaurantID: t.restaurantID,
+        restaurantName: t.restaurantName,
+        restaurantReceiver: t.restaurantReceiver,
+        restaurantTel: t.restaurantTel,
         orderId: t.orderId,
         createdAt: moment(t.createdAt).format('YYYY-MM-DD HH:mm:ss'),
         createdAtUnix: moment(t.createdAt).valueOf()
@@ -230,6 +233,18 @@ function transformTicket(t) {
     if (restaurantID == undefined) {
         restaurantID = '未关联餐馆';
     }
+    var restaurantName = t.get('restaurantName');
+    if (restaurantName == undefined) {
+        restaurantName = '未关联餐馆';
+    }
+    var restaurantTel = t.get('restaurantTel');
+    if (restaurantTel == undefined) {
+        restaurantTel = '未关联餐馆';
+    }
+    var restaurantReceiver = t.get('restaurantReceiver');
+    if (restaurantReceiver == undefined) {
+        restaurantReceiver = '未关联餐馆';
+    }
     var orderId = t.get('orderId');
     if (orderId == undefined) {
         orderId = '未关联订单';
@@ -246,6 +261,9 @@ function transformTicket(t) {
         followTel: followTel,
         consultUser: consultUser,
         consultTel: consultTel,
+        restaurantName: restaurantName,
+        restaurantReceiver: restaurantReceiver,
+        restaurantTel: restaurantTel,
         restaurantID: restaurantID,
         orderId: orderId,
         content: t.get('content'),
@@ -356,7 +374,7 @@ app.get('/tickets', function (req, res) {
         query.find().then(function (tickets) {
             tickets = tickets || [];
             tickets = _.map(tickets, transformTicket);
-            console.log(tickets);
+            // console.log(tickets);
             res.render('list', {
                 tickets: tickets,
                 token: token
@@ -982,15 +1000,16 @@ app.get('/tickets/:id/threads', function (req, res) {
                 genQQLink(isAdmin, ticket.cid, cid, threads).then(function (qqLink) {
                     mlog.log('qqlink' + qqLink);
                     // console.log(ticket);
-                    res.render('edit', { 
-                        ticket: ticket, 
-                        token: token, 
-                        threads: threads,
-                        admin: isAdmin, 
-                        cid: cid, 
-                        lastOpen: lastOpen, 
-                        qqLink: qqLink
-                    });
+                    // res.render('edit', { 
+                    //     ticket: ticket, 
+                    //     token: token, 
+                    //     threads: threads,
+                    //     admin: isAdmin, 
+                    //     cid: cid, 
+                    //     lastOpen: lastOpen, 
+                    //     qqLink: qqLink
+                    // });
+                    res.redirect('ticket/tickets');
                 }, mutil.renderErrorFn(res));
             } else {
                 renderError(res, '找不到工单，该工单可能已经被删除');
@@ -1230,7 +1249,7 @@ function notifyTicketToChat(ticket, content, info) {
     notifySlack(hipChatText + genSlackLink(ticket), type);
 }
 
-function createTicket(res, req, consultTel, followTel, consultUser, restaurantID, orderId, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
+function createTicket(res, req, restaurantReceiver, restaurantTel, restaurantTel, restaurantName, consultTel, followTel, consultUser, restaurantID, orderId, followUser, sourceTypetype, token, client, attachment, title, type, content, secret, then) {
     mticket.incTicketNReturnOrigin().then(function (n) {
         var ticket = new AV.Object('Ticket');
         if (attachment) {
@@ -1251,6 +1270,9 @@ function createTicket(res, req, consultTel, followTel, consultUser, restaurantID
         ticket.set('followUser', followUser);
         ticket.set('consultUser', consultUser);
         ticket.set('restaurantID', restaurantID);
+        ticket.set('restaurantReceiver', restaurantReceiver);
+        ticket.set('restaurantTel', restaurantTel);
+        ticket.set('restaurantName', restaurantName);
         ticket.set('orderId', orderId);
         ticket.set('stype', sourceTypetype);
         ticket.set('consultTel', consultTel);
@@ -1280,7 +1302,7 @@ app.post('/tickets', function (req, res) {
     //     return renderError(res, '请提供有效的电子邮箱地址，方便我们将反馈通知给您。');
     // }
     saveFileThen(req, function (attachment) {
-        createTicket(res, req.body, req.body.consultTel, req.body.followTel, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
+        createTicket(res, req.body, req.body.restaurantReceiver, req.body.restaurantTel, req.body.restaurantName, req.body.consultTel, req.body.followTel, req.body.consultUser, req.body.restaurantID, req.body.orderId, req.body.followUser, req.body.sourceType, token, client, attachment, req.body.title, req.body.type, req.body.content, req.body.secret, function (ticket) {
             // console.log(ticket);
             res.redirect('ticket/tickets');
         });
