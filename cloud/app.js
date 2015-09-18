@@ -1112,7 +1112,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                         thread.set('user', username);
                         thread.set('cid', cid);
                         thread.set('req', reqs);
-                        thread.set('title',req.body.title);
+                        thread.set('type',req.body.type);
                         thread.set('consultUser',req.body.consultUser);
                         thread.set('restaurantID',req.body.restaurantID);
                         thread.set('restaurantName',req.body.restaurantName);
@@ -1139,7 +1139,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                                     '回复到：</p> <p><pre> ' + content + ' </pre></p>';
                                 ticket.set('status', processing_status);
                                 ticket.set("req",reqs);
-                                ticket.set('title',req.body.title);
+                                ticket.set('type',req.body.type);
                                 ticket.set('consultUser',req.body.consultUser);
                                 ticket.set('restaurantID',req.body.restaurantID);
                                 ticket.set('restaurantName',req.body.restaurantName);
@@ -1166,7 +1166,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                                 }
                                 ticket.set('status', done_status);
                                 ticket.set("req",reqs);
-                                ticket.set('title',req.body.title);
+                                ticket.set('type',req.body.type);
                                 ticket.set('consultUser',req.body.consultUser);
                                 ticket.set('restaurantID',req.body.restaurantID);
                                 ticket.set('restaurantName',req.body.restaurantName);
@@ -1189,7 +1189,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                                 if( client.username != ticket.attributes.username ){
                                     ticket.set('status', processing_status);
                                     ticket.set("req",reqs);
-                                    ticket.set('title',req.body.title);
+                                    ticket.set('type',req.body.type);
                                     ticket.set('consultUser',req.body.consultUser);
                                     ticket.set('restaurantID',req.body.restaurantID);
                                     ticket.set('restaurantName',req.body.restaurantName);
@@ -1205,7 +1205,7 @@ app.post('/tickets/:id/threads', function (req, res) {
                                     ticket.save();
                                 } else {
                                     ticket.set("req",reqs);
-                                    ticket.set('title',req.body.title);
+                                    ticket.set('type',req.body.type);
                                     ticket.set('consultUser',req.body.consultUser);
                                     ticket.set('restaurantID',req.body.restaurantID);
                                     ticket.set('restaurantName',req.body.restaurantName);
