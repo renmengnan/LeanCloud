@@ -595,14 +595,6 @@
                 </div>
             <% } else if( ticket.type == "订单查重流程" ){ %>
                 <div class="form-group">
-                  <label class="control-label" for="repeatNum">
-                    重复订单编号
-                  </label>
-                  <div class="controls">
-                    <input type="text" name="repeatNum" id="repeatNum" class="form-control" placeholder="重复订单编号"  value="<%= ticket.req.repeatNum %>">
-                  </div>
-                </div>
-                <div class="form-group">
                   <label class="control-label" for="checkProcess">
                     处理过程
                   </label>
@@ -617,7 +609,7 @@
                     处理描述
                   </label>
                   <div class="controls">
-                    <textarea rows="10" cols="20" name="checkProcess" id="checkProcess" class="form-control" placeholder="处理描述"><%= ticket.req.checkDescription %></textarea>
+                    <textarea rows="10" cols="20" name="checkProcess" id="checkProcess" class="form-control" placeholder="处理描述"><%= ticket.req.checkProcess %></textarea>
                   </div>
                 </div>
             <% } else if( ticket.type == "未分车订单处理流程" ){ %>
