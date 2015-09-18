@@ -229,7 +229,17 @@
               </label>
               <div class="controls">
               <select id="sourceType" class="form-control" name="sourceType" >
-                <option selected="selected"><%= ticket.stype %></option>
+                  <% if(ticket.stype=='微信群'){ %>
+                    <option value='wxcrowd' selected="selected"><%= ticket.stype %></option>
+                  <% } else if(ticket.stype=='微信平台'){ %>
+                    <option value='wechat' selected="selected"><%= ticket.stype %></option>
+                  <% } else if(ticket.stype=='400电话'){ %>
+                    <option value='tel400' selected="selected"><%= ticket.stype %></option>
+                  <% } else if(ticket.stype=='app'){ %>
+                    <option value='cgwyapp' selected="selected"><%= ticket.stype %></option>
+                  <% } else if(ticket.stype=='其他'){ %>
+                    <option value='other' selected="selected"><%= ticket.stype %></option>
+                  <% } %>
               </select>
               </div>
             </div>
@@ -240,7 +250,23 @@
               </label>
               <div class="controls">
                 <select id="type" class="form-control" name="type" >
-                  <option selected="selected"><%= ticket.type %></option>
+                  <% if(ticket.type=='咨询流程'){ %>
+                      <option value="consult" selected="selected"><%= ticket.type %></option>
+                  <% } else if(ticket.type=='新品处理流程'){ %>
+                      <option value="new" selected="selected"><%= ticket.type %></option>
+                  <% } else if(ticket.type=='退货处理流程'){ %>
+                      <option value="cancelOrders" selected="selected"><%= ticket.type %></option>
+                  <% } else if(ticket.type=='投诉流程'){ %>
+                      <option value="complain" selected="selected"><%= ticket.type %></option>
+                  <% } else if(ticket.type=='订单查重流程'){ %>
+                      <option value="check" selected="selected"><%= ticket.type %></option>
+                  <% } else if(ticket.type=='未分车订单处理流程'){ %>
+                      <option value="noCar" selected="selected"><%= ticket.type %></option>
+                  <% } else if(ticket.type=='订单评价回访流程'){ %>
+                      <option value="visit" selected="selected"><%= ticket.type %></option>
+                  <% } else if(ticket.type=='首单回访流程'){ %>
+                      <option value="firstVisit" selected="selected"><%= ticket.type %></option>
+                  <% } %>
                 </select>
               </div>
             </div>
