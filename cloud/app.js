@@ -1127,6 +1127,19 @@ app.post('/tickets/:id/threads', function (req, res) {
                                     '回复到：</p> <p><pre> ' + content + ' </pre></p>';
                                 ticket.set('status', processing_status);
                                 ticket.set("req",reqs);
+                                ticket.set('title',req.body.title);
+                                ticket.set('consultUser',req.body.consultUser);
+                                ticket.set('restaurantID',req.body.restaurantID);
+                                ticket.set('restaurantName',req.body.restaurantName);
+                                ticket.set('restaurantReceiver',req.body.restaurantReceiver);
+                                ticket.set('restaurantTel',req.body.restaurantTel);
+                                ticket.set('orderId',req.body.orderId);
+                                ticket.set('followUser',req.body.followUser);
+                                ticket.set('type',req.body.type);
+                                ticket.set('stype',req.body.sourceType);
+                                ticket.set('consultTel',req.body.consultTel);
+                                ticket.set('followTel',req.body.followTel);
+                                ticket.set('content',req.body.content);
                                 ticket.save();
                             }
                             if (ticket.get('status') == done_status) {
@@ -1141,6 +1154,19 @@ app.post('/tickets/:id/threads', function (req, res) {
                                 }
                                 ticket.set('status', done_status);
                                 ticket.set("req",reqs);
+                                ticket.set('title',req.body.title);
+                                ticket.set('consultUser',req.body.consultUser);
+                                ticket.set('restaurantID',req.body.restaurantID);
+                                ticket.set('restaurantName',req.body.restaurantName);
+                                ticket.set('restaurantReceiver',req.body.restaurantReceiver);
+                                ticket.set('restaurantTel',req.body.restaurantTel);
+                                ticket.set('orderId',req.body.orderId);
+                                ticket.set('followUser',req.body.followUser);
+                                ticket.set('type',req.body.type);
+                                ticket.set('stype',req.body.sourceType);
+                                ticket.set('consultTel',req.body.consultTel);
+                                ticket.set('followTel',req.body.followTel);
+                                ticket.set('content',req.body.content);
                                 ticket.save();
                             } else {
                                 //update client token and status
@@ -1151,6 +1177,19 @@ app.post('/tickets/:id/threads', function (req, res) {
                                 if( client.username != ticket.attributes.username ){
                                     ticket.set('status', processing_status);
                                     ticket.set("req",reqs);
+                                    ticket.set('title',req.body.title);
+                                    ticket.set('consultUser',req.body.consultUser);
+                                    ticket.set('restaurantID',req.body.restaurantID);
+                                    ticket.set('restaurantName',req.body.restaurantName);
+                                    ticket.set('restaurantReceiver',req.body.restaurantReceiver);
+                                    ticket.set('restaurantTel',req.body.restaurantTel);
+                                    ticket.set('orderId',req.body.orderId);
+                                    ticket.set('followUser',req.body.followUser);
+                                    ticket.set('type',req.body.type);
+                                    ticket.set('stype',req.body.sourceType);
+                                    ticket.set('consultTel',req.body.consultTel);
+                                    ticket.set('followTel',req.body.followTel);
+                                    ticket.set('content',req.body.content);
                                     ticket.save();
                                 } else {
                                     ticket.set("req",reqs);
