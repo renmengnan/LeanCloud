@@ -1,15 +1,15 @@
 <div class="clearfix">
   <div class="btn-group pull-left">
     <a href="/ticket/tickets" class="btn btn-default">我的工单</a>
-    <a href="/ticket/history" class="btn btn-default active">我的任务</a>
-    <a href="/ticket/stocks" class="btn btn-default">已完成</a>
+    <a href="/ticket/history" class="btn btn-default">我的任务</a>
+    <a href="/ticket/stocks" class="btn btn-default active">已完成</a>
   </div>
   <a class="btn btn-primary" href="/ticket/tickets/new" style="margin-left: 10px;">新建工单</a>
 </div>
 <div id="collapseTwo" class="panel-collapse clearfix">
     <div class="panel-body">
         <form id="searchForm" class="thread-form" enctype="multipart/form-data"
-          action="/ticket/history/search" method="post">
+          action="/ticket/stocks/search" method="post">
             <div class="form-group">
                 <select id="inputType" class="form-control" name="type" >
                   <option value="" selected="selected">请选择-流程</option>

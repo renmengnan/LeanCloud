@@ -424,6 +424,125 @@ app.get('/history', function (req, res) {
         }, renderErrorFn(res));
     }
 });
+app.get('/stocks', function (req, res) {
+    var cid = req.cid;
+    var isAdmin = req.admin;
+    if (isAdmin) {
+        res.redirect('ticket/admin/history');
+    } else {
+        var skip = req.query.skip;
+        if (skip == null) {
+            skip = 0;
+        }
+        var limit = 100;
+        var type = req.query.type;
+        var query = new AV.Query("Ticket");
+        // query.equalTo('status', done_status); //工单状态，0：正在处理；2：完成；
+        if (type != null) {
+            query.equalTo('type', type);
+        }
+        query.limit(limit);
+        query.skip(skip);
+        query.descending('createdAt');
+        query.find().then(function (tickets) {
+            tickets = tickets || [];
+            tickets = _.map(tickets, transformTicket);
+            var back = -1;
+            var next = -1;
+            if (parseInt(skip) > 0) {
+                back = parseInt(skip) - parseInt(limit);
+            }
+            if (tickets.length == limit) {
+                next = parseInt(skip) + parseInt(limit);
+            }
+            // console.log(tickets);
+            res.render('stocks', {
+                tickets: tickets, 
+                back: back, 
+                next: next, 
+                type: type
+            });
+        }, renderErrorFn(res));
+    }
+});
+app.post('/stocks/search', function (req, res) {
+    var cid = req.cid;
+    var isAdmin = req.admin;
+    var status = req.query.status;
+    // console.log(req);
+    var skip = req.query.skip;
+    if (skip == null) {
+        skip = 0;
+    }
+    var limit = 100;
+    var type = req.query.type;
+    var query = new AV.Query('Ticket');
+    // console.log(req.body);
+    if( req.body.type != '' ){
+        query.equalTo("type", req.body.type);
+    }
+    if( req.body.sourceType != '' ){
+        query.equalTo("stype", req.body.sourceType);
+    }
+    if( req.body.stateType != '请选择-状态' ){
+        if( req.body.stateType == 0){
+            query.equalTo("status", 0);
+            query.notEqualTo("followUser", "");
+        } else if( req.body.stateType == 3 ){
+            query.equalTo("status", 0);
+            query.equalTo("followUser", "");
+        } else if( req.body.stateType == 1 ){
+            query.equalTo("status", 1);
+        } else if( req.body.stateType == 2 ){
+            query.equalTo("status", 2);
+        }
+        
+    }
+    if( req.body.restaurantID != '' ){
+        query.equalTo("restaurantID", req.body.restaurantID);
+    }
+    if( req.body.orderId != '' ){
+        query.equalTo("orderId", req.body.orderId);
+    }
+    if( req.body.username != '' ){
+        query.equalTo("username", req.body.username);
+    }
+    if( req.body.startTime != '' ){
+        var st = req.body.startTime;
+        var sDate= new Date(Date.parse(st.replace(/-/g, "/")));
+        // myDate = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+        // console.log(myDate)
+        query.greaterThan("createdAt", sDate);
+        if( req.body.endTime != '' ) {
+            var et = req.body.endTime;
+            var eDate= new Date(Date.parse(et.replace(/-/g, "/")));
+            query.lessThan("createdAt", eDate);
+        }
+    }
+    query.limit(limit);
+    query.skip(skip);
+    query.descending('createdAt');
+    query.find().then(function (tickets) {
+        // console.log(tickets);
+        tickets = tickets || [];
+        tickets = _.map(tickets, transformTicket);
+        var back = -1;
+        var next = -1;
+        if (parseInt(skip) > 0) {
+            back = parseInt(skip) - parseInt(limit);
+        }
+        if (tickets.length == limit) {
+            next = parseInt(skip) + parseInt(limit);
+        }
+        // console.log(tickets);
+        res.render('stocks', {
+            tickets: tickets, 
+            back: back, 
+            next: next, 
+            type: type
+        });
+    }, renderErrorFn(res));
+});
 app.post('/history/search', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
