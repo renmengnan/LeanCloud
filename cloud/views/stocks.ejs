@@ -13,7 +13,7 @@
             <div class="form-group">
                 <select id="inputType" class="form-control" name="type" >
                   <option value="" selected="selected">请选择-流程</option>
-                  <option value="consult" selected="selected">咨询流程</option>
+                  <option value="consult">咨询流程</option>
                   <option value="new">新品处理流程</option>
                   <option value="cancelOrders">退换货处理流程</option>
                   <option value="complain">投诉流程</option>
@@ -83,7 +83,9 @@
                 <th data-sort="string">发件人</th>
                 <th data-sort="string">待跟进人</th>
                 <th data-sort="string">咨询人</th>
+                <th data-sort="string">咨询人手机</th>
                 <th data-sort="string">关联餐馆ID</th>
+                <th data-sort="string">餐馆名称</th>
                 <th data-sort="string">关联订单ID</th>
                 <th data-sort="string">状态</th>
                 <th data-sort="string">来源</th>
@@ -101,7 +103,9 @@
                 <td class="table-type"><%= ticket.username %></td>
                 <td class="table-type"><%= ticket.followUser %></td>
                 <td class="table-type"><%= ticket.consultUser %></td>
+                <td class="table-type"><%= ticket.consultTel %></td>
                 <td class="table-type"><%= ticket.restaurantID %></td>
+                <td class="table-type"><%= ticket.restaurantName %></td>
                 <td class="table-type"><%= ticket.orderId %></td>
                 <td class="table-type"><%= ticket.status %></td>
                 <td class="table-type"><%= ticket.stype %></td>
@@ -117,7 +121,9 @@
                   <td class="table-type"><%= ticket.username %></td>
                   <td class="table-type"><%= ticket.followUser %></td>
                   <td class="table-type"><%= ticket.consultUser %></td>
+                  <td class="table-type"><%= ticket.consultTel %></td>
                   <td class="table-type"><%= ticket.restaurantID %></td>
+                  <td class="table-type"><%= ticket.restaurantName %></td>
                   <td class="table-type"><%= ticket.orderId %></td>
                   <td class="table-type"><%= ticket.status %></td>
                   <td class="table-type"><%= ticket.stype %></td>
