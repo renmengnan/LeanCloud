@@ -92,6 +92,7 @@
             </thead>
             <tbody>
             <% tickets.forEach (function (ticket){  %>
+            <% if( ticket.status !='完成' ){ %>
             <% if( !mClient.isAdmin ){ %>
               <% if( ticket.followUser== mClient.username ){ %>
               <tr>
@@ -124,6 +125,7 @@
                   <td class="table-type"><%= ticket.stype %></td>
                   <td class="table-date"><%= ticket.createdAtLong %></td>
                 </tr>
+            <% } %>
             <% } %>
             <% }) %>
             </tbody>
