@@ -338,6 +338,16 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="control-label" for="newIsno">
+                    市场有无货
+                  </label>
+                  <div class="controls">
+                  <select id="newIsno" class="form-control" name="newIsno" >
+                    <option selected="selected"><%= ticket.req.newIsno %></option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="control-label" for="newMarket">
                     所属市场
                     <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
@@ -520,14 +530,6 @@
                   </div>
                 </div>
                 <div class="form-group textArea" style='clear:both; width: 100%;'>
-                  <label class="control-label" for="visitRecord">
-                    回访记录
-                  </label>
-                  <div class="controls">
-                    <textarea rows="10" cols="20" name="visitRecord" id="visitRecord" class="form-control" placeholder="回访记录"><%= ticket.req.visitRecord %></textarea>
-                  </div>
-                </div>
-                <div class="form-group textArea" style='clear:both; width: 100%;'>
                   <label class="control-label" for="cancelRemarks">
                     退换货备注
                   </label>
@@ -535,15 +537,15 @@
                     <textarea rows="10" cols="20" name="cancelRemarks" id="cancelRemarks" class="form-control" placeholder="退换货备注"><%= ticket.req.cancelRemarks %></textarea>
                   </div>
                 </div>
-            <% } else if( ticket.type == "投诉流程" ){ %>
-                <div class="form-group">
-                  <label class="control-label" for="complains">
-                    投诉事项
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="visitRecord">
+                    回访记录
                   </label>
                   <div class="controls">
-                    <input type="text" name="complains" id="complains" class="form-control" placeholder="投诉事项"  value="<%= ticket.req.complains %>">
+                    <textarea rows="10" cols="20" name="visitRecord" id="visitRecord" class="form-control" placeholder="回访记录"><%= ticket.req.visitRecord %></textarea>
                   </div>
                 </div>
+            <% } else if( ticket.type == "投诉流程" ){ %>
                 <div class="form-group">
                   <label class="control-label" for="complainType">
                     投诉类别
@@ -575,6 +577,14 @@
                   <select id="complainProcess" class="form-control" name="complainProcess" >
                     <option  selected="selected"><%= ticket.req.complainProcess %></option>
                   </select>
+                  </div>
+                </div>
+                <div class="form-group textArea" style='clear:both; width: 100%;'>
+                  <label class="control-label" for="complains">
+                    投诉事项
+                  </label>
+                  <div class="controls">
+                    <textarea rows="10" cols="20" name="complains" id="complains" class="form-control" placeholder="投诉事项"><%= ticket.req.complains %></textarea>
                   </div>
                 </div>
                 <div class="form-group textArea" style='clear:both; width: 100%;'>
@@ -622,11 +632,13 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label" for="noCarDescription">
-                    处理描述
+                  <label class="control-label" for="noCarReason">
+                    未分车原因
                   </label>
                   <div class="controls">
-                    <input type="text" name="noCarDescription" id="noCarDescription" class="form-control" placeholder="处理描述"  value="<%= ticket.req.noCarDescription %>">
+                  <select id="noCarReason" class="form-control" name="noCarReason" >
+                    <option selected="selected"><%= ticket.req.noCarReason %></option>
+                  </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -638,6 +650,14 @@
                   <select id="noCarType" class="form-control" name="noCarType" required>
                     <option selected="selected"><%= ticket.req.noCarType %></option>
                   </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="noCarDescription">
+                    处理描述
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="noCarDescription" id="noCarDescription" class="form-control" placeholder="处理描述"  value="<%= ticket.req.noCarDescription %>">
                   </div>
                 </div>
             <% } else if( ticket.type == "订单评价回访流程" ){ %>

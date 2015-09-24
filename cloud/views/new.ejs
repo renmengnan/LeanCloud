@@ -141,6 +141,7 @@
     <select id="sourceType" class="form-control" name="sourceType" required>
       <option value="wxcrowd" selected="selected">微信群</option>
       <option value="wechat">微信平台</option>
+      <option value="System">系统后台</option>
       <option value="tel400">400电话</option>
       <option value="cgwyapp">App</option>
       <option value="other">其他</option>
@@ -242,6 +243,17 @@
               <option >市场反馈其他</option>
               <option >已通知反馈人及客户</option>
               <option >已完成</option>
+            </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="newIsno">
+              市场有无货
+            </label>
+            <div class="controls">
+            <select id="newIsno" class="form-control" name="newIsno" >
+              <option selected="selected">有</option>
+              <option>无</option>
             </select>
             </div>
           </div>
@@ -441,14 +453,6 @@
             </div>
           </div>
           <div class="form-group textArea" style='clear:both; width: 100%;'>
-            <label class="control-label" for="visitRecord">
-              回访记录
-            </label>
-            <div class="controls">
-              <textarea rows="10" cols="20" name="visitRecord" id="visitRecord" class="form-control" placeholder="回访记录"></textarea>
-            </div>
-          </div>
-          <div class="form-group textArea" style='clear:both; width: 100%;'>
             <label class="control-label" for="cancelRemarks">
               退换货备注
             </label>
@@ -456,17 +460,17 @@
               <textarea rows="10" cols="20" name="cancelRemarks" id="cancelRemarks" class="form-control" placeholder="退换货备注"></textarea>
             </div>
           </div>
+          <div class="form-group textArea" style='clear:both; width: 100%;'>
+            <label class="control-label" for="visitRecord">
+              回访记录
+            </label>
+            <div class="controls">
+              <textarea rows="10" cols="20" name="visitRecord" id="visitRecord" class="form-control" placeholder="回访记录"></textarea>
+            </div>
+          </div>
         </li>
         <li id="complain">
           <p class="formTit">投诉处理流程详情</p>
-          <div class="form-group">
-            <label class="control-label" for="complains">
-              投诉事项
-            </label>
-            <div class="controls">
-              <input type="text" name="complains" id="complains" class="form-control" placeholder="投诉事项">
-            </div>
-          </div>
           <div class="form-group">
             <label class="control-label" for="complainType">
               投诉类别
@@ -508,6 +512,14 @@
               <option >已回访投诉人</option>
               <option >已完成</option>
             </select>
+            </div>
+          </div>
+          <div class="form-group textArea" style='clear:both; width: 100%;'>
+            <label class="control-label" for="complains">
+              投诉事项
+            </label>
+            <div class="controls">
+              <textarea rows="10" cols="20" name="complains" id="complains" class="form-control" placeholder="投诉事项"></textarea>
             </div>
           </div>
           <div class="form-group textArea" style='clear:both; width: 100%;'>
@@ -560,16 +572,20 @@
               未分车原因
             </label>
             <div class="controls">
-              <input type="text" name="noCarReason" id="noCarReason" class="form-control" placeholder="未分车原因">
+            <select id="noCarReason" class="form-control" name="noCarReason" >
+              <option selected="selected">客户地标不准确</option>
+              <option>客户区域不准确</option>
+              <option>客户其他信息不完整</option>
+              <option>分车人员操作失误</option>
+            </select>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label" for="noCarType">
               未分单处理过程描述
-              <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
             </label>
             <div class="controls">
-            <select id="noCarType" class="form-control" name="noCarType" required>
+            <select id="noCarType" class="form-control" name="noCarType" >
               <option selected="selected">已联系物流送货</option>
               <option>已通知客户取消订单</option>
             </select>

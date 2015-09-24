@@ -51,7 +51,16 @@
                 <input type="text" name='restaurantID' class="form-control" placeholder="餐馆ID"/>
             </div>
             <div class="form-group">
+                <input type="text" name='restaurantName' class="form-control" placeholder="餐馆名称" >
+            </div>
+            <div class="form-group">
                 <input type="text" name='orderId' class="form-control" placeholder="订单ID" >
+            </div>
+            <div class="form-group">
+                <input type="text" name='consultUser' class="form-control" placeholder="咨询人" >
+            </div>
+            <div class="form-group">
+                <input type="text" name='consultTel' class="form-control" placeholder="咨询人手机号" >
             </div>
             <div class="form-group">
                 <select id="username" name="username" data-placeholder="发件人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
@@ -85,6 +94,7 @@
             <% tickets.forEach (function (ticket){  %>
             <% if( !mClient.isAdmin ){ %>
               <% if( ticket.followUser== mClient.username ){ %>
+              <% if( ticket.status== "完成" ){ %>
               <tr>
                 <td class="table-type" data-sort-value="<%=ticket.ticket_id%>">#<%= ticket.ticket_id%></td>
                 <td class="table-type"><a href="/ticket/tickets/<%=ticket.id%>/threads" title="#<%= ticket.ticket_id %>"><%= ticket.type %></a></td>
@@ -93,16 +103,14 @@
                 <td class="table-type"><%= ticket.consultUser %></td>
                 <td class="table-type"><%= ticket.restaurantID %></td>
                 <td class="table-type"><%= ticket.orderId %></td>
-                <% if(ticket.followUser != '' && ticket.status !="待分配" || ticket.status == "已完成" ){ %>
                 <td class="table-type"><%= ticket.status %></td>
-                <% } else{ %>
-                <td class="table-type">待分配</td>
-                <% } %>
                 <td class="table-type"><%= ticket.stype %></td>
                 <td class="table-date"><%= ticket.createdAtLong %></td>
               </tr>
               <% } %>
+              <% } %>
             <% } else{ %>
+              <% if( ticket.status== "完成" ){ %>
                 <tr>
                   <td class="table-type" data-sort-value="<%=ticket.ticket_id%>">#<%= ticket.ticket_id%></td>
                   <td class="table-type"><a href="/ticket/tickets/<%=ticket.id%>/threads" title="#<%= ticket.ticket_id %>"><%= ticket.type %></a></td>
@@ -115,6 +123,7 @@
                   <td class="table-type"><%= ticket.stype %></td>
                   <td class="table-date"><%= ticket.createdAtLong %></td>
                 </tr>
+              <% } %>
             <% } %>
             <% }) %>
             </tbody>

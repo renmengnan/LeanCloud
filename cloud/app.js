@@ -69,6 +69,7 @@ var type2showMap = {
 var sourceType = {
     'wxcrowd': '微信群',
     'wechat': '微信平台',
+    'System': '系统后台',
     'tel400': '400电话',
     'cgwyapp': 'app',
     'other': '其他'
@@ -501,6 +502,15 @@ app.post('/stocks/search', function (req, res) {
     if( req.body.restaurantID != '' ){
         query.equalTo("restaurantID", req.body.restaurantID);
     }
+    if( req.body.restaurantName != '' ){
+        query.equalTo("restaurantName", req.body.restaurantName);
+    }
+    if( req.body.consultUser != '' ){
+        query.equalTo("consultUser", req.body.consultUser);
+    }
+    if( req.body.consultTel != '' ){
+        query.equalTo("consultTel", req.body.consultTel);
+    }
     if( req.body.orderId != '' ){
         query.equalTo("orderId", req.body.orderId);
     }
@@ -579,6 +589,15 @@ app.post('/history/search', function (req, res) {
     if( req.body.restaurantID != '' ){
         query.equalTo("restaurantID", req.body.restaurantID);
     }
+    if( req.body.restaurantName != '' ){
+        query.equalTo("restaurantName", req.body.restaurantName);
+    }
+    if( req.body.consultUser != '' ){
+        query.equalTo("consultUser", req.body.consultUser);
+    }
+    if( req.body.consultTel != '' ){
+        query.equalTo("consultTel", req.body.consultTel);
+    }
     if( req.body.orderId != '' ){
         query.equalTo("orderId", req.body.orderId);
     }
@@ -656,6 +675,15 @@ app.post('/tickets/search', function (req, res) {
     }
     if( req.body.restaurantID != '' ){
         query.equalTo("restaurantID", req.body.restaurantID);
+    }
+    if( req.body.restaurantName != '' ){
+        query.equalTo("restaurantName", req.body.restaurantName);
+    }
+    if( req.body.consultUser != '' ){
+        query.equalTo("consultUser", req.body.consultUser);
+    }
+    if( req.body.consultTel != '' ){
+        query.equalTo("consultTel", req.body.consultTel);
     }
     if( req.body.orderId != '' ){
         query.equalTo("orderId", req.body.orderId);
