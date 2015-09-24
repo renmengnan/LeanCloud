@@ -671,10 +671,12 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label" for="visitCname">
-                    客服名称
+                    退货原因
                   </label>
                   <div class="controls">
-                    <input type="text" name="visitCname" id="visitCname" class="form-control" placeholder="客服名称"  value="<%= ticket.req.visitCname %>">
+                  <select id="visitCname" class="form-control" name="visitCname" >
+                    <option selected="selected"><%= ticket.req.visitCname %></option>
+                  </select>
                   </div>
                 </div>
                 <div class="form-group">
