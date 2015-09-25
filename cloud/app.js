@@ -1677,13 +1677,35 @@ app.get('/newTicket', function (req, res) {
     // console.log(data);
     var username = data.username,
         password = "111111";
-    // var token = req.token;
-    // var client = req.client;
+    var token = req.token;
+    var client = req.client;
     // res.render('new',{
     //     token: token,
     //     client: client,
     //     data: data.info
     // })
+if( data.info){
+                        res.render('new',{
+                            token: token,
+                            client: client,
+                            data: data.info,
+                            restaurant: null
+                        })
+                    } else if( data.restaurant ) {
+                        res.render('new',{
+                            token: token,
+                            client: client,
+                            data: null,
+                            restaurant: data.restaurant
+                        })
+                    } else {
+                        res.render('new',{
+                            token: token,
+                            client: client,
+                            data: null,
+                            restaurant: null
+                        })
+                    }
     AV.Cloud.httpRequest({
         url: 'https://cn.avoscloud.com/1/users?where={"username":{"$regex":"'+ username +'"}}',
         headers: {
