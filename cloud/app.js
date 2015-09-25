@@ -1670,6 +1670,16 @@ app.get('/login', function (req, res) {
         res.render('login.ejs');
     }
 });
+app.get('/new', function (req, res) {
+    var token = req.token;
+    var client = req.client;
+    res.render('new',{
+        token: token,
+        client: client,
+        data: null,
+        restaurant: null
+    })
+});
 app.get('/newTicket', function (req, res) {
     // console.log(typeof req.query.data);
     var data = req.query.data;
