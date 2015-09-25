@@ -196,7 +196,10 @@ function formatTime(t) {
 }
 
 function formatTimeLong(t) {
-    var date = moment(t+'0800').format('YYYY-MM-DD HH:mm:ss');
+    var time = moment(t).tz('Asia/Shanghai');
+    // console.log('toString', time.format('YYYY-MM-DD HH:mm:ss'));
+    // console.log('getHours', time.hours())
+    var date = time.format('YYYY-MM-DD HH:mm:ss');
     return date;
 }
 
