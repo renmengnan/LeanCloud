@@ -196,7 +196,7 @@ function formatTime(t) {
 }
 
 function formatTimeLong(t) {
-    var date = moment(t).format('YYYY-MM-DD HH:mm:ss');
+    var date = moment(t+'0800').format('YYYY-MM-DD HH:mm:ss');
     return date;
 }
 
