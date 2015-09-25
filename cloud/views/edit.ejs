@@ -731,8 +731,11 @@
                     <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
                   </label>
                   <div class="controls">
-                  <select id="noCarType" class="form-control" name="noCarType" required>
+                  <select id="noCarType" class="form-control" name="noCarType">
                     <option selected="selected"><%= ticket.req.noCarType %></option>
+                    <option>已联系物流送货</option>
+                    <option>已通知客户取消订单</option>
+                    <option>待处理</option>
                   </select>
                   </div>
                 </div>

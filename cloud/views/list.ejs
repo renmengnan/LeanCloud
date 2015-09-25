@@ -97,6 +97,7 @@
       <th data-sort="string">咨询人手机</th>
       <th data-sort="string">关联餐馆ID</th>
       <th data-sort="string">餐馆名称</th>
+      <th data-sort="string">餐馆电话</th>
       <th data-sort="string">关联订单ID</th>
       <th data-sort="string">状态</th>
       <th data-sort="string">来源</th>
@@ -115,6 +116,7 @@
           <td class="table-type"><%= ticket.consultTel %></td>
           <td class="table-type"><%= ticket.restaurantID %></td>
           <td class="table-type"><%= ticket.restaurantName %></td>
+          <td class="table-type"><%= ticket.restaurantTel %></td>
           <td class="table-type"><%= ticket.orderId %></td>
           <% if(ticket.followUser != '' && ticket.status !="待分配" || ticket.status == "完成" ){ %>
           <td class="table-type"><%= ticket.status %></td>
