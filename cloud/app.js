@@ -1670,7 +1670,7 @@ app.get('/login', function (req, res) {
         res.render('login.ejs');
     }
 });
-app.get('/new', function (req, res) {
+app.get('/news', function (req, res) {
     var token = req.token;
     var client = req.client;
     console.log(9990)
