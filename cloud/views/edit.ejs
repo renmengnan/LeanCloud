@@ -371,7 +371,7 @@
                     参考价格
                   </label>
                   <div class="controls">
-                    <input type="number" name="newRePrice" id="newRePrice" class="form-control" placeholder="参考价格"  value='<%= ticket.req.newRePrice %>'>
+                    <input type="text" name="newRePrice" id="newRePrice" class="form-control" placeholder="参考价格"  value='<%= ticket.req.newRePrice %>'>
                   </div>
                 </div>
                 <div class="form-group textArea" style='width: 100%;'>
@@ -382,7 +382,7 @@
                     <textarea rows="10" cols="20" name="newProcess" id="newProcess" class="form-control" placeholder="新品流程备注" ><%= ticket.req.newProcess %></textarea>
                   </div>
                 </div>
-            <% } else if( ticket.type == "退换货处理流程" ){ %>
+            <% } else if( ticket.type == "退货处理流程" ){ %>
                 <div class="form-group">
                   <label class="control-label" for="cancelAddress">
                     商户地址
@@ -420,7 +420,7 @@
                     订单单价
                   </label>
                   <div class="controls">
-                    <input type="number" name="cancelUnitPrice" id="cancelUnitPrice" class="form-control" placeholder="订单单价"  value="<%= ticket.req.cancelUnitPrice %>">
+                    <input type="text" name="cancelUnitPrice" id="cancelUnitPrice" class="form-control" placeholder="订单单价"  value="<%= ticket.req.cancelUnitPrice %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -436,7 +436,7 @@
                     退款金额
                   </label>
                   <div class="controls">
-                    <input type="number" name="cancelAmount" id="cancelAmount" class="form-control" placeholder="退款金额"  value="<%= ticket.req.cancelAmount %>">
+                    <input type="text" name="cancelAmount" id="cancelAmount" class="form-control" placeholder="退款金额"  value="<%= ticket.req.cancelAmount %>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -571,11 +571,15 @@
                 <div class="form-group">
                   <label class="control-label" for="complainProcess">
                     投诉处理过程
-                    <b class="has-required bstooltip" title="必填" data-placement="top">必填</b>
                   </label>
                   <div class="controls">
                   <select id="complainProcess" class="form-control" name="complainProcess" >
                     <option  selected="selected"><%= ticket.req.complainProcess %></option>
+                    <option>已安抚并记录</option>
+                    <option>已反馈到投诉部门</option>
+                    <option>投诉部门已处理</option>
+                    <option>已回访投诉人</option>
+                    <option>已完成</option>
                   </select>
                   </div>
                 </div>
@@ -718,6 +722,10 @@
                   <div class="controls">
                   <select id="visitProcess" class="form-control" name="visitProcess" >
                     <option selected="selected"><%= ticket.req.visitProcess %></option>
+                    <option>未接通</option>
+                    <option>停机、错号等无法接通</option>
+                    <option>客户满意已回访并记录</option>
+                    <option>客户不满意已回访并反馈</option>
                   </select>
                   </div>
                 </div>
