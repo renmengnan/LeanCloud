@@ -752,7 +752,8 @@ app.get('/tickets/new', function (req, res) {
     res.render('new', {
         token: token, 
         client: client,
-        data: null
+        data: null,
+        restaurant: null
     });
 });
 
@@ -1669,17 +1670,6 @@ app.get('/login', function (req, res) {
         // console.log(req.query);
         res.render('login.ejs');
     }
-});
-app.get('/news', function (req, res) {
-    var token = req.token;
-    var client = req.client;
-    console.log(9990)
-    res.render('new',{
-        token: token,
-        client: client,
-        data: null,
-        restaurant: null
-    })
 });
 app.get('/newTicket', function (req, res) {
     // console.log(typeof req.query.data);
