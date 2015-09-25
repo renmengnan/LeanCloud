@@ -374,6 +374,86 @@
                     <input type="text" name="newRePrice" id="newRePrice" class="form-control" placeholder="参考价格"  value='<%= ticket.req.newRePrice %>'>
                   </div>
                 </div>
+                <div class="form-group">
+                  <label class="control-label" for="newSkuid">
+                    SKUID
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newSkuid" id="newSkuid" class="form-control" placeholder="SKUID" value='<%= ticket.req.newSkuid %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newProName">
+                    产品名称
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newProName" id="newProName" class="form-control" placeholder="产品名称" value='<%= ticket.req.newProName %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newSpecifications">
+                    规格
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newSpecifications" id="newSpecifications" class="form-control" placeholder="规格" value='<%= ticket.req.newSpecifications %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newClassification">
+                    分类
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newClassification" id="newClassification" class="form-control" placeholder="分类" value='<%= ticket.req.newClassification %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newRecommended">
+                    建议售价
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newRecommended" id="newRecommended" class="form-control" placeholder="建议售价" value='<%= ticket.req.newRecommended %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newMarketVal">
+                    市场价
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newMarketVal" id="newMarketVal" class="form-control" placeholder="市场价" value='<%= ticket.req.newMarketVal %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newSupplier">
+                    供货商
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newSupplier" id="newSupplier" class="form-control" placeholder="供货商" value='<%= ticket.req.newSupplier %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newOnlineChange">
+                    线上更改情况
+                  </label>
+                  <div class="controls">
+                  <select id="newOnlineChange" class="form-control" name="newOnlineChange" >
+                    <option selected="selected"><%= ticket.req.newOnlineChange %></option>
+                    <option>已上线</option>
+                    <option>未上线</option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newNoChange">
+                    未更改原因
+                  </label>
+                  <div class="controls">
+                  <select id="newNoChange" class="form-control" name="newNoChange" >
+                    <option selected="selected"><%= ticket.req.newNoChange %></option>
+                    <option>无货</option>
+                    <option>不建议更改</option>
+                  </select>
+                  </div>
+                </div>
                 <div class="form-group textArea" style='width: 100%;'>
                   <label class="control-label" for="newProcess">
                     新品流程备注
