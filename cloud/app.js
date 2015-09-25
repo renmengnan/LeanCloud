@@ -204,7 +204,7 @@ function formatTimeLong(t) {
 }
 
 function transformTicket(t) {
-    console.log(moment(t.createdAt).format('YYYY-MM-DD HH:mm:ss'))
+    console.log(t.createdAt)
     var rawStatus = t.get('status');
     var open = secret_content;
     if (t.get('open') == open_content) {
