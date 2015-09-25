@@ -1673,6 +1673,7 @@ app.get('/login', function (req, res) {
 app.get('/new', function (req, res) {
     var token = req.token;
     var client = req.client;
+    console.log(9990)
     res.render('new',{
         token: token,
         client: client,
