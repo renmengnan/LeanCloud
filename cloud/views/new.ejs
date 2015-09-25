@@ -60,6 +60,8 @@
     <div class="controls">
       <% if(data!=null){ %>
       <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称" value='<%= data.restaurant.name %>'>
+      <% } else if(restaurant!=null) { %>
+      <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称" value='<%= restaurant.name %>'>
       <% } else { %>
       <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称">
       <% } %>
@@ -72,6 +74,8 @@
     <div class="controls">
       <% if(data!=null){ %>
       <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人" value='<%= data.restaurant.receiver %>'>
+      <% } else if(restaurant!=null) { %>
+      <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人" value='<%= restaurant.receiver %>'>
       <% } else { %>
       <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人">
       <% } %>
@@ -84,6 +88,8 @@
     <div class="controls">
       <% if(data!=null){ %>
       <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话" value='<%= data.restaurant.telephone %>'>
+      <% } else if(restaurant!=null) { %>
+      <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话" value='<%= restaurant.telephone %>'>
       <% } else { %>
       <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话">
       <% } %>

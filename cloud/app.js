@@ -1707,13 +1707,22 @@ app.get('/newTicket', function (req, res) {
                         res.render('new',{
                             token: token,
                             client: client,
-                            data: data.info
+                            data: data.info,
+                            restaurant: null
+                        })
+                    } else if( data.restaurant ) {
+                        res.render('new',{
+                            token: token,
+                            client: client,
+                            data: null,
+                            restaurant: data.restaurant
                         })
                     } else {
                         res.render('new',{
                             token: token,
                             client: client,
-                            data: null
+                            data: null,
+                            restaurant: null
                         })
                     }
                     
