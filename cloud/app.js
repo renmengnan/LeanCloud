@@ -184,14 +184,14 @@ function transformSearchTicket(t) {
         restaurantReceiver: t.restaurantReceiver,
         restaurantTel: t.restaurantTel,
         orderId: t.orderId,
-        createdAt: moment(t.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+        createdAt: moment(t.createdAt+'+0800').format('YYYY-MM-DD HH:mm:ss'),
         createdAtUnix: moment(t.createdAt).valueOf()
     };
 }
 
 function formatTime(t) {
     var date = moment(t).fromNow();
-    var cleanDate = '<span class="form-cell-date">' + moment(t).format('YYYY-MM-DD') + '</span> <span class="form-cell-time">' + moment(t).format('HH:mm:ss') + '</span>';
+    var cleanDate = '<span class="form-cell-date">' + moment(t).format('YYYY-MM-DD') + '</span> <span class="form-cell-time">' + moment(t+'+0800').format('HH:mm:ss') + '</span>';
     return date;
 }
 
@@ -199,7 +199,7 @@ function formatTimeLong(t) {
     // var time = moment(t).tz('Asia/Shanghai');
     // console.log('toString', time.format('YYYY-MM-DD HH:mm:ss'));
     // console.log('getHours', time.hours())
-    var date = moment(t).format('YYYY-MM-DD HH:mm:ss');
+    var date = moment(t+'+0800').format('YYYY-MM-DD HH:mm:ss');
     return date;
 }
 
