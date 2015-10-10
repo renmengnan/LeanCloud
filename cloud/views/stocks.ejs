@@ -12,7 +12,7 @@
           action="/ticket/stocks/search" method="post">
             <div class="form-group">
                 <select id="inputType" class="form-control" name="type" >
-                  <option value="" selected="selected">请选择-流程</option>
+                  <option value="">请选择-流程</option>
                   <option value="consult">咨询流程</option>
                   <option value="new">新品处理流程</option>
                   <option value="cancelOrders">退换货处理流程</option>
@@ -22,6 +22,17 @@
                   <option value="visit">订单评价回访流程</option>
                   <option value="firstVisit">首单回访流程</option>
                 </select>
+                <% if( searchData != null ){%>
+                    <script>
+                        $('#inputType option').each(function(i,v){
+                          if($('#inputType option').eq(i).val()=='<%=searchData.type%>'){
+                              $('#inputType option').eq(i).attr('selected','selected');
+                          } else {
+                              $('#inputType option').eq(i).removeAttr('selected');
+                          }
+                        });
+                    </script>
+                <% } %>
             </div>
             <div class="form-group">
                 <select id="sourceType" class="form-control" name="sourceType" >
@@ -32,6 +43,17 @@
                   <option value="cgwyapp">App</option>
                   <option value="other">其他</option>
                 </select>
+                <% if( searchData != null ){%>
+                    <script>
+                        $('#inputType option').each(function(i,v){
+                          if($('#sourceType option').eq(i).val()=='<%=searchData.sourceType%>'){
+                              $('#sourceType option').eq(i).attr('selected','selected');
+                          } else {
+                              $('#sourceType option').eq(i).removeAttr('selected');
+                          }
+                        });
+                    </script>
+                <% } %>
             </div>
             <div class="form-group">
                 <select id="stateType" class="form-control" name="stateType" >
@@ -40,32 +62,77 @@
                   <option value="1">已回复</option>
                   <option value="2">完成</option>
                 </select>
+                <% if( searchData != null ){%>
+                    <script>
+                        $('#stateType option').each(function(i,v){
+                          if($('#stateType option').eq(i).val()=='<%=searchData.stateType%>'){
+                              $('#stateType option').eq(i).attr('selected','selected');
+                          } else {
+                              $('#stateType option').eq(i).removeAttr('selected');
+                          }
+                        });
+                    </script>
+                <% } %>
             </div>
             <div class="form-group">
+                <% if( searchData != null && searchData.startTime != '' ){%>
+                    <input type="text" id="startTime" name="startTime" class="form-control" placeholder="起始时间" value='<%=searchData.startTime %> '/>
+                <% } else{ %>
                 <input type="text" id="startTime" name="startTime" class="form-control" placeholder="起始时间" />
+                <% } %>
             </div>
             <div class="form-group">
+                <% if( searchData != null && searchData.endTime != '' ){%>
+                    <input type="text" id="endTime" name="endTime" class="form-control" placeholder="结束时间" value='<%=searchData.endTime %> '/>
+                <% } else{ %>
                 <input type="text" id="endTime" name="endTime" class="form-control" placeholder="结束时间" />
+                <% } %>
             </div>
             <div class="form-group">
+                <% if( searchData != null && searchData.restaurantID != '' ){%>
+                <input type="text" name='restaurantID' class="form-control" placeholder="餐馆ID" value='<%=searchData.restaurantID %> '/>
+                <% } else{ %>
                 <input type="text" name='restaurantID' class="form-control" placeholder="餐馆ID"/>
+                <% } %>
             </div>
             <div class="form-group">
+                <% if( searchData != null && searchData.restaurantName != '' ){%>
+                <input type="text" name='restaurantName' class="form-control" placeholder="餐馆名称" value='<%=searchData.restaurantName %> ' >
+                <% } else{ %>
                 <input type="text" name='restaurantName' class="form-control" placeholder="餐馆名称" >
+                <% } %>
             </div>
             <div class="form-group">
+                <% if( searchData != null && searchData.orderId != '' ){%>
+                <input type="text" name='orderId' class="form-control" placeholder="订单ID" value='<%=searchData.orderId %>'>
+                <% } else{ %>
                 <input type="text" name='orderId' class="form-control" placeholder="订单ID" >
+                <% } %>
             </div>
             <div class="form-group">
+                <% if( searchData != null && searchData.consultUser != '' ){%>
+                <input type="text" name='consultUser' class="form-control" placeholder="咨询人" value='<%=searchData.consultUser %>'>
+                <% } else{ %>
                 <input type="text" name='consultUser' class="form-control" placeholder="咨询人" >
+                <% } %>
             </div>
             <div class="form-group">
+                <% if( searchData != null && searchData.consultTel != '' ){%>
+                <input type="text" name='consultTel' class="form-control" placeholder="咨询人手机号" value='<%=searchData.consultTel %>'>
+                <% } else{ %>
                 <input type="text" name='consultTel' class="form-control" placeholder="咨询人手机号" >
+                <% } %>
             </div>
             <div class="form-group">
+                <% if( searchData != null && searchData.username != '' ){%>
+                <select id="username" name="username" data-placeholder="发件人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
+                  <option value=""><%=searchData.username %></option>
+                </select>
+                <% } else{ %>
                 <select id="username" name="username" data-placeholder="发件人" style="width: 350px; display: none;" class="form-control chosen-select-deselect" tabindex="-1">
                   <option value=""></option>
                 </select>
+                <% } %>
             </div>
             <button type="submit" class="btn btn-primary btn-submit" >&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
         </form>

@@ -204,7 +204,7 @@ function formatTimeLong(t) {
 }
 
 function transformTicket(t) {
-    console.log(t.createdAt)
+    // console.log(t.createdAt)
     var rawStatus = t.get('status');
     var open = secret_content;
     if (t.get('open') == open_content) {
@@ -382,6 +382,7 @@ app.get('/tickets', function (req, res) {
             // console.log(tickets);
             res.render('list', {
                 tickets: tickets,
+                searchData: null,
                 token: token
             });
         }, mutil.renderErrorFn(res));
@@ -422,6 +423,7 @@ app.get('/history', function (req, res) {
             // console.log(tickets);
             res.render('history', {
                 tickets: tickets, 
+                searchData: null,
                 back: back, 
                 next: next, 
                 type: type
@@ -463,6 +465,7 @@ app.get('/stocks', function (req, res) {
             // console.log(tickets);
             res.render('stocks', {
                 tickets: tickets, 
+                searchData: null,
                 back: back, 
                 next: next, 
                 type: type
@@ -475,6 +478,7 @@ app.post('/stocks/search', function (req, res) {
     var isAdmin = req.admin;
     var status = req.query.status;
     // console.log(req);
+    var searchData = req.body;
     var skip = req.query.skip;
     if (skip == null) {
         skip = 0;
@@ -551,6 +555,7 @@ app.post('/stocks/search', function (req, res) {
         // console.log(tickets);
         res.render('stocks', {
             tickets: tickets, 
+            searchData: searchData,
             back: back, 
             next: next, 
             type: type
@@ -563,13 +568,14 @@ app.post('/history/search', function (req, res) {
     var status = req.query.status;
     // console.log(req);
     var skip = req.query.skip;
+    var searchData = req.body;
     if (skip == null) {
         skip = 0;
     }
     var limit = 100;
     var type = req.query.type;
     var query = new AV.Query('Ticket');
-    // console.log(req.body);
+    console.log(req.body);
     if( req.body.type != '' ){
         query.equalTo("type", req.body.type);
     }
@@ -637,7 +643,8 @@ app.post('/history/search', function (req, res) {
         }
         // console.log(tickets);
         res.render('history', {
-            tickets: tickets, 
+            tickets: tickets,
+            searchData: searchData, 
             back: back, 
             next: next, 
             type: type
@@ -648,6 +655,7 @@ app.post('/tickets/search', function (req, res) {
     var cid = req.cid;
     var isAdmin = req.admin;
     var status = req.query.status;
+    var searchData = req.body;
     // console.log(req);
     var skip = req.query.skip;
     if (skip == null) {
@@ -724,7 +732,8 @@ app.post('/tickets/search', function (req, res) {
         }
         // console.log(tickets);
         res.render('list', {
-            tickets: tickets, 
+            tickets: tickets,
+            searchData: searchData, 
             back: back, 
             next: next, 
             type: type
