@@ -11,7 +11,7 @@ var crypto = require('crypto');
 var avosExpressCookieSession = require('avos-express-cookie-session');
 var nodeExcel = require('excel-export');
 var AV = require('avoscloud-sdk');
-// AV.initialize('mleo7onuqcxdzwkr0vppy6h9', 'ozux1r2348rvc5pb3o8gjjtl');
+AV.initialize('mleo7onuqcxdzwkr0vppy6h9', 'ozux1r2348rvc5pb3o8gjjtl');
 
 var admin = require('cloud/madmin.js');
 var login = require('cloud/login.js');
