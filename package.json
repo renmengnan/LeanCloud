@@ -4,11 +4,12 @@
   "description": "如果还未见识过工单系统，请移步于",
   "main": "index.js",
   "dependencies": {
-    "moment-timezone": "^0.4.0",
-    "jszip": "^2.5.0",
+    "avoscloud-sdk": "latest",
     "excel-export": "^0.4.1",
-    "node-zip": "^1.1.1",
-    "avoscloud-sdk":"latest"
+    "jszip": "^2.5.0",
+    "leanengine": "^0.1.6",
+    "moment-timezone": "^0.4.0",
+    "node-zip": "^1.1.1"
   },
   "devDependencies": {},
   "scripts": {

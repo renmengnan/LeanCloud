@@ -1,5 +1,10 @@
-var AV = require('avoscloud-sdk');
-AV.initialize('mleo7onuqcxdzwkr0vppy6h9', 'ozux1r2348rvc5pb3o8gjjtl');
+var AV = require('leanengine');
+
+var APP_ID = process.env.LC_APP_ID || 'mleo7onuqcxdzwkr0vppy6h9'; // your app id
+var APP_KEY = process.env.LC_APP_KEY || 'ozux1r2348rvc5pb3o8gjjtl'; // your app key
+var MASTER_KEY = process.env.LC_APP_MASTER_KEY || 'a0h3w9iilx000ee75c5o64el'; // your app master key
+
+AV.initialize(APP_ID, APP_KEY, MASTER_KEY);
 var express = require('express');
 var app = express();
 var Mailgun = require('mailgun').Mailgun;
