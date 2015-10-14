@@ -1,0 +1,27 @@
+{
+  "name": "ticket",
+  "version": "1.0.0",
+  "description": "如果还未见识过工单系统，请移步于",
+  "main": "index.js",
+  "dependencies": {
+    "moment-timezone": "^0.4.0",
+    "jszip": "^2.5.0",
+    "excel-export": "^0.4.1",
+    "node-zip": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renmengnan/LeanCloud.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/renmengnan/LeanCloud/issues"
+  },
+  "homepage": "https://github.com/renmengnan/LeanCloud#readme",
+  "avoscloud-sdk":"latest"
+}
