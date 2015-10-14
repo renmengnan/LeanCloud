@@ -209,16 +209,16 @@
     <ul class="pagination">
       <% if(back >= 0) { %>
       <% if(type != null) { %>
-      <li><a href="history?type=<%= type %>&skip=<%= back %>">上一页</a></li>
+      <li><a href="/ticket/stocks?type=<%= type %>&skip=<%= back %>">上一页</a></li>
       <% }else{ %>
-      <li><a href="history?skip=<%= back %>">上一页</a></li>
+      <li><a href="/ticket/stocks?skip=<%= back %>">上一页</a></li>
       <% } %>
       <% } %>
       <% if(next > 0) { %>
       <% if(type != null) { %>
-      <li><a href="history?type=<%= type %>&skip=<%= next %>">下一页</a></li>
+      <li><a href="/ticket/stocks?type=<%= type %>&skip=<%= next %>">下一页</a></li>
       <% }else{ %>
-      <li><a href="history?skip=<%= next %>">下一页</a></li>
+      <li><a href="/ticket/stocks?skip=<%= next %>">下一页</a></li>
       <% } %>
       <% } %>
     </ul>

@@ -9,7 +9,7 @@
 <div id="collapseTwo" class="panel-collapse clearfix">
     <div class="panel-body">
         <form id="searchForm" class="thread-form" enctype="multipart/form-data"
-          action="/history/search" method="post">
+          action="/ticket/history/search" method="post">
             <div class="form-group">
                 <select id="inputType" class="form-control" name="type" >
                   <option value="">请选择-流程</option>
@@ -211,16 +211,16 @@
     <ul class="pagination">
       <% if(back >= 0) { %>
       <% if(type != null) { %>
-      <li><a href="history?type=<%= type %>&skip=<%= back %>">上一页</a></li>
+      <li><a href="/ticket/history?type=<%= type %>&skip=<%= back %>">上一页</a></li>
       <% }else{ %>
-      <li><a href="history?skip=<%= back %>">上一页</a></li>
+      <li><a href="/ticket/history?skip=<%= back %>">上一页</a></li>
       <% } %>
       <% } %>
       <% if(next > 0) { %>
       <% if(type != null) { %>
-      <li><a href="/history?type=<%= type %>&skip=<%= next %>">下一页</a></li>
+      <li><a href="/ticket/history?type=<%= type %>&skip=<%= next %>">下一页</a></li>
       <% }else{ %>
-      <li><a href="/history?skip=<%= next %>">下一页</a></li>
+      <li><a href="/ticket/history?skip=<%= next %>">下一页</a></li>
       <% } %>
       <% } %>
     </ul>

@@ -980,10 +980,20 @@
     </form>
   </div>
 </div>
-
-
+<% if(ticket.status == '完成'){ %>
+<button id="exportExcel" class="btn btn-warning">工单导出</button>
+<% } %>
 <a href="/ticket/tickets" class="btn btn-default btn-back">返回</a>
 <script type="text/javascript">
+  $("#exportExcel").click(function(){
+    console.info("exportExcel");
+    var id = '<%= ticket.id %>';
+    console.info("id:"+id);
+    var url =  "/exportExcel/" + id;
+    console.info(url);
+    window.location = url;//这里不能使用get方法跳转，否则下载不成功
+
+  });
   $.ajax({ 
       url: "http://www.canguanwuyou.cn/admin/api/admin-user?pageSize=10000", 
       type: "GET",
