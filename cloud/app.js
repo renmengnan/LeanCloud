@@ -399,6 +399,7 @@ app.get('/exportExcel/:id', function(req, res){
                 {caption:'待跟进人手机', type:'string'},
                 {caption:'问题来源', type:'string'}
             ];
+            
             conf.rows = [
               [
                   type2showMap[excelInfo.type], 
@@ -414,14 +415,6 @@ app.get('/exportExcel/:id', function(req, res){
                   sourceType[excelInfo.stype]
               ]
             ];
-            // "consult": "咨询流程",
-            // 'new': '新品处理流程',
-            // 'cancelOrders': '退货处理流程',
-            // 'complain': '投诉流程',
-            // 'check': '订单查重流程',
-            // 'noCar': '未分车订单处理流程',
-            // 'visit': '订单评价回访流程',
-            // 'firstVisit': '首单回访流程'
             if(type2showMap[excelInfo.type]=="咨询流程"){
                 conf.cols.push({caption:'咨询类别', type:'string'});
                 conf.rows[0].push(excelInfo.req.consultType);
