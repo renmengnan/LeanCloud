@@ -370,22 +370,79 @@ function addNotify(link, cid, msg) {
     n.save().then(function () {
     }, mutil.logErrorFn());
 }
-app.get('/exportExcel/:id', function(req, res){
-    var ticketId = req.params.id;
-    var query = new AV.Query('Thread');
-    query.equalTo('ticket', AV.Object.createWithoutData('Ticket', ticketId));
-    query.find().then(function (threads) {
-        var ticket = AV.Object.createWithoutData('Ticket', ticketId);
-        ticket.fetch().then(function (ticket) {
-            // console.log(ticket._serverData);
-            // console.log(type2showMap[ticket._serverData.type]);
-            // for(var i=0;i<type2showMap.length;i++){
-            var excelInfo = ticket._serverData;
-            // }
+
+app.get('/exportExcels', function(req, res){
+    var data = req.query.data;
+        data = JSON.parse(data);
+    // console.log(data.username==undefined);
+    var query = new AV.Query('Ticket');
+    // console.log(req.body);
+    if( data.type != '' ){
+        query.equalTo("type", data.type);
+    }
+    if( data.sourceType != '' ){
+        query.equalTo("stype", data.sourceType);
+    }
+    if( data.stateType != '请选择-状态' ){
+        if( data.stateType == 0){
+            query.equalTo("status", 0);
+            query.notEqualTo("followUser", "");
+        } else if( data.stateType == 3 ){
+            query.equalTo("status", 0);
+            query.equalTo("followUser", "");
+        } else if( data.stateType == 1 ){
+            query.equalTo("status", 1);
+        } else if( data.stateType == 2 ){
+            query.equalTo("status", 2);
+        }
+        
+    }
+    if( data.restaurantID != '' ){
+        query.equalTo("restaurantID", data.restaurantID);
+    }
+    if( data.restaurantName != '' ){
+        query.equalTo("restaurantName", data.restaurantName);
+    }
+    if( data.consultUser != '' ){
+        query.equalTo("consultUser", data.consultUser);
+    }
+    if( data.consultTel != '' ){
+        query.equalTo("consultTel", data.consultTel);
+    }
+    if( data.orderId != '' ){
+        query.equalTo("orderId", data.orderId);
+    }
+    if( data.followUser != '' && data.followUser != undefined){
+        query.equalTo("followUser", data.followUser);
+    }
+    if( data.username != '' && data.username != undefined){
+        query.equalTo("username", data.username);
+    }
+    if( data.startTime != '' ){
+        var st = data.startTime;
+        var sDate= new Date(Date.parse(st.replace(/-/g, "/")));
+        // myDate = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+        // console.log(myDate)
+        query.greaterThan("createdAt", sDate);
+        if( data.endTime != '' ) {
+            var et = data.endTime;
+            var eDate= new Date(Date.parse(et.replace(/-/g, "/")));
+            query.lessThan("createdAt", eDate);
+        }
+    }
+    query.descending('createdAt');
+    query.find().then(function (tickets) {
+        tickets = tickets || [];
+        tickets = _.map(tickets, transformTicket);
+        // console.log(tickets);
+        if(tickets!=""){
+            var excelInfo = tickets;
+            // console.log(excelInfo[0].req)
+
             var conf ={};
             // uncomment it for style example  
             conf.stylesXmlFile = "cloud/styles.xml";
-            // console.log(fs.existsSync("cloud/styles.xml"));
+
             conf.cols = [
                 {caption:'流程类型', type:'string'},
                 {caption:'咨询人', type:'string'},
@@ -399,167 +456,183 @@ app.get('/exportExcel/:id', function(req, res){
                 {caption:'待跟进人手机', type:'string'},
                 {caption:'问题来源', type:'string'}
             ];
-
-            conf.rows = [
-              [
-                  type2showMap[excelInfo.type], 
-                  excelInfo.consultUser, 
-                  excelInfo.consultTel, 
-                  excelInfo.restaurantName, 
-                  excelInfo.restaurantReceiver, 
-                  excelInfo.restaurantTel, 
-                  excelInfo.restaurantID, 
-                  excelInfo.orderId, 
-                  excelInfo.followUser, 
-                  excelInfo.followTel,
-                  sourceType[excelInfo.stype]
-              ]
-            ];
-            if(type2showMap[excelInfo.type]=="咨询流程"){
-                conf.cols.push({caption:'咨询类别', type:'string'});
-                conf.rows[0].push(excelInfo.req.consultType);
-                conf.cols.push({caption:'咨询处理结果', type:'string'});
-                conf.rows[0].push(excelInfo.req.consultResult);
-                conf.cols.push({caption:'咨询流程备注', type:'string'});
-                conf.rows[0].push(excelInfo.req.consultRemarks);
-            }else if(type2showMap[excelInfo.type]=="新品处理流程") {
-                conf.cols.push({caption:'新品流程分类', type:'string'});
-                conf.rows[0].push(excelInfo.req.newStype);
-                conf.cols.push({caption:'新品流程状态', type:'string'});
-                conf.rows[0].push(excelInfo.req.newType);
-                conf.cols.push({caption:'市场有无货', type:'string'});
-                conf.rows[0].push(excelInfo.req.newIsno);
-                conf.cols.push({caption:'所属市场', type:'string'});
-                conf.rows[0].push(excelInfo.req.newMarket);
-                conf.cols.push({caption:'新品参考名称', type:'string'});
-                conf.rows[0].push(excelInfo.req.newReName);
-                conf.cols.push({caption:'参考价格', type:'string'});
-                conf.rows[0].push(excelInfo.req.newRePrice);
-                conf.cols.push({caption:'SKUID', type:'string'});
-                conf.rows[0].push(excelInfo.req.newSkuid);
-                conf.cols.push({caption:'产品名称', type:'string'});
-                conf.rows[0].push(excelInfo.req.newProName);
-                conf.cols.push({caption:'规格', type:'string'});
-                conf.rows[0].push(excelInfo.req.newSpecifications);
-                conf.cols.push({caption:'分类', type:'string'});
-                conf.rows[0].push(excelInfo.req.newClassification);
-                conf.cols.push({caption:'建议售价', type:'string'});
-                conf.rows[0].push(excelInfo.req.newRecommended);
-                conf.cols.push({caption:'市场价', type:'string'});
-                conf.rows[0].push(excelInfo.req.newMarketVal);
-                conf.cols.push({caption:'供货商', type:'string'});
-                conf.rows[0].push(excelInfo.req.newSupplier);
-                conf.cols.push({caption:'线上更改情况', type:'string'});
-                conf.rows[0].push(excelInfo.req.newOnlineChange);
-                conf.cols.push({caption:'未更改原因', type:'string'});
-                conf.rows[0].push(excelInfo.req.newNoChange);
-                conf.cols.push({caption:'新品流程备注', type:'string'});
-                conf.rows[0].push(excelInfo.req.newProcess);
-            } else if(type2showMap[excelInfo.type]=="退货处理流程"){
-                conf.cols.push({caption:'商户地址', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelAddress);
-                conf.cols.push({caption:'销售员', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelSalesperson);
-                conf.cols.push({caption:'订单产品', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelProduct);
-                conf.cols.push({caption:'订购数量', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelQuantity);
-                conf.cols.push({caption:'退换数量', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelNum);
-                conf.cols.push({caption:'退款金额', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelAmount);
-                conf.cols.push({caption:'送货车辆', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelCar);
-                conf.cols.push({caption:'送货日期', type:'string'});
-                conf.rows[0].push(excelInfo.req.DeliveryDate);
-                conf.cols.push({caption:'退换原因', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelReason);
-                conf.cols.push({caption:'处理意见', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelSuggestion);
-                conf.cols.push({caption:'计划退货时间', type:'string'});
-                conf.rows[0].push(excelInfo.req.planDeliveryDate);
-                conf.cols.push({caption:'实际退货时间', type:'string'});
-                conf.rows[0].push(excelInfo.req.ActualDeliveryDate);
-                conf.cols.push({caption:'退货状态', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelType);
-                conf.cols.push({caption:'已退货产品处理', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelHandleType);
-                conf.cols.push({caption:'已退货供应商处理', type:'string'});
-                conf.rows[0].push(excelInfo.req.supplier);
-                conf.cols.push({caption:'退换货备注', type:'string'});
-                conf.rows[0].push(excelInfo.req.cancelRemarks);
-                conf.cols.push({caption:'回访记录', type:'string'});
-                conf.rows[0].push(excelInfo.req.visitRecord);
-            } else if(type2showMap[excelInfo.type]=="投诉流程"){
-                conf.cols.push({caption:'投诉类别', type:'string'});
-                conf.rows[0].push(excelInfo.req.complainType);
-                conf.cols.push({caption:'投诉部门', type:'string'});
-                conf.rows[0].push(excelInfo.req.complainDepartmentType);
-                conf.cols.push({caption:'投诉处理过程', type:'string'});
-                conf.rows[0].push(excelInfo.req.complainProcess);
-                conf.cols.push({caption:'投诉事项', type:'string'});
-                conf.rows[0].push(excelInfo.req.complains);
-                conf.cols.push({caption:'期望的处理方法', type:'string'});
-                conf.rows[0].push(excelInfo.req.complainExpected);
-                conf.cols.push({caption:'处理描述', type:'string'});
-                conf.rows[0].push(excelInfo.req.complainDescription);
-            } else if(type2showMap[excelInfo.type]=="订单查重流程"){
-                conf.cols.push({caption:'处理过程', type:'string'});
-                conf.rows[0].push(excelInfo.req.checkProcess);
-                conf.cols.push({caption:'处理描述', type:'string'});
-                conf.rows[0].push(excelInfo.req.checkDescription);
-            } else if(type2showMap[excelInfo.type]=="未分车订单处理流程"){
-                conf.cols.push({caption:'未分车原因', type:'string'});
-                conf.rows[0].push(excelInfo.req.noCarReason);
-                conf.cols.push({caption:'未分单处理过程描述', type:'string'});
-                conf.rows[0].push(excelInfo.req.noCarType);
-                conf.cols.push({caption:'处理描述', type:'string'});
-                conf.rows[0].push(excelInfo.req.noCarDescription);
-            } else if(type2showMap[excelInfo.type]=="订单评价回访流程"){
-                conf.cols.push({caption:'下单时间', type:'string'});
-                conf.rows[0].push(excelInfo.req.visitSingleTime);
-                conf.cols.push({caption:'退货原因', type:'string'});
-                conf.rows[0].push(excelInfo.req.visitCname);
-                conf.cols.push({caption:'司机名称', type:'string'});
-                conf.rows[0].push(excelInfo.req.visitDriverName);
-                conf.cols.push({caption:'商品质量', type:'string'});
-                conf.rows[0].push(excelInfo.req.visitQuality);
-                conf.cols.push({caption:'送货速度', type:'string'});
-                conf.rows[0].push(excelInfo.req.visitSpeed);
-                conf.cols.push({caption:'订单评价处理描述', type:'string'});
-                conf.rows[0].push(excelInfo.req.visitDescription);
-                conf.cols.push({caption:'配送评价', type:'string'});
-                conf.rows[0].push(excelInfo.req.visitEvaluation);
-                conf.cols.push({caption:'其他信息', type:'string'});
-                conf.rows[0].push(excelInfo.req.visitOtherInfo);
-            } else if(type2showMap[excelInfo.type]=="首单回访流程"){
-                conf.cols.push({caption:'下订单方式', type:'string'});
-                conf.rows[0].push(excelInfo.req.fvType);
-                conf.cols.push({caption:'原来采购方式', type:'string'});
-                conf.rows[0].push(excelInfo.req.purchaseType);
-                conf.cols.push({caption:'信息通知', type:'string'});
-                conf.rows[0].push(excelInfo.req.fvInfo);
-                conf.cols.push({caption:'对产品质量评价', type:'string'});
-                conf.rows[0].push(excelInfo.req.fvEvaluation);
-                conf.cols.push({caption:'对地推员工评价', type:'string'});
-                conf.rows[0].push(excelInfo.req.staffEvaluation);
-                conf.cols.push({caption:'对送货司机的评价', type:'string'});
-                conf.rows[0].push(excelInfo.req.driverEvaluation);
-                conf.cols.push({caption:'其他意见和建议', type:'string'});
-                conf.rows[0].push(excelInfo.req.fvComments);
-                conf.cols.push({caption:'回访备注', type:'string'});
-                conf.rows[0].push(excelInfo.req.fvRemarks);
+            conf.rows = [];
+            for(var i = 0; i < excelInfo.length; i++){
+                conf.rows[i]= [
+                    excelInfo[i].type, 
+                    excelInfo[i].consultUser, 
+                    excelInfo[i].consultTel, 
+                    excelInfo[i].restaurantName, 
+                    excelInfo[i].restaurantReceiver, 
+                    excelInfo[i].restaurantTel, 
+                    excelInfo[i].restaurantID, 
+                    excelInfo[i].orderId, 
+                    excelInfo[i].followUser, 
+                    excelInfo[i].followTel,
+                    excelInfo[i].stype
+                ]; 
+                if(excelInfo[i].type=="咨询流程"){
+                    if(i==0){
+                        conf.cols.push({caption:'咨询类别', type:'string'});
+                        conf.cols.push({caption:'咨询处理结果', type:'string'});
+                        conf.cols.push({caption:'咨询流程备注', type:'string'});
+                    }
+                    conf.rows[i].push(excelInfo[i].req.consultType);
+                    conf.rows[i].push(excelInfo[i].req.consultResult);
+                    conf.rows[i].push(excelInfo[i].req.consultRemarks);
+                }else if(excelInfo[i].type=="新品处理流程") {
+                    if(i==0){
+                        conf.cols.push({caption:'新品流程分类', type:'string'});
+                        conf.cols.push({caption:'新品流程状态', type:'string'});
+                        conf.cols.push({caption:'市场有无货', type:'string'});
+                        conf.cols.push({caption:'所属市场', type:'string'});
+                        conf.cols.push({caption:'新品参考名称', type:'string'});
+                        conf.cols.push({caption:'参考价格', type:'string'});
+                        conf.cols.push({caption:'SKUID', type:'string'});
+                        conf.cols.push({caption:'产品名称', type:'string'});
+                        conf.cols.push({caption:'规格', type:'string'});
+                        conf.cols.push({caption:'分类', type:'string'});
+                        conf.cols.push({caption:'建议售价', type:'string'});
+                        conf.cols.push({caption:'市场价', type:'string'});
+                        conf.cols.push({caption:'供货商', type:'string'});
+                        conf.cols.push({caption:'线上更改情况', type:'string'});
+                        conf.cols.push({caption:'未更改原因', type:'string'});
+                        conf.cols.push({caption:'新品流程备注', type:'string'});
+                    }
+                    conf.rows[i].push(excelInfo[i].req.newStype);
+                    conf.rows[i].push(excelInfo[i].req.newType);
+                    conf.rows[i].push(excelInfo[i].req.newIsno);
+                    conf.rows[i].push(excelInfo[i].req.newMarket);
+                    conf.rows[i].push(excelInfo[i].req.newReName);
+                    conf.rows[i].push(excelInfo[i].req.newRePrice);
+                    conf.rows[i].push(excelInfo[i].req.newSkuid);
+                    conf.rows[i].push(excelInfo[i].req.newProName);
+                    conf.rows[i].push(excelInfo[i].req.newSpecifications);
+                    conf.rows[i].push(excelInfo[i].req.newClassification);
+                    conf.rows[i].push(excelInfo[i].req.newRecommended);
+                    conf.rows[i].push(excelInfo[i].req.newMarketVal);
+                    conf.rows[i].push(excelInfo[i].req.newSupplier);
+                    conf.rows[i].push(excelInfo[i].req.newOnlineChange);
+                    conf.rows[i].push(excelInfo[i].req.newNoChange);
+                    conf.rows[i].push(excelInfo[i].req.newProcess);
+                } else if(excelInfo[i].type=="退货处理流程"){
+                    if(i==0){
+                        conf.cols.push({caption:'商户地址', type:'string'});
+                        conf.cols.push({caption:'销售员', type:'string'});
+                        conf.cols.push({caption:'订单产品', type:'string'});
+                        conf.cols.push({caption:'订购数量', type:'string'});
+                        conf.cols.push({caption:'退换数量', type:'string'});
+                        conf.cols.push({caption:'退款金额', type:'string'});
+                        conf.cols.push({caption:'送货车辆', type:'string'});
+                        conf.cols.push({caption:'送货日期', type:'string'});
+                        conf.cols.push({caption:'退换原因', type:'string'});
+                        conf.cols.push({caption:'处理意见', type:'string'});
+                        conf.cols.push({caption:'计划退货时间', type:'string'});
+                        conf.cols.push({caption:'实际退货时间', type:'string'});
+                        conf.cols.push({caption:'退货状态', type:'string'});
+                        conf.cols.push({caption:'已退货产品处理', type:'string'});
+                        conf.cols.push({caption:'已退货供应商处理', type:'string'});
+                        conf.cols.push({caption:'退换货备注', type:'string'});
+                        conf.cols.push({caption:'回访记录', type:'string'});
+                    }
+                    conf.rows[i].push(excelInfo[i].req.cancelAddress);
+                    conf.rows[i].push(excelInfo[i].req.cancelSalesperson);
+                    conf.rows[i].push(excelInfo[i].req.cancelProduct);
+                    conf.rows[i].push(excelInfo[i].req.cancelQuantity);
+                    conf.rows[i].push(excelInfo[i].req.cancelNum);
+                    conf.rows[i].push(excelInfo[i].req.cancelAmount);
+                    conf.rows[i].push(excelInfo[i].req.cancelCar);
+                    conf.rows[i].push(excelInfo[i].req.DeliveryDate);
+                    conf.rows[i].push(excelInfo[i].req.cancelReason);
+                    conf.rows[i].push(excelInfo[i].req.cancelSuggestion);
+                    conf.rows[i].push(excelInfo[i].req.planDeliveryDate);
+                    conf.rows[i].push(excelInfo[i].req.ActualDeliveryDate);
+                    conf.rows[i].push(excelInfo[i].req.cancelType);
+                    conf.rows[i].push(excelInfo[i].req.cancelHandleType);
+                    conf.rows[i].push(excelInfo[i].req.supplier);
+                    conf.rows[i].push(excelInfo[i].req.cancelRemarks);
+                    conf.rows[i].push(excelInfo[i].req.visitRecord);
+                } else if(excelInfo[i].type=="投诉流程"){
+                    if(i==0){
+                        conf.cols.push({caption:'投诉类别', type:'string'});
+                        conf.cols.push({caption:'投诉部门', type:'string'});
+                        conf.cols.push({caption:'投诉处理过程', type:'string'});
+                        conf.cols.push({caption:'投诉事项', type:'string'});
+                        conf.cols.push({caption:'期望的处理方法', type:'string'});
+                        conf.cols.push({caption:'处理描述', type:'string'});
+                    }
+                    conf.rows[i].push(excelInfo[i].req.complainType);
+                    conf.rows[i].push(excelInfo[i].req.complainDepartmentType);
+                    conf.rows[i].push(excelInfo[i].req.complainProcess);
+                    conf.rows[i].push(excelInfo[i].req.complains);
+                    conf.rows[i].push(excelInfo[i].req.complainExpected);
+                    conf.rows[i].push(excelInfo[i].req.complainDescription);
+                } else if(excelInfo[i].type=="订单查重流程"){
+                    if(i==0){
+                        conf.cols.push({caption:'处理过程', type:'string'});
+                        conf.cols.push({caption:'处理描述', type:'string'});
+                    }
+                    conf.rows[i].push(excelInfo[i].req.checkProcess);
+                    conf.rows[i].push(excelInfo[i].req.checkDescription);
+                } else if(excelInfo[i].type=="未分车订单处理流程"){
+                    if(i==0){
+                        conf.cols.push({caption:'未分车原因', type:'string'});
+                        conf.cols.push({caption:'未分单处理过程描述', type:'string'});
+                        conf.cols.push({caption:'处理描述', type:'string'});
+                    }
+                    conf.rows[i].push(excelInfo[i].req.noCarReason);
+                    conf.rows[i].push(excelInfo[i].req.noCarType);
+                    conf.rows[i].push(excelInfo[i].req.noCarDescription);
+                } else if(excelInfo[i].type=="订单评价回访流程"){
+                    if(i==0){
+                        conf.cols.push({caption:'下单时间', type:'string'});
+                        conf.cols.push({caption:'退货原因', type:'string'});
+                        conf.cols.push({caption:'司机名称', type:'string'});
+                        conf.cols.push({caption:'商品质量', type:'string'});
+                        conf.cols.push({caption:'送货速度', type:'string'});
+                        conf.cols.push({caption:'订单评价处理描述', type:'string'});
+                        conf.cols.push({caption:'配送评价', type:'string'});
+                        conf.cols.push({caption:'其他信息', type:'string'});
+                    }
+                    conf.rows[i].push(excelInfo[i].req.visitSingleTime);
+                    conf.rows[i].push(excelInfo[i].req.visitCname);
+                    conf.rows[i].push(excelInfo[i].req.visitDriverName);
+                    conf.rows[i].push(excelInfo[i].req.visitQuality);
+                    conf.rows[i].push(excelInfo[i].req.visitSpeed);
+                    conf.rows[i].push(excelInfo[i].req.visitDescription);
+                    conf.rows[i].push(excelInfo[i].req.visitEvaluation);
+                    conf.rows[i].push(excelInfo[i].req.visitOtherInfo);
+                } else if(excelInfo[i].type=="首单回访流程"){
+                    if(i==0){
+                        conf.cols.push({caption:'下订单方式', type:'string'});
+                        conf.cols.push({caption:'原来采购方式', type:'string'});
+                        conf.cols.push({caption:'信息通知', type:'string'});
+                        conf.cols.push({caption:'对产品质量评价', type:'string'});
+                        conf.cols.push({caption:'对地推员工评价', type:'string'});
+                        conf.cols.push({caption:'对送货司机的评价', type:'string'});
+                        conf.cols.push({caption:'其他意见和建议', type:'string'});
+                        conf.cols.push({caption:'回访备注', type:'string'});
+                    }
+                    conf.rows[i].push(excelInfo[i].req.fvType);
+                    conf.rows[i].push(excelInfo[i].req.purchaseType);
+                    conf.rows[i].push(excelInfo[i].req.fvInfo);
+                    conf.rows[i].push(excelInfo[i].req.fvEvaluation);
+                    conf.rows[i].push(excelInfo[i].req.staffEvaluation);
+                    conf.rows[i].push(excelInfo[i].req.driverEvaluation);
+                    conf.rows[i].push(excelInfo[i].req.fvComments);
+                    conf.rows[i].push(excelInfo[i].req.fvRemarks);
+                }   
             }
+            // console.log(conf.rows)
             var result = nodeExcel.execute(conf);
             // console.log(type2showMap[excelInfo.type]);
             res.setHeader('Content-Type', 'application/vnd.openxmlformats');
             res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
             res.end(result, 'binary');
-        })
+
+        }
+
     })
-});
-app.get('/exportExcels/:id', function(req, res){
-    console.log(req)
 });
 //使用express路由API服务/hello的http GET请求
 app.get('/tickets', function (req, res) {
