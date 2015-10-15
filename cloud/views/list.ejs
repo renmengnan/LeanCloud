@@ -173,7 +173,7 @@
               data = JSON.stringify(data);
               data = encodeURIComponent(data);
               //console.info("id:"+id);
-              var url =  "/exportExcels?data="+data;
+              var url =  "/ticket/exportExcels?data="+data;
               console.info(url);
               window.location = url;//这里不能使用get方法跳转，否则下载不成功
 
