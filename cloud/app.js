@@ -399,7 +399,7 @@ app.get('/exportExcel/:id', function(req, res){
                 {caption:'待跟进人手机', type:'string'},
                 {caption:'问题来源', type:'string'}
             ];
-            
+
             conf.rows = [
               [
                   type2showMap[excelInfo.type], 
@@ -557,6 +557,9 @@ app.get('/exportExcel/:id', function(req, res){
             res.end(result, 'binary');
         })
     })
+});
+app.get('/exportExcels/:id', function(req, res){
+    console.log(req)
 });
 //使用express路由API服务/hello的http GET请求
 app.get('/tickets', function (req, res) {

@@ -136,6 +136,31 @@
             </div>
             <button type="submit" class="btn btn-primary btn-submit" >&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
         </form>
+        <button id="exportExcel" class="btn btn-warning">工单导出</button>
+        <script>
+            $("#exportExcel").click(function(){
+              //console.info("exportExcel");
+              var data = {
+                'type': $("#inputType").val(),
+                'sourceType': $("#sourceType").val(),
+                'stateType': $('#stateType').val(),
+                'startTime': $('#startTime').val(),
+                'endTime': $('#endTime').val(),
+                'restaurantID': $('#restaurantID').val(),
+                'restaurantName': $('#restaurantName').val(),
+                'orderId': $('#orderId').val(),
+                'consultUser': $('#consultUser').val(),
+                'consultTel': $('#consultTel').val(),
+                'username': $('#username').val()
+              };
+              console.log(data);
+              //console.info("id:"+id);
+              var url =  "/exportExcels/";
+              console.info(url);
+              //window.location = url;//这里不能使用get方法跳转，否则下载不成功
+
+            });
+        </script>
     </div>
 </div> 
 <hr>
