@@ -1990,18 +1990,18 @@ app.get('/searchTel', function (req, res) {
                     var query = new AV.Query('Ticket');
                     // console.log(req.body);
                     
-                    if( data.restaurantTel != '' ){
+                    if( data.info.restaurantTel != '' ){
                         // query.equalTo("restaurantTel", req.body.restaurantTel);
                         var arr = [];
-                        for(var i = 0; i< data.restaurantTel.length; i++){
-                            arr.push(data.restaurantTel[i]);
+                        for(var i = 0; i< data.info.restaurantTel.length; i++){
+                            arr.push(data.info.restaurantTel[i]);
                         }
                         query.containedIn("restaurantTel",arr);
                     }
-                    if( data.consultTel != '' ){
+                    if( data.info.consultTel != '' ){
                         var arr = [];
-                        for(var i = 0; i< data.consultTel.length; i++){
-                            arr.push(data.consultTel[i]);
+                        for(var i = 0; i< data.info.consultTel.length; i++){
+                            arr.push(data.info.consultTel[i]);
                         }
                         query.containedIn("consultTel",arr);
                     }
@@ -2049,18 +2049,18 @@ app.get('/searchTel', function (req, res) {
                         var query = new AV.Query('Ticket');
                         // console.log(req.body);
                         
-                        if( data.restaurantTel != '' ){
+                        if( data.info.restaurantTel != '' ){
                             // query.equalTo("restaurantTel", req.body.restaurantTel);
                             var arr = [];
-                            for(var i = 0; i< data.restaurantTel.length; i++){
-                                arr.push(data.restaurantTel[i]);
+                            for(var i = 0; i< data.info.restaurantTel.length; i++){
+                                arr.push(data.info.restaurantTel[i]);
                             }
                             query.containedIn("restaurantTel",arr);
                         }
-                        if( data.consultTel != '' ){
+                        if( data.info.consultTel != '' ){
                             var arr = [];
-                            for(var i = 0; i< data.consultTel.length; i++){
-                                arr.push(data.consultTel[i]);
+                            for(var i = 0; i< data.info.consultTel.length; i++){
+                                arr.push(data.info.consultTel[i]);
                             }
                             query.containedIn("consultTel",arr);
                         }
