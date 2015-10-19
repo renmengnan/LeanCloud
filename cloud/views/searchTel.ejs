@@ -19,7 +19,6 @@
               </tr>
             </thead>
             <tbody>
-            <% if( !mClient.isAdmin ){ %>
               <% tickets.forEach (function (ticket){  %>
                   <tr>
                     <td class="table-type" data-sort-value="<%=ticket.ticket_id%>">#<%= ticket.ticket_id%></td>
@@ -37,7 +36,6 @@
                     <td class="table-date"><%= ticket.createdAtLong %></td>
                   </tr>
               <% }) %>
-            <% } %>
             </tbody>
         </table>
     </div>
