@@ -1976,9 +1976,6 @@ app.get('/searchTel', function (req, res) {
                 user.set('username', username);
                 user.set('password', password);
                 user.signUp(null).then(function (user) {
-                    // var data = data.info;
-                    // data = JSON.stringify(data);
-                    // res.redirect('ticket/tickets/new');
                     var cid = req.cid;
                     var status = req.query.status;
                     // console.log(req);
@@ -1987,24 +1984,48 @@ app.get('/searchTel', function (req, res) {
                         skip = 0;
                     }
                     var limit = 1000;
-                    var query = new AV.Query('Ticket');
+                    // var query = new AV.Query('Ticket');
                     // console.log(req.body);
+                    if( data.info.consultTel != '' && data.info.restaurantTel != '' ){
+                        var restQuery = new AV.Query("Ticket");
+                        var consultQuery = new AV.Query("Ticket");  
+                        if( data.info.restaurantTel != '' ){
+                            // query.equalTo("restaurantTel", req.body.restaurantTel);
+                            var arr = [];
+                            for(var i = 0; i< data.info.restaurantTel.length; i++){
+                                arr.push(data.info.restaurantTel[i]);
+                            }
+                            restQuery.containedIn("restaurantTel",arr);
+                        }
+                        if( data.info.consultTel != '' ){
+                            var arr = [];
+                            for(var i = 0; i< data.info.consultTel.length; i++){
+                                arr.push(data.info.consultTel[i]);
+                            }
+                            consultQuery.containedIn("consultTel",arr);
+                        }
+                        var query = AV.Query.or(restQuery, consultQuery);
+                    } else {
+                        var query = new AV.Query('Ticket');
+                        // console.log(req.body);
+                        
+                        if( data.info.restaurantTel != '' ){
+                            // query.equalTo("restaurantTel", req.body.restaurantTel);
+                            var arr = [];
+                            for(var i = 0; i< data.info.restaurantTel.length; i++){
+                                arr.push(data.info.restaurantTel[i]);
+                            }
+                            query.containedIn("restaurantTel",arr);
+                        }
+                        if( data.info.consultTel != '' ){
+                            var arr = [];
+                            for(var i = 0; i< data.info.consultTel.length; i++){
+                                arr.push(data.info.consultTel[i]);
+                            }
+                            query.containedIn("consultTel",arr);
+                        }
+                    }
                     
-                    if( data.info.restaurantTel != '' ){
-                        // query.equalTo("restaurantTel", req.body.restaurantTel);
-                        var arr = [];
-                        for(var i = 0; i< data.info.restaurantTel.length; i++){
-                            arr.push(data.info.restaurantTel[i]);
-                        }
-                        query.containedIn("restaurantTel",arr);
-                    }
-                    if( data.info.consultTel != '' ){
-                        var arr = [];
-                        for(var i = 0; i< data.info.consultTel.length; i++){
-                            arr.push(data.info.consultTel[i]);
-                        }
-                        query.containedIn("consultTel",arr);
-                    }
                     query.limit(limit);
                     query.skip(skip);
                     query.descending('createdAt');
@@ -2034,9 +2055,6 @@ app.get('/searchTel', function (req, res) {
             } else {
                 AV.User.logIn(username, password, {
                     success: function (user) {
-                        // var data = data.info;
-                        // data = JSON.stringify(data);
-                        // res.redirect('ticket/tickets/new');
                         var cid = req.cid;
                         var status = req.query.status;
                         // console.log(req);
@@ -2045,24 +2063,48 @@ app.get('/searchTel', function (req, res) {
                             skip = 0;
                         }
                         var limit = 1000;
-                        var query = new AV.Query('Ticket');
+                        // var query = new AV.Query('Ticket');
                         // console.log(req.body);
+                        if( data.info.consultTel != '' && data.info.restaurantTel != '' ){
+                            var restQuery = new AV.Query("Ticket");
+                            var consultQuery = new AV.Query("Ticket");  
+                            if( data.info.restaurantTel != '' ){
+                                // query.equalTo("restaurantTel", req.body.restaurantTel);
+                                var arr = [];
+                                for(var i = 0; i< data.info.restaurantTel.length; i++){
+                                    arr.push(data.info.restaurantTel[i]);
+                                }
+                                restQuery.containedIn("restaurantTel",arr);
+                            }
+                            if( data.info.consultTel != '' ){
+                                var arr = [];
+                                for(var i = 0; i< data.info.consultTel.length; i++){
+                                    arr.push(data.info.consultTel[i]);
+                                }
+                                consultQuery.containedIn("consultTel",arr);
+                            }
+                            var query = AV.Query.or(restQuery, consultQuery);
+                        } else {
+                            var query = new AV.Query('Ticket');
+                            // console.log(req.body);
+                            
+                            if( data.info.restaurantTel != '' ){
+                                // query.equalTo("restaurantTel", req.body.restaurantTel);
+                                var arr = [];
+                                for(var i = 0; i< data.info.restaurantTel.length; i++){
+                                    arr.push(data.info.restaurantTel[i]);
+                                }
+                                query.containedIn("restaurantTel",arr);
+                            }
+                            if( data.info.consultTel != '' ){
+                                var arr = [];
+                                for(var i = 0; i< data.info.consultTel.length; i++){
+                                    arr.push(data.info.consultTel[i]);
+                                }
+                                query.containedIn("consultTel",arr);
+                            }
+                        }
                         
-                        if( data.info.restaurantTel != '' ){
-                            // query.equalTo("restaurantTel", req.body.restaurantTel);
-                            var arr = [];
-                            for(var i = 0; i< data.info.restaurantTel.length; i++){
-                                arr.push(data.info.restaurantTel[i]);
-                            }
-                            query.containedIn("restaurantTel",arr);
-                        }
-                        if( data.info.consultTel != '' ){
-                            var arr = [];
-                            for(var i = 0; i< data.info.consultTel.length; i++){
-                                arr.push(data.info.consultTel[i]);
-                            }
-                            query.containedIn("consultTel",arr);
-                        }
                         query.limit(limit);
                         query.skip(skip);
                         query.descending('createdAt');
