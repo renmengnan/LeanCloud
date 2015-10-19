@@ -152,6 +152,7 @@
             </div>
             <button type="submit" class="btn btn-primary btn-submit" >&nbsp;&nbsp;搜&nbsp;&nbsp;索&nbsp;&nbsp;</button>
         </form>
+        <% if( mClient.isAdmin ){ %>
         <button id="exportExcel" class="btn btn-warning">工单导出</button>
         <script>
             $("#exportExcel").click(function(){
@@ -179,6 +180,7 @@
 
             });
         </script>
+        <% } %>
     </div>
 </div>
 <hr>

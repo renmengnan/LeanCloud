@@ -434,7 +434,7 @@ app.get('/exportExcels', function(req, res){
     query.find().then(function (tickets) {
         tickets = tickets || [];
         tickets = _.map(tickets, transformTicket);
-        // console.log(tickets);
+        console.log(tickets.length);
         if(tickets!=""){
             var excelInfo = tickets;
             // console.log(excelInfo[0].req)
@@ -1955,6 +1955,148 @@ app.get('/login', function (req, res) {
         // console.log(req.query);
         res.render('login.ejs');
     }
+});
+app.get('/searchTel', function (req, res) {
+    var data = req.query.data;
+        data = JSON.parse(data);
+    // console.log(data);
+    var username = data.username,
+        password = "111111";
+    AV.Cloud.httpRequest({
+        url: 'https://cn.avoscloud.com/1/users?where={"username":{"$regex":"'+ username +'"}}',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-AVOSCloud-Application-Id': config.applicationId,
+            'X-AVOSCloud-Application-Key': config.applicationKey,
+        },
+        success: function (httpResponse) {
+            var userTag = httpResponse.data.results.length;
+            if( userTag == 0 ){
+                var user = new AV.User();
+                user.set('username', username);
+                user.set('password', password);
+                user.signUp(null).then(function (user) {
+                    // var data = data.info;
+                    // data = JSON.stringify(data);
+                    // res.redirect('ticket/tickets/new');
+                    var cid = req.cid;
+                    var status = req.query.status;
+                    // console.log(req);
+                    var skip = req.query.skip;
+                    if (skip == null) {
+                        skip = 0;
+                    }
+                    var limit = 1000;
+                    var query = new AV.Query('Ticket');
+                    // console.log(req.body);
+                    
+                    if( data.restaurantTel != '' ){
+                        // query.equalTo("restaurantTel", req.body.restaurantTel);
+                        var arr = [];
+                        for(var i = 0; i< data.restaurantTel.length; i++){
+                            arr.push(data.restaurantTel[i]);
+                        }
+                        query.containedIn("restaurantTel",arr);
+                    }
+                    if( data.consultTel != '' ){
+                        var arr = [];
+                        for(var i = 0; i< data.consultTel.length; i++){
+                            arr.push(data.consultTel[i]);
+                        }
+                        query.containedIn("consultTel",arr);
+                    }
+                    query.limit(limit);
+                    query.skip(skip);
+                    query.descending('createdAt');
+                    query.find().then(function (tickets) {
+                        // console.log(tickets);
+                        tickets = tickets || [];
+                        tickets = _.map(tickets, transformTicket);
+                        var back = -1;
+                        var next = -1;
+                        if (parseInt(skip) > 0) {
+                            back = parseInt(skip) - parseInt(limit);
+                        }
+                        if (tickets.length == limit) {
+                            next = parseInt(skip) + parseInt(limit);
+                        }
+                        // console.log(tickets);
+                        res.render('searchTel', {
+                            tickets: tickets,
+                            back: back, 
+                            next: next, 
+                            type: type
+                        });
+                    }, renderErrorFn(res));
+                    
+                }, function (error) {
+                    renderInfo(res, util.inspect(error));
+                });
+            } else {
+                AV.User.logIn(username, password, {
+                    success: function (user) {
+                        // var data = data.info;
+                        // data = JSON.stringify(data);
+                        // res.redirect('ticket/tickets/new');
+                        var cid = req.cid;
+                        var status = req.query.status;
+                        // console.log(req);
+                        var skip = req.query.skip;
+                        if (skip == null) {
+                            skip = 0;
+                        }
+                        var limit = 1000;
+                        var query = new AV.Query('Ticket');
+                        // console.log(req.body);
+                        
+                        if( data.restaurantTel != '' ){
+                            // query.equalTo("restaurantTel", req.body.restaurantTel);
+                            var arr = [];
+                            for(var i = 0; i< data.restaurantTel.length; i++){
+                                arr.push(data.restaurantTel[i]);
+                            }
+                            query.containedIn("restaurantTel",arr);
+                        }
+                        if( data.consultTel != '' ){
+                            var arr = [];
+                            for(var i = 0; i< data.consultTel.length; i++){
+                                arr.push(data.consultTel[i]);
+                            }
+                            query.containedIn("consultTel",arr);
+                        }
+                        query.limit(limit);
+                        query.skip(skip);
+                        query.descending('createdAt');
+                        query.find().then(function (tickets) {
+                            // console.log(tickets);
+                            tickets = tickets || [];
+                            tickets = _.map(tickets, transformTicket);
+                            var back = -1;
+                            var next = -1;
+                            if (parseInt(skip) > 0) {
+                                back = parseInt(skip) - parseInt(limit);
+                            }
+                            if (tickets.length == limit) {
+                                next = parseInt(skip) + parseInt(limit);
+                            }
+                            // console.log(tickets);
+                            res.render('searchTel', {
+                                tickets: tickets,
+                                back: back, 
+                                next: next, 
+                                type: type
+                            });
+                        }, renderErrorFn(res));
+                    }
+                });
+            }
+            console.log(httpResponse.data.results.length);
+        },
+        error: function (httpResponse) {
+            // renderError(res, 'Search error.');
+            console.error(httpResponse);
+        }
+    });
 });
 app.get('/newTicket', function (req, res) {
     // console.log(typeof req.query.data);
