@@ -2024,8 +2024,7 @@ app.get('/searchTel', function (req, res) {
                         res.render('searchTel', {
                             tickets: tickets,
                             back: back, 
-                            next: next, 
-                            type: type
+                            next: next
                         });
                     }, renderErrorFn(res));
                     
@@ -2083,8 +2082,7 @@ app.get('/searchTel', function (req, res) {
                             res.render('searchTel', {
                                 tickets: tickets,
                                 back: back, 
-                                next: next, 
-                                type: type
+                                next: next
                             });
                         }, renderErrorFn(res));
                     }
