@@ -41,7 +41,12 @@
       咨询人
     </label>
     <div class="controls">
+      
+      <% if(tel!=null){ %>
+      <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" value='<%= tel.consultName %>'>
+      <% } else{ %>
       <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人">
+      <% } %>
     </div>
   </div>
 
@@ -50,7 +55,11 @@
       咨询人手机
     </label>
     <div class="controls">
+      <% if(tel!=null){ %>
+      <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号" value='<%= tel.consultTel %>'>
+      <% } else{ %>
       <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号">
+      <% } %>
     </div>
   </div>
   <div class="form-group">

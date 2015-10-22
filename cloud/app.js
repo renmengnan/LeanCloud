@@ -1038,7 +1038,8 @@ app.get('/tickets/new', function (req, res) {
         token: token, 
         client: client,
         data: null,
-        restaurant: null
+        restaurant: null,
+        tel: null
     });
 });
 
@@ -2176,21 +2177,32 @@ app.get('/newTicket', function (req, res) {
                             token: token,
                             client: client,
                             data: data.info,
-                            restaurant: null
+                            restaurant: null,
+                            tel: null
                         })
                     } else if( data.restaurant ) {
                         res.render('new',{
                             token: token,
                             client: client,
                             data: null,
-                            restaurant: data.restaurant
+                            restaurant: data.restaurant,
+                            tel: null
+                        })
+                    } else if( data.tel ) {
+                        res.render('new',{
+                            token: token,
+                            client: client,
+                            data: null,
+                            restaurant: null,
+                            tel: data.tel
                         })
                     } else {
                         res.render('new',{
                             token: token,
                             client: client,
                             data: null,
-                            restaurant: null
+                            restaurant: null,
+                            tel: null
                         })
                     }
                     
@@ -2210,21 +2222,32 @@ app.get('/newTicket', function (req, res) {
                                 token: token,
                                 client: client,
                                 data: data.info,
-                                restaurant: null
+                                restaurant: null,
+                                tel: null
                             })
                         } else if( data.restaurant ) {
                             res.render('new',{
                                 token: token,
                                 client: client,
                                 data: null,
-                                restaurant: data.restaurant
+                                restaurant: data.restaurant,
+                                tel: null
+                            })
+                        } else if( data.tel ) {
+                            res.render('new',{
+                                token: token,
+                                client: client,
+                                data: null,
+                                restaurant: null,
+                                tel: data.tel
                             })
                         } else {
                             res.render('new',{
                                 token: token,
                                 client: client,
                                 data: null,
-                                restaurant: null
+                                restaurant: null,
+                                tel: null
                             })
                         }
                     }
