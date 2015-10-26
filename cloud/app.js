@@ -209,6 +209,8 @@ function formatTimeLong(t) {
     // console.log('toString', time.format('YYYY-MM-DD HH:mm:ss'));
     // console.log('getHours', time.hours())
     var date = moment(t).format('YYYY-MM-DD HH:mm:ss');
+    console.log(data);
+    console.log(moment(t));
     return date;
 }
 
