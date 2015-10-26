@@ -206,7 +206,7 @@ function formatTime(t) {
 
 function formatTimeLong(t) {
     // var time = moment(t).tz('Asia/Shanghai');
-    // console.log('toString', time.format('YYYY-MM-DD HH:mm:ss'));
+    console.log(moment(t).tz('Asia/Shanghai');
     // console.log('getHours', time.hours())
     var date = moment(t).format('YYYY-MM-DD HH:mm:ss');
     return date;
