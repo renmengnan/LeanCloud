@@ -201,13 +201,12 @@ function transformSearchTicket(t) {
 function formatTime(t) {
     var date = moment(t).fromNow();
     var cleanDate = '<span class="form-cell-date">' + moment(t).format('YYYY-MM-DD') + '</span> <span class="form-cell-time">' + moment(t).format('HH:mm:ss') + '</span>';
-    console.log(moment(t).tz('Asia/Shanghai'));
     return date;
 }
 
 function formatTimeLong(t) {
-    // var time = moment(t).tz('Asia/Shanghai');
-    // console.log('toString', time.format('YYYY-MM-DD HH:mm:ss'));
+    var time = moment(t).tz('Asia/Shanghai');
+    console.log('toString', time.format('YYYY-MM-DD HH:mm:ss'));
     // console.log('getHours', time.hours())
     var date = moment(t).format('YYYY-MM-DD HH:mm:ss');
     return date;
