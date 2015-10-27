@@ -208,7 +208,7 @@ function formatTimeLong(t) {
     // var time = moment(t).tz('Asia/Shanghai');
     // console.log('toString', time.format('YYYY-MM-DD HH:mm:ss'));
     // console.log('getHours', time.hours())
-    var date = moment(t).format('YYYY-MM-DD HH:mm:ss');
+    var date = moment(t).tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
     return date;
 }
 
