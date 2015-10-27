@@ -10,8 +10,7 @@ var app = express();
 var Mailgun = require('mailgun').Mailgun;
 var util = require('util');
 var expressLayouts = require('express-ejs-layouts');
-var moment = require('moment');
-var moments = require('moment-timezone');
+var moment = require('moment-timezone');
 var _ = require('underscore');
 var fs = require('fs');
 var avosExpressHttpsRedirect = require('avos-express-https-redirect');
@@ -206,8 +205,8 @@ function formatTime(t) {
 }
 
 function formatTimeLong(t) {
-    var time = moments(t).tz('Asia/Shanghai');
-    console.log('toString', time.format('YYYY-MM-DD HH:mm:ss'));
+    // var time = moment(t).tz('Asia/Shanghai');
+    // console.log('toString', time.format('YYYY-MM-DD HH:mm:ss'));
     // console.log('getHours', time.hours())
     var date = moment(t).format('YYYY-MM-DD HH:mm:ss');
     return date;
