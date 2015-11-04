@@ -43,7 +43,9 @@
     <div class="controls">
       <% if(tel!=null){ %>
       <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" value='<%= tel.consultName %>'>
-      <% } else{ %>
+      <% } else if(restaurantInfo!=null){ %>
+      <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" alue='<%= mClient.username %>'>
+      <% } else {%>
       <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人">
       <% } %>
     </div>
@@ -56,6 +58,8 @@
     <div class="controls">
       <% if(tel!=null){ %>
       <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号" value='<%= tel.consultTel %>'>
+      <% } else if(restaurantInfo!=null){ %>
+      <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号" value='<%= restaurantInfo.userTelephone %>'>
       <% } else{ %>
       <input type="text" name="consultTel" id="consultTel" class="form-control" placeholder="咨询人手机号">
       <% } %>
@@ -70,6 +74,8 @@
       <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称" value='<%= data.restaurant.name %>'>
       <% } else if(restaurant!=null) { %>
       <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称" value='<%= restaurant.name %>'>
+      <% } else if(restaurantInfo!=null){ %>
+      <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称" value='<%= restaurantInfo.restaurantName %>'>
       <% } else { %>
       <input type="text" name="restaurantName" id="restaurantName" class="form-control" placeholder="餐馆名称">
       <% } %>
@@ -84,6 +90,8 @@
       <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人" value='<%= data.restaurant.receiver %>'>
       <% } else if(restaurant!=null) { %>
       <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人" value='<%= restaurant.receiver %>'>
+      <% } else if(restaurantInfo!=null){ %>
+      <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人" value='<%= restaurantInfo.receiver %>'>
       <% } else { %>
       <input type="text" name="restaurantReceiver" id="restaurantReceiver" class="form-control" placeholder="餐馆联系人">
       <% } %>
@@ -98,6 +106,8 @@
       <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话" value='<%= data.restaurant.telephone %>'>
       <% } else if(restaurant!=null) { %>
       <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话" value='<%= restaurant.telephone %>'>
+      <% } else if(restaurantInfo!=null){ %>
+      <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话" value='<%= restaurantInfo.restaurantTel %>'>
       <% } else { %>
       <input type="text" name="restaurantTel" id="restaurantTel" class="form-control" placeholder="餐馆联系人电话">
       <% } %>
@@ -112,6 +122,8 @@
       <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID" value='<%= data.restaurant.id %>'>
       <% } else if(restaurant!=null) { %>
       <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID" value='<%= restaurant.id %>'>
+      <% } else if(restaurantInfo!=null){ %>
+      <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID" value='<%= restaurantInfo.restaurantId %>'>
       <% } else { %>
       <input type="text" name="restaurantID" id="restaurantID" class="form-control" placeholder="关联餐馆ID">
       <% } %>
@@ -173,20 +185,60 @@
     </label>
     <div class="controls">
       <select id="inputType" class="form-control" name="type" >
-        <option value="consult" selected="selected">咨询流程</option>
-        <option value="new">新品处理流程</option>
-        <option value="cancelOrders">退换货处理流程</option>
-        <option value="complain">投诉流程</option>
-        <option value="check">订单查重流程</option>
-        <option value="noCar">未分车订单处理流程</option>
-        <option value="visit">订单评价回访流程</option>
-        <option value="firstVisit">首单回访流程</option>
+        <% if( restaurantInfo != null){ %>
+            <option value="coordinate" selected="selected">客户地址及坐标更正</option>
+        <% }else {%>
+            <option value="consult" selected="selected">咨询流程</option>
+            <option value="new">新品处理流程</option>
+            <option value="cancelOrders">退换货处理流程</option>
+            <option value="complain">投诉流程</option>
+            <option value="check">订单查重流程</option>
+            <option value="noCar">未分车订单处理流程</option>
+            <option value="visit">订单评价回访流程</option>
+            <option value="firstVisit">首单回访流程</option>
+        <% } %>
       </select>
     </div>
   </div>
   <br>
   <div id='tabBox'>
       <ul>
+        <% if( restaurantInfo != null){ %>
+        <li class="selected" id='coordinate'>
+            <div class="form-group">
+              <label class="control-label" for="newLng">
+                新经度
+              </label>
+              <div class="controls">
+                <input type="text" name="newLng" id="newLng" class="form-control" placeholder="新经度" readOnly value='<%= restaurantInfo.lng %>'>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="newLat">
+                新纬度
+              </label>
+              <div class="controls">
+                <input type="text" name="newLat" id="newLat" class="form-control" placeholder="新纬度" readOnly value='<%= restaurantInfo.lat %>'>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="oldAddress">
+                餐馆旧地址
+              </label>
+              <div class="controls">
+                <input type="text" name="oldAddress" id="oldAddress" class="form-control" placeholder="餐馆旧地址" readOnly value='<%= restaurantInfo.restaurantAddress %>'>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="nAddress">
+                餐馆新地址
+              </label>
+              <div class="controls">
+                <input type="text" name="nAddress" id="nAddress" class="form-control" placeholder="餐馆新地址" value='<%= restaurantInfo.restaurantNewAddress %>'>
+              </div>
+            </div>
+        </li>
+        <% } else { %>
         <li class="selected" id="consult">
             <div class="form-group">
               <label class="control-label" for="consultType">
@@ -889,6 +941,8 @@
             </div>
           </div>
         </li>
+        <% } %>
+        
       </ul>
   </div>
   <div class="form-group clearleft">

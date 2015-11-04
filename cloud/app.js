@@ -73,7 +73,8 @@ var type2showMap = {
     'check': '订单查重流程',
     'noCar': '未分车订单处理流程',
     'visit': '订单评价回访流程',
-    'firstVisit': '首单回访流程'
+    'firstVisit': '首单回访流程',
+    'coordinate': '客户地址及坐标更正'
 };
 var sourceType = {
     'wxcrowd': '微信群',
@@ -1039,7 +1040,8 @@ app.get('/tickets/new', function (req, res) {
         client: client,
         data: null,
         restaurant: null,
-        tel: null
+        tel: null,
+        restaurantInfo: null
     });
 });
 
@@ -2178,7 +2180,8 @@ app.get('/newTicket', function (req, res) {
                             client: client,
                             data: data.info,
                             restaurant: null,
-                            tel: null
+                            tel: null,
+                            restaurantInfo: null
                         })
                     } else if( data.restaurant ) {
                         res.render('new',{
@@ -2186,7 +2189,8 @@ app.get('/newTicket', function (req, res) {
                             client: client,
                             data: null,
                             restaurant: data.restaurant,
-                            tel: null
+                            tel: null,
+                            restaurantInfo: null
                         })
                     } else if( data.tel ) {
                         res.render('new',{
@@ -2194,7 +2198,17 @@ app.get('/newTicket', function (req, res) {
                             client: client,
                             data: null,
                             restaurant: null,
-                            tel: data.tel
+                            tel: data.tel,
+                            restaurantInfo: null
+                        })
+                    } else if( data.restaurantInfo ) {
+                        res.render('new',{
+                            token: token,
+                            client: client,
+                            data: null,
+                            restaurant: null,
+                            tel: null,
+                            restaurantInfo: data.restaurantInfo
                         })
                     } else {
                         res.render('new',{
@@ -2202,7 +2216,8 @@ app.get('/newTicket', function (req, res) {
                             client: client,
                             data: null,
                             restaurant: null,
-                            tel: null
+                            tel: null,
+                            restaurantInfo: null
                         })
                     }
                     
@@ -2223,7 +2238,8 @@ app.get('/newTicket', function (req, res) {
                                 client: client,
                                 data: data.info,
                                 restaurant: null,
-                                tel: null
+                                tel: null,
+                                restaurantInfo: null
                             })
                         } else if( data.restaurant ) {
                             res.render('new',{
@@ -2231,7 +2247,8 @@ app.get('/newTicket', function (req, res) {
                                 client: client,
                                 data: null,
                                 restaurant: data.restaurant,
-                                tel: null
+                                tel: null,
+                                restaurantInfo: null
                             })
                         } else if( data.tel ) {
                             res.render('new',{
@@ -2239,7 +2256,17 @@ app.get('/newTicket', function (req, res) {
                                 client: client,
                                 data: null,
                                 restaurant: null,
-                                tel: data.tel
+                                tel: data.tel,
+                                restaurantInfo: null
+                            })
+                        } else if( data.restaurantInfo ) {
+                            res.render('new',{
+                                token: token,
+                                client: client,
+                                data: null,
+                                restaurant: null,
+                                tel: null,
+                                restaurantInfo: data.restaurantInfo
                             })
                         } else {
                             res.render('new',{
@@ -2247,7 +2274,8 @@ app.get('/newTicket', function (req, res) {
                                 client: client,
                                 data: null,
                                 restaurant: null,
-                                tel: null
+                                tel: null,
+                                restaurantInfo: null
                             })
                         }
                     }

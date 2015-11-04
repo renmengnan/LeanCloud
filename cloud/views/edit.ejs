@@ -274,6 +274,39 @@
           <div id='info'>
             <% if(ticket.type == "咨询流程"){ %>
                 <div class="form-group">
+                  <label class="control-label" for="newLng">
+                    新经度
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newLng" id="newLng" class="form-control" placeholder="新经度" readOnly value='<%= ticket.req.newLng %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="newLat">
+                    新纬度
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="newLat" id="newLat" class="form-control" placeholder="新纬度" readOnly value='<%= ticket.req.newLat %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="oldAddress">
+                    餐馆旧地址
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="oldAddress" id="oldAddress" class="form-control" placeholder="餐馆旧地址" readOnly value='<%= ticket.req.oldAddress %>'>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="nAddress">
+                    餐馆新地址
+                  </label>
+                  <div class="controls">
+                    <input type="text" name="nAddress" id="nAddress" class="form-control" placeholder="餐馆新地址" value='<%= ticket.req.nAddress %>'>
+                  </div>
+                </div>
+            <% }else if(ticket.type == "咨询流程"){ %>
+                <div class="form-group">
                   <label class="control-label" for="consultType">
                     咨询类别
                   </label>
