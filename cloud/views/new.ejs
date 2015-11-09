@@ -131,13 +131,17 @@
   </div>
   <div class="form-group">
     <label class="control-label" for="orderId">
-      关联订单ID
+      <% if(restaurantInfo!=null){ %>
+        关联出库单ID
+      <% } else { %>
+        关联订单ID
+      <% } %>
     </label>
     <div class="controls">
       <% if(data!=null){ %>
       <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID" value="<%= data.id %>">
       <% } else if(restaurantInfo!=null){ %>
-      <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID" value="<%= restaurantInfo.orderId %>">
+      <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联出库单ID" value="<%= restaurantInfo.orderId %>">
       <% } else { %>
       <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID">
       <% } %>
@@ -169,12 +173,16 @@
     </label>
     <div class="controls">
     <select id="sourceType" class="form-control" name="sourceType" required>
-      <option value="wxcrowd" selected="selected">微信群</option>
-      <option value="wechat">微信平台</option>
-      <option value="System">系统后台</option>
-      <option value="tel400">400电话</option>
-      <option value="cgwyapp">App</option>
-      <option value="other">其他</option>
+      <% if( restaurantInfo != null){ %>
+        <option value="DriverApp" selected="selected">司机配送app</option>
+      <% }else {%>
+        <option value="wxcrowd" selected="selected">微信群</option>
+        <option value="wechat">微信平台</option>
+        <option value="System">系统后台</option>
+        <option value="tel400">400电话</option>
+        <option value="cgwyapp">App</option>
+        <option value="other">其他</option>
+      <% } %>
     </select>
     </div>
   </div>

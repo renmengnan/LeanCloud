@@ -82,6 +82,7 @@ var sourceType = {
     'System': '系统后台',
     'tel400': '400电话',
     'cgwyapp': 'app',
+    'DriverApp': '司机配送app',
     'other': '其他'
 };
 // console.log(Ticket+"/////////93");
@@ -2276,6 +2277,7 @@ app.get('/newTicket', function (req, res) {
                                 restaurant: null,
                                 tel: null,
                                 restaurantInfo: null
+
                             })
                         }
                     }
