@@ -44,7 +44,7 @@
       <% if(tel!=null){ %>
       <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" value='<%= tel.consultName %>'>
       <% } else if(restaurantInfo!=null){ %>
-      <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" alue='<%= mClient.username %>'>
+      <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人" value='<%= mClient.username %>'>
       <% } else {%>
       <input type="text" name="consultUser" id="consultUser" class="form-control" placeholder="咨询人">
       <% } %>
@@ -136,6 +136,8 @@
     <div class="controls">
       <% if(data!=null){ %>
       <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID" value="<%= data.id %>">
+      <% } else if(restaurantInfo!=null){ %>
+      <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID" value="<%= restaurantInfo.orderId %>">
       <% } else { %>
       <input type="text" name="orderId" id="orderId" class="form-control" placeholder="关联订单ID">
       <% } %>
